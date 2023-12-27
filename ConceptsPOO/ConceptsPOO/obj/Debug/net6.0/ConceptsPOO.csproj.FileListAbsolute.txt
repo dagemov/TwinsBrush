@@ -1,0 +1,14 @@
+C:\WorkSpace\TwinsBrush\ConceptsPOO\ConceptsPOO\bin\Debug\net6.0\ConceptsPOO.exe
+C:\WorkSpace\TwinsBrush\ConceptsPOO\ConceptsPOO\bin\Debug\net6.0\ConceptsPOO.deps.json
+C:\WorkSpace\TwinsBrush\ConceptsPOO\ConceptsPOO\bin\Debug\net6.0\ConceptsPOO.runtimeconfig.json
+C:\WorkSpace\TwinsBrush\ConceptsPOO\ConceptsPOO\bin\Debug\net6.0\ConceptsPOO.dll
+C:\WorkSpace\TwinsBrush\ConceptsPOO\ConceptsPOO\bin\Debug\net6.0\ConceptsPOO.pdb
+C:\WorkSpace\TwinsBrush\ConceptsPOO\ConceptsPOO\obj\Debug\net6.0\ConceptsPOO.GeneratedMSBuildEditorConfig.editorconfig
+C:\WorkSpace\TwinsBrush\ConceptsPOO\ConceptsPOO\obj\Debug\net6.0\ConceptsPOO.AssemblyInfoInputs.cache
+C:\WorkSpace\TwinsBrush\ConceptsPOO\ConceptsPOO\obj\Debug\net6.0\ConceptsPOO.AssemblyInfo.cs
+C:\WorkSpace\TwinsBrush\ConceptsPOO\ConceptsPOO\obj\Debug\net6.0\ConceptsPOO.csproj.CoreCompileInputs.cache
+C:\WorkSpace\TwinsBrush\ConceptsPOO\ConceptsPOO\obj\Debug\net6.0\ConceptsPOO.dll
+C:\WorkSpace\TwinsBrush\ConceptsPOO\ConceptsPOO\obj\Debug\net6.0\refint\ConceptsPOO.dll
+C:\WorkSpace\TwinsBrush\ConceptsPOO\ConceptsPOO\obj\Debug\net6.0\ConceptsPOO.pdb
+C:\WorkSpace\TwinsBrush\ConceptsPOO\ConceptsPOO\obj\Debug\net6.0\ConceptsPOO.genruntimeconfig.cache
+C:\WorkSpace\TwinsBrush\ConceptsPOO\ConceptsPOO\obj\Debug\net6.0\ref\ConceptsPOO.dll
