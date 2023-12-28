@@ -1,0 +1,14 @@
+C:\WorkSpace\TwinsBrush\ConceptsPOO\TallerPoo\obj\Debug\net6.0\TallerPoo.GeneratedMSBuildEditorConfig.editorconfig
+C:\WorkSpace\TwinsBrush\ConceptsPOO\TallerPoo\obj\Debug\net6.0\TallerPoo.AssemblyInfoInputs.cache
+C:\WorkSpace\TwinsBrush\ConceptsPOO\TallerPoo\obj\Debug\net6.0\TallerPoo.AssemblyInfo.cs
+C:\WorkSpace\TwinsBrush\ConceptsPOO\TallerPoo\obj\Debug\net6.0\TallerPoo.csproj.CoreCompileInputs.cache
+C:\WorkSpace\TwinsBrush\ConceptsPOO\TallerPoo\bin\Debug\net6.0\TallerPoo.exe
+C:\WorkSpace\TwinsBrush\ConceptsPOO\TallerPoo\bin\Debug\net6.0\TallerPoo.deps.json
+C:\WorkSpace\TwinsBrush\ConceptsPOO\TallerPoo\bin\Debug\net6.0\TallerPoo.runtimeconfig.json
+C:\WorkSpace\TwinsBrush\ConceptsPOO\TallerPoo\bin\Debug\net6.0\TallerPoo.dll
+C:\WorkSpace\TwinsBrush\ConceptsPOO\TallerPoo\bin\Debug\net6.0\TallerPoo.pdb
+C:\WorkSpace\TwinsBrush\ConceptsPOO\TallerPoo\obj\Debug\net6.0\TallerPoo.dll
+C:\WorkSpace\TwinsBrush\ConceptsPOO\TallerPoo\obj\Debug\net6.0\refint\TallerPoo.dll
+C:\WorkSpace\TwinsBrush\ConceptsPOO\TallerPoo\obj\Debug\net6.0\TallerPoo.pdb
+C:\WorkSpace\TwinsBrush\ConceptsPOO\TallerPoo\obj\Debug\net6.0\TallerPoo.genruntimeconfig.cache
+C:\WorkSpace\TwinsBrush\ConceptsPOO\TallerPoo\obj\Debug\net6.0\ref\TallerPoo.dll
