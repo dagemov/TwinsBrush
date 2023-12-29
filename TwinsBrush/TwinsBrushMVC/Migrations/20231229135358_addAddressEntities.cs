@@ -4,7 +4,7 @@
 
 namespace TwinsBrushMVC.Migrations
 {
-    public partial class AddressEntities : Migration
+    public partial class addAddressEntities : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -83,9 +83,19 @@ namespace TwinsBrushMVC.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Cities_Id_StateId",
+                table: "Cities",
+                columns: new[] { "Id", "StateId" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Cities_StateId",
                 table: "Cities",
                 column: "StateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Countries_Id",
+                table: "Countries",
+                column: "Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_States_CountryId",
@@ -93,9 +103,19 @@ namespace TwinsBrushMVC.Migrations
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_States_Id_CountryId",
+                table: "States",
+                columns: new[] { "Id", "CountryId" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Streets_CityId",
                 table: "Streets",
                 column: "CityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Streets_Id_CityId",
+                table: "Streets",
+                columns: new[] { "Id", "CityId" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

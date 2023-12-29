@@ -122,7 +122,7 @@ namespace TwinsBrushMVC.Migrations
             modelBuilder.Entity("TwinsBrushMVC.Data.Entities.City", b =>
                 {
                     b.HasOne("TwinsBrushMVC.Data.Entities.State", "State")
-                        .WithMany("Citys")
+                        .WithMany("Cities")
                         .HasForeignKey("StateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -133,7 +133,7 @@ namespace TwinsBrushMVC.Migrations
             modelBuilder.Entity("TwinsBrushMVC.Data.Entities.State", b =>
                 {
                     b.HasOne("TwinsBrushMVC.Data.Entities.Country", "Country")
-                        .WithMany()
+                        .WithMany("States")
                         .HasForeignKey("CountryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -157,9 +157,14 @@ namespace TwinsBrushMVC.Migrations
                     b.Navigation("Streets");
                 });
 
+            modelBuilder.Entity("TwinsBrushMVC.Data.Entities.Country", b =>
+                {
+                    b.Navigation("States");
+                });
+
             modelBuilder.Entity("TwinsBrushMVC.Data.Entities.State", b =>
                 {
-                    b.Navigation("Citys");
+                    b.Navigation("Cities");
                 });
 #pragma warning restore 612, 618
         }

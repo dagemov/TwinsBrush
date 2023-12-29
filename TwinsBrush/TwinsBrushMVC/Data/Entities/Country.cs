@@ -8,7 +8,7 @@ namespace TwinsBrushMVC.Data.Entities
         [MaxLength(50,ErrorMessage ="The field {0} must to have maximo {1} characters")]
         [Display(Name="Country Name")]
         public string Name { get; set; }
-        ICollection<State> States { get; set; }
+        public ICollection<State> States { get; set; }
         
     }
 }

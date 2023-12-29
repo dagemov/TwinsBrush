@@ -11,8 +11,8 @@ using TwinsBrushMVC.Data;
 namespace TwinsBrushMVC.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231228211714_AddIndexAddressEntities")]
-    partial class AddIndexAddressEntities
+    [Migration("20231229135358_addAddressEntities")]
+    partial class addAddressEntities
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -124,7 +124,7 @@ namespace TwinsBrushMVC.Migrations
             modelBuilder.Entity("TwinsBrushMVC.Data.Entities.City", b =>
                 {
                     b.HasOne("TwinsBrushMVC.Data.Entities.State", "State")
-                        .WithMany("Citys")
+                        .WithMany("Cities")
                         .HasForeignKey("StateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -135,7 +135,7 @@ namespace TwinsBrushMVC.Migrations
             modelBuilder.Entity("TwinsBrushMVC.Data.Entities.State", b =>
                 {
                     b.HasOne("TwinsBrushMVC.Data.Entities.Country", "Country")
-                        .WithMany()
+                        .WithMany("States")
                         .HasForeignKey("CountryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -159,9 +159,14 @@ namespace TwinsBrushMVC.Migrations
                     b.Navigation("Streets");
                 });
 
+            modelBuilder.Entity("TwinsBrushMVC.Data.Entities.Country", b =>
+                {
+                    b.Navigation("States");
+                });
+
             modelBuilder.Entity("TwinsBrushMVC.Data.Entities.State", b =>
                 {
-                    b.Navigation("Citys");
+                    b.Navigation("Cities");
                 });
 #pragma warning restore 612, 618
         }
