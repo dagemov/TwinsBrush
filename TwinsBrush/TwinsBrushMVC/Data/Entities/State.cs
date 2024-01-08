@@ -9,5 +9,7 @@ namespace TwinsBrushMVC.Data.Entities
         public string Name { get; set; }
         public ICollection<City> Cities { get; set; }
         public Country Country { get; set; }
+        [Display(Name = "Cities")]
+        public int CitiesNumber => Cities == null ? 0 : Cities.Count;
     }
 }

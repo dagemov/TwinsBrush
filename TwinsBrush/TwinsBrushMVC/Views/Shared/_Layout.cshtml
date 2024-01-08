@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/TwinsBrushMVC.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
 </head>
 <body>
     <header>
@@ -26,11 +27,9 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Countries" asp-action="Index">Countries</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Countries" asp-action="Index"><i class="fa-solid fa-earth-europe"></i>Countries <i class="fa-regular fa-earth-americas"></i></a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Countries" asp-action="CountryCreate">Add Country</a>
-                        </li>
+                        
                     </ul>
                 </div>
             </div>
@@ -49,7 +48,9 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/font-awesome/js/fontawesome.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

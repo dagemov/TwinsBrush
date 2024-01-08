@@ -9,5 +9,7 @@ namespace TwinsBrushMVC.Data.Entities
         public string Name { get; set; }
         public ICollection<Street> Streets { get; set; }
         public State State { get; set; }
+        [Display(Name = "Streets")]
+        public int StreetsNumber => Streets == null ? 0 : Streets.Count;
     }
 }

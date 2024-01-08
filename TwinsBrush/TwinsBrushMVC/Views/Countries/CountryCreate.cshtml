@@ -5,7 +5,7 @@
 }
 <h3 class="text-black text-center">New Country</h3>
 <div class="row">
-    <form asp-action="CountryCreate" enctype="multipart/form-data">
+    <form asp-action="CountryCreate" enctype="multipart/form-data" id="CountryCreate" onsubmit="sendForm(event,'CountryCreate')">
         <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
         <input type="hidden" asp-for="Id" />
         <input type="hidden" asp-for="States" />
@@ -19,4 +19,5 @@
         </div>
     </form>
 </div>
+
 

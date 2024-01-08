@@ -36,6 +36,8 @@ namespace TwinsBrushMVC.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+
         [HttpGet]
         public async Task<IActionResult> CountryCreate()
         {
@@ -55,6 +57,7 @@ namespace TwinsBrushMVC.Controllers
                 try
                 {
                     await _context.SaveChangesAsync();
+                    
                     return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateException dbUpdateException)
@@ -82,7 +85,11 @@ namespace TwinsBrushMVC.Controllers
             {
                 return NotFound();
             }
-            var country = _context.Countries.FirstOrDefaultAsync(c => c.Id == id);
+            var country = _context.Countries
+                 .Include(c => c.States)
+                .ThenInclude(c => c.Cities)
+                .ThenInclude(c=>c.Streets)
+                .FirstOrDefaultAsync(c => c.Id == id);
             if (country == null)
             {
                 return NotFound();
@@ -98,8 +105,6 @@ namespace TwinsBrushMVC.Controllers
             }
             var country = _context.Countries
                 .Include(c=>c.States)
-                .ThenInclude(c=>c.Cities)
-                .ThenInclude(s=>s.Streets)
                 .FirstOrDefaultAsync(c => c.Id == id);
             if (country == null)
             {
@@ -108,6 +113,7 @@ namespace TwinsBrushMVC.Controllers
             return View(country) ;
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CountryDelete(int id)
         {
             if (_context.Countries == null)

@@ -1,0 +1,27 @@
+﻿@model TwinsBrushMVC.Data.Entities.Country
+
+<div class="row">
+    <h2>Show Data @Model.Name</h2>
+    <hr />
+    <div class="col-md-4">
+        <dl class="row text-white">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            
+        </dl>
+    </div>
+    <div class="col-md-4">
+        <dl>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.StatesNumber)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.StatesNumber)
+            </dd>
+        </dl>
+    </div>
+</div>

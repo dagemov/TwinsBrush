@@ -1,0 +1,13 @@
+﻿@model TwinsBrushMVC.Data.Entities.Country
+@{
+    ViewData["Title"] = "Delete Country ";
+}
+<h2>Show Data</h2>
+<div class="row">
+    <partial name="_CountryDetail" />
+    <form asp-action="CountryDelete" >
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index" class="btn btn-success">Back to List</a>
+    </form>
+</div>

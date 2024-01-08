@@ -64,3 +64,4 @@ C:\WorkSpace\TwinsBrush\TwinsBrush\TwinsBrushMVC\bin\Debug\net6.0\runtimes\win\l
 C:\WorkSpace\TwinsBrush\TwinsBrush\TwinsBrushMVC\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
 C:\WorkSpace\TwinsBrush\TwinsBrush\TwinsBrushMVC\obj\Debug\net6.0\TwinsBrushMVC.csproj.AssemblyReference.cache
 C:\WorkSpace\TwinsBrush\TwinsBrush\TwinsBrushMVC\obj\Debug\net6.0\TwinsBrushMVC.csproj.CopyComplete
+C:\WorkSpace\TwinsBrush\TwinsBrush\TwinsBrushMVC\bin\Debug\net6.0\libman.json
