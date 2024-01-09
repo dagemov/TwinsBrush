@@ -1,0 +1,11 @@
+C:\WorkSpace\TwinsBrush\Twins\TwinsShared\bin\Debug\net7.0\Twins.Shared.deps.json
+C:\WorkSpace\TwinsBrush\Twins\TwinsShared\bin\Debug\net7.0\Twins.Shared.dll
+C:\WorkSpace\TwinsBrush\Twins\TwinsShared\bin\Debug\net7.0\Twins.Shared.pdb
+C:\WorkSpace\TwinsBrush\Twins\TwinsShared\obj\Debug\net7.0\Twins.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\WorkSpace\TwinsBrush\Twins\TwinsShared\obj\Debug\net7.0\Twins.Shared.AssemblyInfoInputs.cache
+C:\WorkSpace\TwinsBrush\Twins\TwinsShared\obj\Debug\net7.0\Twins.Shared.AssemblyInfo.cs
+C:\WorkSpace\TwinsBrush\Twins\TwinsShared\obj\Debug\net7.0\Twins.Shared.csproj.CoreCompileInputs.cache
+C:\WorkSpace\TwinsBrush\Twins\TwinsShared\obj\Debug\net7.0\Twins.Shared.dll
+C:\WorkSpace\TwinsBrush\Twins\TwinsShared\obj\Debug\net7.0\refint\Twins.Shared.dll
+C:\WorkSpace\TwinsBrush\Twins\TwinsShared\obj\Debug\net7.0\Twins.Shared.pdb
+C:\WorkSpace\TwinsBrush\Twins\TwinsShared\obj\Debug\net7.0\ref\Twins.Shared.dll

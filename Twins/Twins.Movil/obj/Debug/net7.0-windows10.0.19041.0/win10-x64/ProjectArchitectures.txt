@@ -1,0 +1,1 @@
+C:\WorkSpace\TwinsBrush\Twins\Twins.Movil\Twins.Movil.csproj;x64
