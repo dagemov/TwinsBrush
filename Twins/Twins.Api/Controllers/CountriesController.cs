@@ -21,7 +21,16 @@ namespace Twins.Api.Controllers
         {
             return Ok(await _context.Countries.ToListAsync());
         }
-
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> CountryGetAsync(int id)
+        {
+            var country =  _context.Countries.FirstOrDefaultAsync(c => c.Id == id);
+            if (country == null)
+            {
+                return NotFound();
+            }
+            return Ok(country);
+        }
         [HttpPost]
         public async Task<IActionResult> CountryPostAsync(Country country)
         {
@@ -37,6 +46,35 @@ namespace Twins.Api.Controllers
                 }
             }
             return Ok(country);
+        }
+        [HttpPut]
+        public async Task<IActionResult> CountryPutAsync(Country country)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Countries.Update(country);
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+            return Ok(country);
+        }
+        [HttpDelete("id:int")]
+        public async Task<IActionResult> CountryDeleteAsync(int id)
+        {
+            var country = await _context.Countries.FirstOrDefaultAsync(x=>x.Id == id);
+            if (country == null)
+            {
+                return NotFound();
+            }
+            _context.Countries.Remove(country);
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
     }
 }

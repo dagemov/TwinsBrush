@@ -826,3 +826,11 @@ C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\Twins.Web.dll
 C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\refint\Twins.Web.dll
 C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\Twins.Web.pdb
 C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\ref\Twins.Web.dll
+C:\WorkSpace\TwinsBrush\Twins\Twins.Web\bin\Debug\net7.0\wwwroot\_framework\Twins.Shared.dll
+C:\WorkSpace\TwinsBrush\Twins\Twins.Web\bin\Debug\net7.0\wwwroot\_framework\Twins.Shared.pdb
+C:\WorkSpace\TwinsBrush\Twins\Twins.Web\bin\Debug\net7.0\wwwroot\_framework\Twins.Shared.dll.gz
+C:\WorkSpace\TwinsBrush\Twins\Twins.Web\bin\Debug\net7.0\wwwroot\_framework\Twins.Shared.pdb.gz
+C:\WorkSpace\TwinsBrush\Twins\Twins.Web\bin\Debug\net7.0\Twins.Shared.dll
+C:\WorkSpace\TwinsBrush\Twins\Twins.Web\bin\Debug\net7.0\Twins.Shared.pdb
+C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\build-gz\7w+BzHKx.gz
+C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\build-gz\Yj2ky+Nh.gz

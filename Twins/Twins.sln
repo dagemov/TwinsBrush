@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twins.Shared", "TwinsShared\Twins.Shared.csproj", "{1A044399-8A0F-45EA-B951-B502500A0A85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Twins.Shared", "TwinsShared\Twins.Shared.csproj", "{1A044399-8A0F-45EA-B951-B502500A0A85}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twins.Api", "Twins.Api\Twins.Api.csproj", "{6DB5A130-9BD8-43BF-8688-486CC0FF83BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Twins.Api", "Twins.Api\Twins.Api.csproj", "{6DB5A130-9BD8-43BF-8688-486CC0FF83BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twins.Web", "Twins.Web\Twins.Web.csproj", "{03774DA7-C532-4B98-ABA0-FB5125D3B052}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Twins.Web", "Twins.Web\Twins.Web.csproj", "{03774DA7-C532-4B98-ABA0-FB5125D3B052}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twins.Movil", "Twins.Movil\Twins.Movil.csproj", "{8EAF7EF7-B454-4EF8-B47B-7BA327E0A1E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Twins.Movil", "Twins.Movil\Twins.Movil.csproj", "{8EAF7EF7-B454-4EF8-B47B-7BA327E0A1E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

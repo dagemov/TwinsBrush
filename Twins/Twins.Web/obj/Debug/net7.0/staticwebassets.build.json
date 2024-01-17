@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "TryM0gsGaPvJ2zsz6CV3lI/u3HvVXSW4QcYrXHGPLmI=",
+  "Hash": "cPh0NQifB0HqA9ukawD1mOfFGj3vMxH2tjExNkeKjeo=",
   "Source": "Twins.Web",
   "BasePath": "/",
   "Mode": "Root",
@@ -3400,6 +3400,40 @@
       "OriginalItemSpec": "C:\\Users\\sebastian\\.nuget\\packages\\microsoft.netcore.app.runtime.mono.browser-wasm\\7.0.11\\runtimes\\browser-wasm\\lib\\net7.0\\System.Xml.XPath.XDocument.dll"
     },
     {
+      "Identity": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\_framework\\Twins.Shared.dll",
+      "SourceId": "Twins.Web",
+      "SourceType": "Computed",
+      "ContentRoot": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\",
+      "BasePath": "/",
+      "RelativePath": "_framework/Twins.Shared.dll",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "BlazorWebAssemblyResource",
+      "AssetTraitValue": "runtime",
+      "CopyToOutputDirectory": "PreserveNewest",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "C:\\WorkSpace\\TwinsBrush\\Twins\\TwinsShared\\bin\\Debug\\net7.0\\Twins.Shared.dll"
+    },
+    {
+      "Identity": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\_framework\\Twins.Shared.pdb",
+      "SourceId": "Twins.Web",
+      "SourceType": "Computed",
+      "ContentRoot": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\",
+      "BasePath": "/",
+      "RelativePath": "_framework/Twins.Shared.pdb",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "BlazorWebAssemblyResource",
+      "AssetTraitValue": "symbol",
+      "CopyToOutputDirectory": "PreserveNewest",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "C:\\WorkSpace\\TwinsBrush\\Twins\\TwinsShared\\bin\\Debug\\net7.0\\Twins.Shared.pdb"
+    },
+    {
       "Identity": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\_framework\\Twins.Web.dll",
       "SourceId": "Twins.Web",
       "SourceType": "Computed",
@@ -4129,6 +4163,23 @@
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\_framework\\System.Net.Security.dll"
+    },
+    {
+      "Identity": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\obj\\Debug\\net7.0\\build-gz\\7w+BzHKx.gz",
+      "SourceId": "Twins.Web",
+      "SourceType": "Computed",
+      "ContentRoot": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\",
+      "BasePath": "/",
+      "RelativePath": "_framework/Twins.Shared.dll.gz",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "RelatedAsset": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\_framework\\Twins.Shared.dll",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "CopyToOutputDirectory": "PreserveNewest",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\_framework\\Twins.Shared.dll"
     },
     {
       "Identity": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\obj\\Debug\\net7.0\\build-gz\\8Se8+pbf.gz",
@@ -6764,6 +6815,23 @@
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\_framework\\Microsoft.AspNetCore.Components.Forms.dll"
+    },
+    {
+      "Identity": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\obj\\Debug\\net7.0\\build-gz\\Yj2ky+Nh.gz",
+      "SourceId": "Twins.Web",
+      "SourceType": "Computed",
+      "ContentRoot": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\",
+      "BasePath": "/",
+      "RelativePath": "_framework/Twins.Shared.pdb.gz",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "RelatedAsset": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\_framework\\Twins.Shared.pdb",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "CopyToOutputDirectory": "PreserveNewest",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\_framework\\Twins.Shared.pdb"
     },
     {
       "Identity": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\obj\\Debug\\net7.0\\build-gz\\ylkG50xn.gz",
