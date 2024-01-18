@@ -9,5 +9,9 @@ namespace Twins.Shared.Entities
         [Required(ErrorMessage = "The filed {0} is required")]
         [Display(Name = "Country Name")]
         public string Name { get; set; } = null!;
+
+        public ICollection<State>? States { get; set; }
+
+        public int StatesNumber => States == null ? 0 : States.Count;
     }
 }
