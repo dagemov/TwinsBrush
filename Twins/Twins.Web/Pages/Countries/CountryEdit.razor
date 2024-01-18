@@ -1,0 +1,31 @@
+﻿@page "/countries/edit"
+@inject IRepository repository
+@inject NavigationManager nav
+@inject SweetAlertService swl
+<h3>CountryEdit</h3>
+<CountryForm ReturnAction="Return" OnValidSubmit="UpdateAsync" @ref="countryForm" Country="country">
+
+</CountryForm>
+@code {
+    private Country country = new();
+    private CountryForm? countryForm;
+
+    private async Task UpdateAsync()
+    {
+        var httpResponse = await repository.Put("/api/countries", country);
+        if (httpResponse.Error)
+        {
+            var message = await httpResponse.GetErrorMessageAsync();
+            await swl.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+
+        Return();
+    }
+
+    private void Return()
+    {
+        countryForm!.FormPostedSuccessFully = true;
+        nav.NavigateTo("/countries");
+    }
+}
