@@ -834,3 +834,7 @@ C:\WorkSpace\TwinsBrush\Twins\Twins.Web\bin\Debug\net7.0\Twins.Shared.dll
 C:\WorkSpace\TwinsBrush\Twins\Twins.Web\bin\Debug\net7.0\Twins.Shared.pdb
 C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\build-gz\7w+BzHKx.gz
 C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\build-gz\Yj2ky+Nh.gz
+C:\WorkSpace\TwinsBrush\Twins\Twins.Web\bin\Debug\net7.0\wwwroot\_framework\CurrieTechnologies.Razor.SweetAlert2.dll
+C:\WorkSpace\TwinsBrush\Twins\Twins.Web\bin\Debug\net7.0\wwwroot\_framework\CurrieTechnologies.Razor.SweetAlert2.dll.gz
+C:\WorkSpace\TwinsBrush\Twins\Twins.Web\bin\Debug\net7.0\CurrieTechnologies.Razor.SweetAlert2.dll
+C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\build-gz\o4kxVn4c.gz

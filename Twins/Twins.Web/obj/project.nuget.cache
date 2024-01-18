@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "pZ13VuyW6rKlqnIu6SmbdQV9gQuVF7iBzzH/c0OgiV5NTScMi5LaiGrCsDxTSZ99IM1qI0rs78Sc2tRnn2ftYA==",
+  "dgSpecHash": "SI4rW/XyNyvLk3JAf4m1oBVegQL6P7ufpfsqRibMap+kO4ZJJAM1WAfyiv3D6ufxrsg7TImJMw8tzcrLBrlFLw==",
   "success": true,
   "projectFilePath": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\Twins.Web.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\sebastian\\.nuget\\packages\\currietechnologies.razor.sweetalert2\\5.4.0\\currietechnologies.razor.sweetalert2.5.4.0.nupkg.sha512",
     "C:\\Users\\sebastian\\.nuget\\packages\\microsoft.aspnetcore.authorization\\7.0.11\\microsoft.aspnetcore.authorization.7.0.11.nupkg.sha512",
     "C:\\Users\\sebastian\\.nuget\\packages\\microsoft.aspnetcore.components\\7.0.11\\microsoft.aspnetcore.components.7.0.11.nupkg.sha512",
     "C:\\Users\\sebastian\\.nuget\\packages\\microsoft.aspnetcore.components.analyzers\\7.0.11\\microsoft.aspnetcore.components.analyzers.7.0.11.nupkg.sha512",

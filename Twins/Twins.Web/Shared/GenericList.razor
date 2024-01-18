@@ -1,8 +1,8 @@
 ﻿@typeparam Titem
 
-@if (MyList is  null)
+@if (MyList is  null)//If list is null , is cuz we need show the loding
 {
-    @if (Loading is null)
+    @if (Loading is null)//If we don't pass the loading componente , we paint our componenet default
     {
         <div class="align-items-center">
             <img src="https://i.gifer.com/origin/b4/b4d657e7ef262b88eb5f7ac021edda87.gif" />
@@ -13,15 +13,15 @@
         @Loading
     }
 }
-else if(MyList.Count == 0)
+else if(MyList.Count == 0) // if we don't have registers
 {
-    @if(NoRecords is null)
+    @if(NoRecords is null) //Our no records
     {
         <div class="align-items-center">
             <p>There aren't records to show</p>
         </div>
     }
-    else
+    else //NoRecord User
     {
         @NoRecords
     }
