@@ -40,7 +40,16 @@ namespace Twins.Api.Controllers
                 try
                 {
                     await _context.SaveChangesAsync();
-                }catch (Exception ex)
+                }
+                catch(DbUpdateException dbUpdateException)
+                {
+                    if(dbUpdateException.InnerException!.Message.Contains("duplicate"))
+                    {
+                        return BadRequest($"There is an country with the same Name : < {country.Name} >");
+                    }
+                    return BadRequest(dbUpdateException.Message);
+                }
+                catch (Exception ex)
                 {
                     return BadRequest(ex.Message);
                 }
@@ -56,6 +65,14 @@ namespace Twins.Api.Controllers
                 try
                 {
                     await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateException dbUpdateException)
+                {
+                    if (dbUpdateException.InnerException!.Message.Contains("duplicate"))
+                    {
+                        return BadRequest($"There is an country with the same Name : < {country.Name} >");
+                    }
+                    return BadRequest(dbUpdateException.Message);
                 }
                 catch (Exception ex)
                 {
