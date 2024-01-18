@@ -64,7 +64,8 @@ namespace Twins.Api.Controllers
             }
             return Ok(country);
         }
-        [HttpDelete("id:int")]
+        //Always { } in the rute sebastian!!!
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> CountryDeleteAsync(int id)
         {
             var country = await _context.Countries.FirstOrDefaultAsync(x=>x.Id == id);

@@ -1,15 +1,52 @@
-﻿@page "/countries/edit"
+﻿@page "/countries/edit/{Id:int}"
+
 @inject IRepository repository
 @inject NavigationManager nav
 @inject SweetAlertService swl
-<h3>CountryEdit</h3>
-<CountryForm ReturnAction="Return" OnValidSubmit="UpdateAsync" @ref="countryForm" Country="country">
 
-</CountryForm>
+<h3>Edit Country : @country!.Name</h3> 
+
+
+
+@if (country is null) // validation to paint formulari ( wait the country to show)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <CountryForm ReturnAction="Return" OnValidSubmit="UpdateAsync" @ref="countryForm" Country="country" />
+}
+
 @code {
-    private Country country = new();
+    [Parameter]
+    public int Id { get; set; }
+
+    private Country? country;   
     private CountryForm? countryForm;
 
+    //get the country from the databse with his data and headers. ( get country in memory)
+    protected override async Task OnInitializedAsync()
+    {
+        //get the country with the Id , METADATA
+        var responseHttp = await repository.Get<Country>($"/api/countries/{Id}");
+        if (responseHttp.Error)
+        {
+            if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)//Edit at country invalid
+            {
+                nav.NavigateTo("/countries");
+                return;
+            }
+            var message = await responseHttp.GetErrorMessageAsync();
+            await swl.FireAsync(
+                "Error",
+                message,
+                SweetAlertIcon.Error
+            );
+            return;
+        }
+        country = responseHttp.Response;
+    }
+    //Put the country 
     private async Task UpdateAsync()
     {
         var httpResponse = await repository.Put("/api/countries", country);

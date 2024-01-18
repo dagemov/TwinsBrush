@@ -58,9 +58,10 @@ namespace Twins.Web.Repositories
 
         public async Task<HttpResponseWrapper<object>> Delete(string url)
         {
-            var responseHttp= await _httpClient.DeleteAsync(url);
-            return new HttpResponseWrapper<object>(null,!responseHttp.IsSuccessStatusCode, responseHttp);
+            var responseHTTP = await _httpClient.DeleteAsync(url);
+            return new HttpResponseWrapper<object>(null, !responseHTTP.IsSuccessStatusCode, responseHTTP);
         }
+
 
         public async Task<HttpResponseWrapper<object>> Put<T>(string url, T model)
         {
