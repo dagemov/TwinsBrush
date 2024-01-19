@@ -14,6 +14,27 @@ namespace Twins.Api.Data
         {
             await _context.Database.EnsureCreatedAsync();//Update database
             await CheckCountriesAsync();
+            await CheckCategoriesAsync();
+        }
+
+        private async Task CheckCategoriesAsync()
+        {
+            if (!_context.Categories.Any())
+            {
+                _context.Categories.Add(new Category()
+                {
+                    Name = "Normal Paint",
+                });
+                _context.Categories.Add(new Category()
+                {
+                    Name = "Powe Wash",
+                });
+                _context.Categories.Add(new Category()
+                {
+                    Name = "Deep Clean",
+                });
+                await _context.SaveChangesAsync();
+            }
         }
 
         private async Task CheckCountriesAsync()
