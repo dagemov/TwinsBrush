@@ -1,0 +1,59 @@
+﻿@page "/categories/edit/{Id:int}"
+@inject IRepository repository
+@inject NavigationManager nav
+@inject SweetAlertService swl
+<h3>Category Edit</h3>
+
+<h3>Edit Categor : @category!.Name</h3>
+
+
+
+@if (category is null) // validation to paint formulari ( wait the country to show)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <CategoryForm ReturnAction="Return" OnValidSubmit="UpdateAsync" @ref="categoryForm" Category="category" />
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private Category? category;
+    private CategoryForm? categoryForm;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var resultHttpGet = await repository.Get<Category>($"/api/categories/{Id}");
+
+        if (resultHttpGet.Error)
+        {
+            if (resultHttpGet.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)//Edit at categori invalid
+            {
+                nav.NavigateTo("/categories");
+                return;
+            }
+            var messageErrorGet = await resultHttpGet.GetErrorMessageAsync();
+            await swl.FireAsync("Error", messageErrorGet, SweetAlertIcon.Error);
+            return;
+        }
+        category = resultHttpGet.Response;
+    }
+    public async Task UpdateAsync()
+    {
+        var resultHttpPut = await repository.Put($"/api/categories",category);
+        if (resultHttpPut.Error)
+        {           
+            var messageErrorPut = await resultHttpPut.GetErrorMessageAsync();
+            await swl.FireAsync("Error", messageErrorPut, SweetAlertIcon.Error);
+            return;
+        }
+        Return();
+    }
+    public void Return()
+    {
+        categoryForm!.FormPostedSuccessFully = true;
+        nav.NavigateTo("/categories");
+    }
+}
