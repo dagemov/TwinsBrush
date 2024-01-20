@@ -6,69 +6,41 @@ using Twins.Shared.Entities;
 namespace Twins.Api.Controllers
 {
     [ApiController]
-    [Route("/api/countries")]
-    public class CountriesController : ControllerBase
+    [Route("/api/cities")]
+    public class CitiesController : ControllerBase
     {
         private readonly DataContext _context;
 
-        public CountriesController(DataContext context)
+        public CitiesController(DataContext context)
         {
             _context = context;
         }
-
         [HttpGet]
-        public async Task<IActionResult> CountryGetAsync()
+        public async Task<IActionResult> CityGetAsync()
         {
-            return Ok(await _context.Countries
-                .Include(c=>c.States)
+            return Ok(await _context.Cities
+                .Include(s => s.Streets)
                 .ToListAsync());
         }
 
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> CountryGetAsync(int id)
+        public async Task<IActionResult> CityGetAsync(int id)
         {
-            var country =  await _context.Countries
-                .Include(c=>c.States!)
-                .ThenInclude(c=>c.Cities!)
-                .ThenInclude(c=>c.Streets)
+            var city = await _context.Cities
+                .Include (s => s.Streets)
                 .FirstOrDefaultAsync(c => c.Id == id);
-            if (country == null)
+            if (city == null)
             {
                 return NotFound();
             }
-            return Ok(country);
+            return Ok(city);
         }
         [HttpPost]
-        public async Task<IActionResult> CountryPostAsync(Country country)
+        public async Task<IActionResult> CityPostAsync(City city)
         {
             if (ModelState.IsValid)
             {
-                _context.Countries.Add(country);
-                try
-                {
-                    await _context.SaveChangesAsync();
-                }
-                catch(DbUpdateException dbUpdateException)
-                {
-                    if(dbUpdateException.InnerException!.Message.Contains("duplicate"))
-                    {
-                        return BadRequest($"There is an country with the same Name : < {country.Name} >");
-                    }
-                    return BadRequest(dbUpdateException.Message);
-                }
-                catch (Exception ex)
-                {
-                    return BadRequest(ex.Message);
-                }
-            }
-            return Ok(country);
-        }
-        [HttpPut]
-        public async Task<IActionResult> CountryPutAsync(Country country)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Countries.Update(country);
+                _context.Cities.Add(city);
                 try
                 {
                     await _context.SaveChangesAsync();
@@ -77,7 +49,7 @@ namespace Twins.Api.Controllers
                 {
                     if (dbUpdateException.InnerException!.Message.Contains("duplicate"))
                     {
-                        return BadRequest($"There is an country with the same Name : < {country.Name} >");
+                        return BadRequest($"There is an City with the same Name : < {city.Name} >");
                     }
                     return BadRequest(dbUpdateException.Message);
                 }
@@ -86,18 +58,43 @@ namespace Twins.Api.Controllers
                     return BadRequest(ex.Message);
                 }
             }
-            return Ok(country);
+            return Ok(city);
+        }
+        [HttpPut]
+        public async Task<IActionResult> CityPutAsync(City city)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Cities.Update(city);
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateException dbUpdateException)
+                {
+                    if (dbUpdateException.InnerException!.Message.Contains("duplicate"))
+                    {
+                        return BadRequest($"There is an City with the same Name : < {city.Name} >");
+                    }
+                    return BadRequest(dbUpdateException.Message);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+            return Ok(city);
         }
         //Always { } in the rute sebastian!!!
         [HttpDelete("{id:int}")]
-        public async Task<IActionResult> CountryDeleteAsync(int id)
+        public async Task<IActionResult> CityDeleteAsync(int id)
         {
-            var country = await _context.Countries.FirstOrDefaultAsync(x=>x.Id == id);
-            if (country == null)
+            var city = await _context.Cities.FirstOrDefaultAsync(x => x.Id == id);
+            if (city == null)
             {
                 return NotFound();
             }
-            _context.Countries.Remove(country);
+            _context.Cities.Remove(city);
             await _context.SaveChangesAsync();
             return NoContent();
         }

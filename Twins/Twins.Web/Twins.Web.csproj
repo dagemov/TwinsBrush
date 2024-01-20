@@ -16,4 +16,8 @@
     <ProjectReference Include="..\TwinsShared\Twins.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\States\" />
+  </ItemGroup>
+
 </Project>

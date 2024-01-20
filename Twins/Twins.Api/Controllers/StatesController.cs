@@ -6,69 +6,41 @@ using Twins.Shared.Entities;
 namespace Twins.Api.Controllers
 {
     [ApiController]
-    [Route("/api/countries")]
-    public class CountriesController : ControllerBase
+    [Route("/api/states")]
+    public class StatesController : ControllerBase
     {
         private readonly DataContext _context;
 
-        public CountriesController(DataContext context)
+        public StatesController(DataContext context)
         {
             _context = context;
         }
-
         [HttpGet]
-        public async Task<IActionResult> CountryGetAsync()
+        public async Task<IActionResult> StateGetAsync()
         {
-            return Ok(await _context.Countries
-                .Include(c=>c.States)
+            return Ok(await _context.Statements
+                .Include(s => s.Cities)
                 .ToListAsync());
         }
 
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> CountryGetAsync(int id)
+        public async Task<IActionResult> StateGetAsync(int id)
         {
-            var country =  await _context.Countries
-                .Include(c=>c.States!)
-                .ThenInclude(c=>c.Cities!)
-                .ThenInclude(c=>c.Streets)
-                .FirstOrDefaultAsync(c => c.Id == id);
-            if (country == null)
+            var state = await _context.Statements
+                .Include(s => s.Cities)
+                .FirstOrDefaultAsync(s => s.Id == id);
+            if (state == null)
             {
                 return NotFound();
             }
-            return Ok(country);
+            return Ok(state);
         }
         [HttpPost]
-        public async Task<IActionResult> CountryPostAsync(Country country)
+        public async Task<IActionResult> StatePostAsync(State state)
         {
             if (ModelState.IsValid)
             {
-                _context.Countries.Add(country);
-                try
-                {
-                    await _context.SaveChangesAsync();
-                }
-                catch(DbUpdateException dbUpdateException)
-                {
-                    if(dbUpdateException.InnerException!.Message.Contains("duplicate"))
-                    {
-                        return BadRequest($"There is an country with the same Name : < {country.Name} >");
-                    }
-                    return BadRequest(dbUpdateException.Message);
-                }
-                catch (Exception ex)
-                {
-                    return BadRequest(ex.Message);
-                }
-            }
-            return Ok(country);
-        }
-        [HttpPut]
-        public async Task<IActionResult> CountryPutAsync(Country country)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Countries.Update(country);
+                _context.Statements.Add(state);
                 try
                 {
                     await _context.SaveChangesAsync();
@@ -77,7 +49,7 @@ namespace Twins.Api.Controllers
                 {
                     if (dbUpdateException.InnerException!.Message.Contains("duplicate"))
                     {
-                        return BadRequest($"There is an country with the same Name : < {country.Name} >");
+                        return BadRequest($"There is an State with the same Name : < {state.Name} >");
                     }
                     return BadRequest(dbUpdateException.Message);
                 }
@@ -86,18 +58,43 @@ namespace Twins.Api.Controllers
                     return BadRequest(ex.Message);
                 }
             }
-            return Ok(country);
+            return Ok(state);
+        }
+        [HttpPut]
+        public async Task<IActionResult> StatePutAsync(State state)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Statements.Update(state);
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateException dbUpdateException)
+                {
+                    if (dbUpdateException.InnerException!.Message.Contains("duplicate"))
+                    {
+                        return BadRequest($"There is an State with the same Name : < {state.Name} >");
+                    }
+                    return BadRequest(dbUpdateException.Message);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+            return Ok(state);
         }
         //Always { } in the rute sebastian!!!
         [HttpDelete("{id:int}")]
-        public async Task<IActionResult> CountryDeleteAsync(int id)
+        public async Task<IActionResult> StateDeleteAsync(int id)
         {
-            var country = await _context.Countries.FirstOrDefaultAsync(x=>x.Id == id);
-            if (country == null)
+            var state = await _context.Statements.FirstOrDefaultAsync(x => x.Id == id);
+            if (state == null)
             {
                 return NotFound();
             }
-            _context.Countries.Remove(country);
+            _context.Statements.Remove(state);
             await _context.SaveChangesAsync();
             return NoContent();
         }
