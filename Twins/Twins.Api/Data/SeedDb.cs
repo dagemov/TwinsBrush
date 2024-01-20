@@ -31,7 +31,7 @@ namespace Twins.Api.Data
                 });
                 _context.Categories.Add(new Category()
                 {
-                    Name = "Deep Clean",
+                    Name = "Deep Clean",                    
                 });
                 await _context.SaveChangesAsync();
             }
@@ -47,7 +47,55 @@ namespace Twins.Api.Data
                 });
                 _context.Countries.Add(new Country
                 {
-                    Name = "United States"
+                    Name = "United States",
+                    States = new List<State>
+                    {
+                        new State{
+                            Name="Connecticut",
+                            Cities = new List<City> 
+                            { 
+                                new City 
+                                {
+                                    Name="Bridgeport",
+                                    Streets = new List<Street>
+                                    {
+                                        new Street
+                                        {
+                                            Name="Chospey Hill",
+                                            ZipCode="06606",
+                                            StreetNumer="1282"
+                                        },
+                                        new Street
+                                        {
+                                            Name="Main St",
+                                            ZipCode="06809",
+                                            StreetNumer="385"
+                                        },
+                                        new Street
+                                        {
+                                            Name="Connecticut Av",
+                                            ZipCode="07539",
+                                            StreetNumer="754"
+                                        }
+                                    }
+                                },
+                                new City
+                                {
+                                    Name="Norwalk",
+                                },
+                                new City
+                                {
+                                    Name="Trumbull",
+                                },
+                                new City
+                                {
+                                    Name="Wesport",
+                                }
+                            }
+                        },
+                        new State{Name="New York"},
+                        new State{Name="Pensilvania"}
+                    }
                 });
                 _context.Countries.Add(new Country
                 {

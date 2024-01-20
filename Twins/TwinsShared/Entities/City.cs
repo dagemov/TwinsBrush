@@ -15,6 +15,7 @@ namespace Twins.Shared.Entities
         [Required(ErrorMessage = "The filed {0} is required")]
         public string Name { get; set; } = null!;
 
+        public int StateId { get; set; }
         public State? State { get; set; }
         public ICollection<Street>? Streets { get; set; }
         public int StreetsNumber => Streets == null ? 0 : Streets.Count;
