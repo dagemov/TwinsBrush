@@ -100,6 +100,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3RhdGVzXFN0YXRlRm9ybS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/WorkSpace/TwinsBrush/Twins/Twins.Web/Pages/Streets/StreetCreate.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3RyZWV0c1xTdHJlZXRDcmVhdGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/WorkSpace/TwinsBrush/Twins/Twins.Web/Pages/Streets/StreetForm.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3RyZWV0c1xTdHJlZXRGb3JtLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/WorkSpace/TwinsBrush/Twins/Twins.Web/Shared/GenericList.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEdlbmVyaWNMaXN0LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 

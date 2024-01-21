@@ -1,0 +1,33 @@
+﻿@page "/streets/create/{CityId:int}"
+@inject IRepository repository
+@inject NavigationManager nav
+@inject SweetAlertService swl
+
+
+<h3>Create new Street</h3>
+<StreetForm @ref="streetForm" Street="street" OnValidSubmit="CityCreateAsync" ReturnAction="Return"></StreetForm>
+@code {
+    [Parameter]
+    public int CityId { get; set; }
+    private Street street = new();
+    private StreetForm streetForm = new();
+
+    public async Task CityCreateAsync()
+    {
+        street.CityId = CityId;
+        var httpResponse = await repository.Post("/api/streets", street);
+        if (httpResponse.Error)
+        {
+            var message = await httpResponse.GetErrorMessageAsync();
+            await swl.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+
+        Return();
+    }
+    private void Return()
+    {
+        streetForm.FormPostedSuccessFully = true;
+        nav.NavigateTo($"/cities/details/{CityId}");
+    }
+}

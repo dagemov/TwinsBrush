@@ -36,7 +36,7 @@ else
                             @street.Name
                         </td>                       
                         <td>
-                            @street.StreetNumer
+                            @street.StreetNumber
                         </td>
                         <td>
                             @street.ZipCode
@@ -102,7 +102,7 @@ else
         var resultSwl = await swl.FireAsync(new SweetAlertOptions
             {
                 Title = "Confirm Delete",
-                Text = $"Are you sure abaout Delete this City ? : < {Street!.StreetNumer} {Street!.Name} {Street.ZipCode}  > ",
+                Text = $"Are you sure abaout Delete this Street ? : < {Street!.StreetNumber} {Street!.Name} {Street.ZipCode}  > ",
                 Icon = SweetAlertIcon.Question,
                 ShowCancelButton = true,
                 CancelButtonText = "No",

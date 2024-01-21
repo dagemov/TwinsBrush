@@ -11,8 +11,8 @@ using Twins.Api.Data;
 namespace Twins.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240120213100_AddAdressEntitiesAndCategory")]
-    partial class AddAdressEntitiesAndCategory
+    [Migration("20240121185729_AdressEntities")]
+    partial class AdressEntities
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -130,7 +130,7 @@ namespace Twins.Api.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("StreetNumer")
+                    b.Property<string>("StreetNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

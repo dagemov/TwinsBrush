@@ -63,19 +63,19 @@ namespace Twins.Api.Data
                                         {
                                             Name="Chospey Hill",
                                             ZipCode="06606",
-                                            StreetNumer="1282"
+                                            StreetNumber="1282"
                                         },
                                         new Street
                                         {
                                             Name="Main St",
                                             ZipCode="06809",
-                                            StreetNumer="385"
+                                            StreetNumber="385"
                                         },
                                         new Street
                                         {
                                             Name="Connecticut Av",
                                             ZipCode="07539",
-                                            StreetNumer="754"
+                                            StreetNumber="754"
                                         }
                                     }
                                 },
