@@ -39,11 +39,13 @@ namespace Twins.Api.Controllers
         public async Task<IActionResult> StatePostAsync(State state)
         {
             if (ModelState.IsValid)
-            {
-                _context.Statements.Add(state);
+            {              
                 try
                 {
+                    //TODO: CHANG EALL POST AND PUT LIKE THIS SHAPE
+                    _context.Statements.Add(state);
                     await _context.SaveChangesAsync();
+                    return Ok();
                 }
                 catch (DbUpdateException dbUpdateException)
                 {
