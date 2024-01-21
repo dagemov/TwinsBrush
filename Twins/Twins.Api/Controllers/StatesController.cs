@@ -67,10 +67,12 @@ namespace Twins.Api.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Statements.Update(state);
+                
                 try
                 {
+                    _context.Statements.Update(state);
                     await _context.SaveChangesAsync();
+                    return Ok();
                 }
                 catch (DbUpdateException dbUpdateException)
                 {
