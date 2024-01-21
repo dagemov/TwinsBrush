@@ -200,14 +200,14 @@
       "netstandard.dll": "sha256-Cr6slBs\/R2v2t\/vecFDHbQHakbEhar0adYu0YemwiXI=",
       "System.Private.CoreLib.dll": "sha256-dDw5nzGJhW1jOjGfSJcs\/Mi4KQ+DZygXnoK+vJ+jHyk=",
       "Twins.Shared.dll": "sha256-flQlukpskIgbiOF8QtwR4\/WRDG1AMD0dDlNQf8ZXUyQ=",
-      "Twins.Web.dll": "sha256-T0H\/qImRtUsz7HAg1vTpCB0bTj3rhbwWdS1j918xPf0="
+      "Twins.Web.dll": "sha256-LtGuRDkmHYrqnTtZb04fPE8qqH70ZxmLXxsTctJXY0Q="
     },
     "extensions": null,
     "lazyAssembly": null,
     "libraryInitializers": null,
     "pdb": {
       "Twins.Shared.pdb": "sha256-NjvBDzuPFch97gTEKMB0ia\/svFXGUeNAnuTZVS+A\/kw=",
-      "Twins.Web.pdb": "sha256-GxKe7GN4hhZ6K\/iU\/kJrr6og+dYg6E+\/xhz6\/aepP38="
+      "Twins.Web.pdb": "sha256-4Vr1CspmN3uWQHWyfOEdvLnSvEZihKhwvlzcnHu1Rws="
     },
     "runtime": {
       "dotnet.7.0.11.136qeoldaf.js": "sha256-RtIVigdAD1mUvR4pxoKyD8kcQgw4INP81v+PVSqkeQY=",
