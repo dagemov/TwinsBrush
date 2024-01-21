@@ -1,46 +1,50 @@
-﻿@page "/states/details/{Id:int}"
+﻿@page "/cities/details/{Id:int}"
 @inject IRepository repository
 @inject NavigationManager nav
 @inject SweetAlertService swl
 
-@if(state is null){
+@if (city is null)
+{
     <p>Loading</p>
 }
 else
 {
-    <h3>@state.Name Details</h3>
+    <h3>@city.Name Details</h3>
     <div class="mb-3">
-        <a class="btn btn-primary" href="/cities/create/@state.Id">New City</a>
-        <a class="btn btn-success" href="/countries/details/@state.CountryId">Back</a>
+        <a class="btn btn-primary" href="/streets/create/@city.Id">New Street</a>
+        <a class="btn btn-success" href="/states/details/@city.StateId">Back</a>
     </div>
 }
-<GenericList MyList="Cities">
+<GenericList MyList="Streets">
 
     <Body>
         <table class="table table-striped">
             <thead>
                 <tr>
 
-                    <th>Cities</th>
-                    <th>Streets</th>
-                    <th></th>
+                    <th>Street</th>
+                    <th>Number</th>
+                    <th>Zip Code Area</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var city in Cities!)
+                @foreach (var street in Streets!)
                 {
                     <tr>
 
                         <td>
-                            @city.Name
+                            @street.Name
+                        </td>                       
+                        <td>
+                            @street.StreetNumer
                         </td>
                         <td>
-                            @city.StreetsNumber
+                            @street.ZipCode
                         </td>
                         <td>
-                            <a class="btn btn-info" href="/cities/details/@city.Id">Details</a>
-                            <a class="btn btn-warning" href="/cities/edit/@city.Id">Edit</a>
-                            <button class="btn btn-danger" @onclick="(()=>CityDeleteAsync(city.Id))">Delete</button>
+                            <a class="btn btn-info" href="/streets/details/@street.CityId">Details</a>
+                            <a class="btn btn-warning" href="/streets/edit/@street.Id">Edit</a>
+                            <button class="btn btn-danger" @onclick="(()=>StreetDeleteAsync(street.Id))">Delete</button>
                         </td>
                     </tr>
                 }
@@ -52,24 +56,24 @@ else
 
 @code {
 
-    private State? state = new State();
-    private City? city = new();
+    private Street? Street;
+    private City? city;
     [Parameter]
     public int Id { get; set; }
 
-    public List<City>? Cities { get; set; }
+    public List<Street>? Streets { get; set; }
     protected override async Task OnInitializedAsync()
     {
         await LoadAsync();
     }
     private async Task LoadAsync()
     {
-        var responHttpData = await repository.Get<State>($"/api/states/{Id}");
+        var responHttpData = await repository.Get<City>($"/api/cities/{Id}");
         if (responHttpData.Error)
         {
             if (responHttpData.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
             {
-                nav.NavigateTo("/countries");
+                nav.NavigateTo($"/cities/details/{Street!.CityId}");
                 return;
             }
             var message = await responHttpData.GetErrorMessageAsync();
@@ -77,28 +81,28 @@ else
             return;
         }
 
-        state = responHttpData.Response;
-        Cities = state!.Cities!.ToList();
+        city = responHttpData.Response;
+        Streets = city.Streets.ToList();
     }
-    private async Task CityDeleteAsync(int id)
+    private async Task StreetDeleteAsync(int id)
     {
-        var responseHttpData = await repository.Get<City>($"/api/cities/{id}");
+        var responseHttpData = await repository.Get<Street>($"/api/streets/{id}");
         if (responseHttpData.Error)
         {
             if (responseHttpData.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
             {
-                nav.NavigateTo($"/states/details/{city!.StateId}");
+                nav.NavigateTo($"/cities/details/{Street!.CityId}");
                 return;
             }
             var message = await responseHttpData.GetErrorMessageAsync();
             await swl.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
-        city = responseHttpData.Response;
+        Street = responseHttpData.Response;
         var resultSwl = await swl.FireAsync(new SweetAlertOptions
             {
                 Title = "Confirm Delete",
-                Text = $"Are you sure abaout Delete this City ? : < {city!.Name} > ",
+                Text = $"Are you sure abaout Delete this City ? : < {Street!.StreetNumer} {Street!.Name} {Street.ZipCode}  > ",
                 Icon = SweetAlertIcon.Question,
                 ShowCancelButton = true,
                 CancelButtonText = "No",
@@ -110,12 +114,12 @@ else
             return;
         }
 
-        var responseHttpDelete = await repository.Delete($"/api/cities/{id}");
+        var responseHttpDelete = await repository.Delete($"/api/streets/{id}");
         if (responseHttpDelete.Error)
         {
             if (responseHttpDelete.HttpResponseMessage.StatusCode != HttpStatusCode.NotFound)
             {
-                nav.NavigateTo($"/states/details/{city!.StateId}");
+                nav.NavigateTo($"/cities/details/{Street!.CityId}");
                 return;
             }
             var messageDelete = await responseHttpDelete.GetErrorMessageAsync();
