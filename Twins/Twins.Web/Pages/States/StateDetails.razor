@@ -1,0 +1,127 @@
+﻿@page "/states/details/{Id:int}"
+@inject IRepository repository
+@inject NavigationManager nav
+@inject SweetAlertService swl
+
+@if(state is null){
+    <p>Loading</p>
+}
+else
+{
+    <h3>@state.Name Details</h3>
+    <div class="mb-3">
+        <a class="btn btn-primary" href="/cities/create/@state.Id">New City</a>
+        <a class="btn btn-success" href="/countries/details/@state.CountryId">Back</a>
+    </div>
+}
+<GenericList MyList="Cities">
+
+    <Body>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+
+                    <th>Cities</th>
+                    <th>Streets</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var city in Cities!)
+                {
+                    <tr>
+
+                        <td>
+                            @city.Name
+                        </td>
+                        <td>
+                            @city.StreetsNumber
+                        </td>
+                        <td>
+                            <a class="btn btn-info" href="/cities/details/@city.StateId">Details</a>
+                            <a class="btn btn-warning" href="/cities/edit/@city.Id">Edit</a>
+                            <button class="btn btn-danger" @onclick="(()=>CityDeleteAsync(city.Id))">Delete</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </Body>
+</GenericList>
+
+
+@code {
+
+    private State? state = new State();
+    private City? city = new();
+    [Parameter]
+    public int Id { get; set; }
+
+    public List<City>? Cities { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAsync();
+    }
+    private async Task LoadAsync()
+    {
+        var responHttpData = await repository.Get<State>($"/api/states/{Id}");
+        if (responHttpData.Error)
+        {
+            if (responHttpData.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
+            {
+                nav.NavigateTo("/countries");
+                return;
+            }
+            var message = await responHttpData.GetErrorMessageAsync();
+            await swl.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+
+        state = responHttpData.Response;
+        Cities = state!.Cities!.ToList();
+    }
+    private async Task CityDeleteAsync(int id)
+    {
+        var responseHttpData = await repository.Get<City>($"/api/cities/{id}");
+        if (responseHttpData.Error)
+        {
+            if (responseHttpData.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
+            {
+                nav.NavigateTo($"/states/details/{city!.StateId}");
+                return;
+            }
+            var message = await responseHttpData.GetErrorMessageAsync();
+            await swl.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+        city = responseHttpData.Response;
+        var resultSwl = await swl.FireAsync(new SweetAlertOptions
+            {
+                Title = "Confirm Delete",
+                Text = $"Are you sure abaout Delete this City ? : < {city!.Name} > ",
+                Icon = SweetAlertIcon.Question,
+                ShowCancelButton = true,
+                CancelButtonText = "No",
+                ConfirmButtonText = "Yes",
+            });
+        var confirmSwl = string.IsNullOrEmpty(resultSwl.Value);
+        if (confirmSwl)
+        {
+            return;
+        }
+
+        var responseHttpDelete = await repository.Delete($"/api/cities/{id}");
+        if (responseHttpDelete.Error)
+        {
+            if (responseHttpDelete.HttpResponseMessage.StatusCode != HttpStatusCode.NotFound)
+            {
+                nav.NavigateTo($"/states/details/{city!.StateId}");
+                return;
+            }
+            var messageDelete = await responseHttpDelete.GetErrorMessageAsync();
+            await swl.FireAsync("Error", messageDelete, SweetAlertIcon.Error);
+            return;
+        }
+        await LoadAsync();
+    }
+}

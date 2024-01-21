@@ -39,7 +39,7 @@ else
                             @state.CitiesNumber
                         </td>
                         <td>
-                            <a class="btn btn-info" href="/states/details/@state.CountryId/@state.Id">Details</a>
+                            <a class="btn btn-info" href="/states/details/@state.Id">Details</a>
                             <a class="btn btn-warning" href="/states/edit/@state.Id">Edit</a>
                             <button class="btn btn-danger" @onclick="(()=>StateDeleteAsync(state.Id))">Delete</button>
                         </td>

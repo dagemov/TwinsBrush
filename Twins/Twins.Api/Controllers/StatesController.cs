@@ -27,7 +27,8 @@ namespace Twins.Api.Controllers
         public async Task<IActionResult> StateGetAsync(int id)
         {
             var state = await _context.Statements
-                .Include(s => s.Cities)
+                .Include(s => s.Cities!)
+                .ThenInclude(s=>s.Streets)
                 .FirstOrDefaultAsync(s => s.Id == id);
             if (state == null)
             {
