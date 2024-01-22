@@ -1,0 +1,56 @@
+﻿@page "/streets/edit/{StreetId:int}"
+@inject IRepository repository
+@inject NavigationManager nav
+@inject SweetAlertService swl
+
+@if (street is null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <h3>Editing @street.Name</h3>
+    <StreetForm @ref="streetForm" Street="street" OnValidSubmit="StreetEditAsync" ReturnAction="Return"></StreetForm>
+}
+
+
+@code {
+    private Street? street;
+    private StreetForm streetForm;
+    [Parameter]
+    public int StreetId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var respondeHttpData = await repository.Get<Street>($"/api/streets/{StreetId}");
+        if (respondeHttpData.Error)
+        {
+            if (respondeHttpData.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
+            {
+                nav.NavigateTo($"/cities/details/{street!.CityId}");
+                return;
+            }
+            var message = await respondeHttpData.GetErrorMessageAsync();
+            await swl.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+        street = respondeHttpData.Response;
+    }
+    private async Task StreetEditAsync()
+    {
+        var responseHttp = await repository.Put("/api/streets", street);
+        if (responseHttp.Error)
+        {
+            var message = await responseHttp.GetErrorMessageAsync();
+            await swl.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+
+        Return();
+    }
+    public void Return()
+    {
+        streetForm.FormPostedSuccessFully = true;
+        nav.NavigateTo($"/cities/details/{street!.CityId}");
+    }
+}

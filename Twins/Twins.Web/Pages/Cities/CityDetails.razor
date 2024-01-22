@@ -42,7 +42,6 @@ else
                             @street.ZipCode
                         </td>
                         <td>
-                            <a class="btn btn-info" href="/streets/details/@street.CityId">Details</a>
                             <a class="btn btn-warning" href="/streets/edit/@street.Id">Edit</a>
                             <button class="btn btn-danger" @onclick="(()=>StreetDeleteAsync(street.Id))">Delete</button>
                         </td>

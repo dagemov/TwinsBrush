@@ -16,6 +16,7 @@ namespace Twins.Shared.Entities
         public string Name { get; set; } = null!;
 
         [MaxLength(5, ErrorMessage = "The field {0} don't can have more {1} caracters")]
+        [MinLength(5)]
         [Required(ErrorMessage = "The filed {0} is required")]
         public string ZipCode { get; set; } = null!;
         public string StreetNumber { get; set; } = null!;
