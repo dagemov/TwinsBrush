@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using Twins.Api.Data;
+using Twins.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,9 +12,10 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
 builder.Services.AddDbContext<DataContext>(x=> x.UseSqlServer("name=DefaultConnection"));
 builder.Services.AddTransient<SeedDb>();
-
+builder.Services.AddScoped<IApiService, ApiService>();
 
 
 var app = builder.Build();

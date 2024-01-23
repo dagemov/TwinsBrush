@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "PWP8wOzU9Zvwxu5+8JJS45F4X8kwCb0qU4FeVWGK+ys=",
+  "Hash": "btNMTVYo+g8F4pduhOUZlPfAG9G1/wvwOF4165kycKM=",
   "Source": "Twins.Web",
   "BasePath": "/",
   "Mode": "Root",
@@ -1256,6 +1256,23 @@
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "C:\\Users\\sebastian\\.nuget\\packages\\microsoft.netcore.app.runtime.mono.browser-wasm\\7.0.11\\runtimes\\browser-wasm\\lib\\net7.0\\netstandard.dll"
+    },
+    {
+      "Identity": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\_framework\\Newtonsoft.Json.dll",
+      "SourceId": "Twins.Web",
+      "SourceType": "Computed",
+      "ContentRoot": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\",
+      "BasePath": "/",
+      "RelativePath": "_framework/Newtonsoft.Json.dll",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "BlazorWebAssemblyResource",
+      "AssetTraitValue": "runtime",
+      "CopyToOutputDirectory": "PreserveNewest",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "C:\\Users\\sebastian\\.nuget\\packages\\newtonsoft.json\\13.0.2\\lib\\net6.0\\Newtonsoft.Json.dll"
     },
     {
       "Identity": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\_framework\\System.AppContext.dll",
@@ -5744,6 +5761,23 @@
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\_framework\\System.Threading.Tasks.dll"
+    },
+    {
+      "Identity": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\obj\\Debug\\net7.0\\build-gz\\JgVEySGb.gz",
+      "SourceId": "Twins.Web",
+      "SourceType": "Computed",
+      "ContentRoot": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\",
+      "BasePath": "/",
+      "RelativePath": "_framework/Newtonsoft.Json.dll.gz",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "RelatedAsset": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\_framework\\Newtonsoft.Json.dll",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "CopyToOutputDirectory": "PreserveNewest",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\_framework\\Newtonsoft.Json.dll"
     },
     {
       "Identity": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\obj\\Debug\\net7.0\\build-gz\\jj4lCKM2.gz",

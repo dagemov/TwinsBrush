@@ -838,3 +838,7 @@ C:\WorkSpace\TwinsBrush\Twins\Twins.Web\bin\Debug\net7.0\wwwroot\_framework\Curr
 C:\WorkSpace\TwinsBrush\Twins\Twins.Web\bin\Debug\net7.0\wwwroot\_framework\CurrieTechnologies.Razor.SweetAlert2.dll.gz
 C:\WorkSpace\TwinsBrush\Twins\Twins.Web\bin\Debug\net7.0\CurrieTechnologies.Razor.SweetAlert2.dll
 C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\build-gz\o4kxVn4c.gz
+C:\WorkSpace\TwinsBrush\Twins\Twins.Web\bin\Debug\net7.0\wwwroot\_framework\Newtonsoft.Json.dll
+C:\WorkSpace\TwinsBrush\Twins\Twins.Web\bin\Debug\net7.0\wwwroot\_framework\Newtonsoft.Json.dll.gz
+C:\WorkSpace\TwinsBrush\Twins\Twins.Web\bin\Debug\net7.0\Newtonsoft.Json.dll
+C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\build-gz\JgVEySGb.gz

@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "NU9OuvrpXJq4HLGU3wRc3cslt1mye7elfpiBVfGsFNU+mZn4cOMjYW/h8PWSRuOiIl0w2ynAmEzBdIqEg8bE7Q==",
+  "dgSpecHash": "/JypRqIeCkJnDreF7r0/5FaNFLFe7NcGdjXuHdMparWx07hDsuW4LiXsrbxwPmUaugFMbNPhDAvQ51sQnsKrtQ==",
   "success": true,
   "projectFilePath": "C:\\WorkSpace\\TwinsBrush\\Twins\\TwinsShared\\Twins.Shared.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\sebastian\\.nuget\\packages\\newtonsoft.json\\13.0.2\\newtonsoft.json.13.0.2.nupkg.sha512"
+  ],
   "logs": []
 }

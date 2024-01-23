@@ -9,3 +9,4 @@ C:\WorkSpace\TwinsBrush\Twins\TwinsShared\obj\Debug\net7.0\Twins.Shared.dll
 C:\WorkSpace\TwinsBrush\Twins\TwinsShared\obj\Debug\net7.0\refint\Twins.Shared.dll
 C:\WorkSpace\TwinsBrush\Twins\TwinsShared\obj\Debug\net7.0\Twins.Shared.pdb
 C:\WorkSpace\TwinsBrush\Twins\TwinsShared\obj\Debug\net7.0\ref\Twins.Shared.dll
+C:\WorkSpace\TwinsBrush\Twins\TwinsShared\obj\Debug\net7.0\Twins.Shared.csproj.AssemblyReference.cache

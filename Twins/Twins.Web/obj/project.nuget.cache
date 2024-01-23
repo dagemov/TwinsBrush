@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "SI4rW/XyNyvLk3JAf4m1oBVegQL6P7ufpfsqRibMap+kO4ZJJAM1WAfyiv3D6ufxrsg7TImJMw8tzcrLBrlFLw==",
+  "dgSpecHash": "Z45jfimIAQLGloGZoh+AaDo1DRCerYapSADBFKyWymcItwszIoDDkoF1OEYR0pK089F3/0dHU/i1Tn+PIxqo0g==",
   "success": true,
   "projectFilePath": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\Twins.Web.csproj",
   "expectedPackageFiles": [
@@ -29,6 +29,7 @@
     "C:\\Users\\sebastian\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0\\microsoft.extensions.primitives.7.0.0.nupkg.sha512",
     "C:\\Users\\sebastian\\.nuget\\packages\\microsoft.jsinterop\\7.0.11\\microsoft.jsinterop.7.0.11.nupkg.sha512",
     "C:\\Users\\sebastian\\.nuget\\packages\\microsoft.jsinterop.webassembly\\7.0.11\\microsoft.jsinterop.webassembly.7.0.11.nupkg.sha512",
+    "C:\\Users\\sebastian\\.nuget\\packages\\newtonsoft.json\\13.0.2\\newtonsoft.json.13.0.2.nupkg.sha512",
     "C:\\Users\\sebastian\\.nuget\\packages\\system.io.pipelines\\7.0.0\\system.io.pipelines.7.0.0.nupkg.sha512",
     "C:\\Users\\sebastian\\.nuget\\packages\\system.text.encodings.web\\7.0.0\\system.text.encodings.web.7.0.0.nupkg.sha512",
     "C:\\Users\\sebastian\\.nuget\\packages\\system.text.json\\7.0.0\\system.text.json.7.0.0.nupkg.sha512",
