@@ -1,0 +1,96 @@
+﻿@page "/weeks"
+
+@inject IRepository repository;
+@inject NavigationManager nav;
+@inject SweetAlertService swl;
+
+<h3>Weeks</h3>
+<a class="btn btn-primary" href="/weeks/create"> New week</a>
+<GenericList MyList="Weeks">
+
+    <Body>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+
+                    <th>Week</th>
+                    <th>Days</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var country in Weeks!)
+                {
+                    <tr>
+
+                        <td>
+                            @country.WeekNumber
+                        </td>
+                        <td>
+                            Days Number
+                        </td>
+                        <td>
+                            <a class="btn btn-info" href="/weeks/details/@country.Id">Details</a>
+                            <a class="btn btn-warning" href="/weeks/edit/@country.Id">Edit</a>
+                            <button class="btn btn-danger" @onclick="(()=>DeleteAsync(country.Id))">Delete</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </Body>
+</GenericList>
+
+@code {
+    //Making Data index with Blazor :) . Remmeber create the reference
+    public List<WeekWorked>? Weeks { get; set; }
+    private WeekWorked? week { get; set; }
+
+    //With metodo on , we get all the metadata abaout whatever Tmodel
+    protected override async Task OnInitializedAsync()
+    {
+        //Load metada list
+        await LoadAsync();
+    }
+    private async Task LoadAsync()
+    {
+        var responseHttp = await repository.Get<List<WeekWorked>>("/api/weeks");
+        Weeks = responseHttp.Response;
+    }
+
+    public async Task DeleteAsync(int id)
+    {
+        //Get metada to show in swl
+        var responseHttp = await repository.Get<WeekWorked>($"/api/weeks/{id}");
+        week = responseHttp!.Response;
+        //Quesiton before remove
+        var result = await swl.FireAsync(
+            new SweetAlertOptions
+                {
+                    Title = "Confirm Delete",
+                    Text = $"Are you sure abaout Delete this Week ? => {week!.WeekNumber}",
+                    Icon = SweetAlertIcon.Question,
+                    ShowCancelButton = true,
+                    CancelButtonText = "No",
+                    ConfirmButtonText = "Yes"
+                }
+        );
+        var confirmSwl = string.IsNullOrEmpty(result.Value);
+        if (confirmSwl)
+        {
+            return;
+        }
+        var responseHttpDelete = await repository.Delete($"/api/weeks/{id}");
+
+        if (responseHttpDelete.Error)
+        {
+            if (responseHttpDelete.HttpResponseMessage.StatusCode != HttpStatusCode.NotFound)
+            {
+                var message = await responseHttpDelete.GetErrorMessageAsync();
+                await swl.FireAsync("Error", message, SweetAlertIcon.Error);
+                return;
+            }
+        }
+        await LoadAsync();
+    }
+}

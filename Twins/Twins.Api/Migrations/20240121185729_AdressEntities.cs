@@ -10,6 +10,7 @@ namespace Twins.Api.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            /*
             migrationBuilder.CreateTable(
                 name: "Categories",
                 columns: table => new
@@ -23,7 +24,7 @@ namespace Twins.Api.Migrations
                     table.PrimaryKey("PK_Categories", x => x.Id);
                 });
 
-            migrationBuilder.CreateTable(
+            /migrationBuilder.CreateTable(
                 name: "Countries",
                 columns: table => new
                 {
@@ -145,7 +146,7 @@ namespace Twins.Api.Migrations
                 name: "Statements");
 
             migrationBuilder.DropTable(
-                name: "Countries");
+                name: "Countries");*/
         }
     }
 }

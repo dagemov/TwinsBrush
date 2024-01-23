@@ -18,8 +18,8 @@ namespace Twins.Api.Data
         public async Task SeedAsync()
         {
             await _context.Database.EnsureCreatedAsync();//Update database
-            await CheckCountriesAsync();
-            await CheckCategoriesAsync();
+           // await CheckCountriesAsync();
+           // await CheckCategoriesAsync();
         }
 
         private async Task CheckCategoriesAsync()

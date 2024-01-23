@@ -9,11 +9,13 @@ namespace Twins.Api.Data
         {
                 
         }
+      
         public DbSet<Category> Categories { get; set; } 
         public DbSet<Country> Countries { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<State> Statements { get; set; }
         public DbSet<Street> Streets { get; set; }
+        public DbSet<WeekWorked> WeekWorkeds { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

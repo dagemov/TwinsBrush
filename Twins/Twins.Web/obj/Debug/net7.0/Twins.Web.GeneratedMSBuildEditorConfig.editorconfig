@@ -112,6 +112,18 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3RyZWV0c1xTdHJlZXRGb3JtLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/WorkSpace/TwinsBrush/Twins/Twins.Web/Pages/Weeks/WeekCreate.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcV2Vla3NcV2Vla0NyZWF0ZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/WorkSpace/TwinsBrush/Twins/Twins.Web/Pages/Weeks/WeekForm.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcV2Vla3NcV2Vla0Zvcm0ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/WorkSpace/TwinsBrush/Twins/Twins.Web/Pages/Weeks/WeeksIndex.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcV2Vla3NcV2Vla3NJbmRleC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/WorkSpace/TwinsBrush/Twins/Twins.Web/Shared/GenericList.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEdlbmVyaWNMaXN0LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
