@@ -18,10 +18,10 @@ namespace Twins.Api.Data
         public async Task SeedAsync()
         {
             await _context.Database.EnsureCreatedAsync();//Update database
-           // await CheckCountriesAsync();
-           // await CheckCategoriesAsync();
-        }
+            //await CheckCountriesAsync();
 
+            await CheckCategoriesAsync();
+        }       
         private async Task CheckCategoriesAsync()
         {
             if (!_context.Categories.Any())
@@ -55,7 +55,8 @@ namespace Twins.Api.Data
                         Country country = await _context.Countries!.FirstOrDefaultAsync(c => c.Name == countryResponse.Name!)!;
                         if (country == null)
                         {
-                            country = new() { Name = countryResponse.Name!, States = new List<State>() };
+                            
+                            country = new() { Name = countryResponse.Name!, States = new List<State>() };                          
                             Response responseStates = await _apiService.GetListAsync<StateResponse>("/v1", $"/countries/{countryResponse.Iso2}/states");
                             if (responseStates.IsSuccess)
                             {
@@ -92,7 +93,11 @@ namespace Twins.Api.Data
                             }
                             if (country.StatesNumber > 0)
                             {
-                                _context.Countries.Add(country);
+                                if (country.Name == "United States" || country.Name == "Colombia")
+                                {
+                                    _context.Countries.Add(country);
+                                }
+                                
                                 await _context.SaveChangesAsync();
                             }
                         }

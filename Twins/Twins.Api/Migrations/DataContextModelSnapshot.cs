@@ -88,6 +88,30 @@ namespace Twins.Api.Migrations
                     b.ToTable("Countries");
                 });
 
+            modelBuilder.Entity("Twins.Shared.Entities.Day", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("EndDay")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("StartDay")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("WeekWorkedId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WeekWorkedId");
+
+                    b.ToTable("Day");
+                });
+
             modelBuilder.Entity("Twins.Shared.Entities.State", b =>
                 {
                     b.Property<int>("Id")
@@ -178,6 +202,17 @@ namespace Twins.Api.Migrations
                     b.Navigation("State");
                 });
 
+            modelBuilder.Entity("Twins.Shared.Entities.Day", b =>
+                {
+                    b.HasOne("Twins.Shared.Entities.WeekWorked", "WeekWorked")
+                        .WithMany("Days")
+                        .HasForeignKey("WeekWorkedId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("WeekWorked");
+                });
+
             modelBuilder.Entity("Twins.Shared.Entities.State", b =>
                 {
                     b.HasOne("Twins.Shared.Entities.Country", "Country")
@@ -213,6 +248,11 @@ namespace Twins.Api.Migrations
             modelBuilder.Entity("Twins.Shared.Entities.State", b =>
                 {
                     b.Navigation("Cities");
+                });
+
+            modelBuilder.Entity("Twins.Shared.Entities.WeekWorked", b =>
+                {
+                    b.Navigation("Days");
                 });
 #pragma warning restore 612, 618
         }

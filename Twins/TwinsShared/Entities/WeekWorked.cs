@@ -17,6 +17,10 @@ namespace Twins.Shared.Entities
         [JsonIgnore]
         public DateTime? Updated { get; set; } = null!;
 
+        [JsonIgnore]
+        [MaxLength(7)]
+        public ICollection<Day>? Days { get; set; }
+
         //cuando tengamos usiario y semana , en la tabla userwekk se coloca total de horas de la semana + el pago total
     }
 }

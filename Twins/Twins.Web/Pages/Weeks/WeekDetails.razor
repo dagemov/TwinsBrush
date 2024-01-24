@@ -1,0 +1,129 @@
+﻿@page "/weeks/details/{Id:int}"
+@inject IRepository repository
+@inject NavigationManager nav
+@inject SweetAlertService swl
+
+@if (weekWorked is null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <h3>Details  Week @weekWorked!.WeekNumber</h3>
+    <div class="mb-3">
+        <a class="btn btn-primary" href="/days/create/@weekWorked.Id">Add Day</a>
+        <a class="btn btn-success" href="/weeks">Back</a>
+    </div>
+}
+
+<GenericList MyList="states">
+
+    <Body>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+
+                    <th>Days</th>
+                    <th>Break Times </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var state in states!)
+                {
+                    <tr>
+
+                        <td>
+                            @state.Name
+                        </td>
+                        <td>
+                            @state.CitiesNumber
+                        </td>
+                        <td>
+                            <a class="btn btn-info" href="/states/details/@state.Id">Details</a>
+                            <a class="btn btn-warning" href="/states/edit/@state.Id">Edit</a>
+                            <button class="btn btn-danger" @onclick="(()=>DeleteAsync(state.Id))">Delete</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </Body>
+</GenericList>
+
+@code {
+
+    private WeekWorked? weekWorked { get; set; }
+    private State? state { get; set; }
+    public List<State>? states { get; set; }
+    [Parameter]
+    public int Id { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAsync();
+    }
+    private async Task LoadAsync()
+    {
+        var responseHttpData = await repository.Get<WeekWorked>($"/api/weeks/{Id}");
+        if (responseHttpData.Error)
+        {
+            if (responseHttpData.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
+            {
+                nav.NavigateTo("/weeks");
+                return;
+            }
+            var message = await responseHttpData.GetErrorMessageAsync();
+            await swl.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+        weekWorked = responseHttpData.Response;
+        //states = country!.States!.ToList();
+    }
+    public async Task DeleteAsync(int id)
+    {
+        var responseHttpData = await repository.Get<State>($"/api/days/{id}");
+        if (responseHttpData.Error)
+        {
+            if (responseHttpData.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
+            {
+                nav.NavigateTo("/weeks");
+                return;
+            }
+            var message = await responseHttpData.GetErrorMessageAsync();
+            await swl.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+        state = responseHttpData.Response;
+
+        var resultSwl = await swl.FireAsync(new SweetAlertOptions
+            {
+                Title = "Confirm Delete",
+                Text = $"Are you sure abaout Delete this State ? : < {state!.Name} > ",
+                Icon = SweetAlertIcon.Question,
+                ShowCancelButton = true,
+                CancelButtonText = "No",
+                ConfirmButtonText = "Yes",
+            });
+        var confirm = string.IsNullOrEmpty(resultSwl.Value);
+        if (confirm)
+        {
+            return;
+        }
+
+        var responseHttpDelete = await repository.Delete($"/api/dats/{id}");
+        if (responseHttpDelete.Error)
+        {
+            if (responseHttpDelete.HttpResponseMessage.StatusCode != HttpStatusCode.NotFound)
+            {
+                var message = await responseHttpData.GetErrorMessageAsync();
+                await swl.FireAsync("Error", message, SweetAlertIcon.Error);
+                return;
+            }
+            var messageDanger = await responseHttpData.GetErrorMessageAsync();
+            await swl.FireAsync("Error", messageDanger, SweetAlertIcon.Error);
+        }
+        await LoadAsync();
+    }
+}

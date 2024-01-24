@@ -6,5 +6,6 @@ namespace Twins.Api.Services
     {
         //Interface to consume externals Apis (generic Api)
         Task<Response> GetListAsync<T>(string servicePrefix, string controller);
+        Task<Response> GetAsync<T>(string servicePrefix, string controller);
     }
 }
