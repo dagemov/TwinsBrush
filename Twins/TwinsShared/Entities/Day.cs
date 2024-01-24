@@ -13,5 +13,7 @@ namespace Twins.Shared.Entities
         public DateTime? EndDay { get; set; }
         public int WeekWorkedId { get; set; }
         public WeekWorked? WeekWorked { get; set; }
+
+        public TimeSpan? TotalHours => EndDay - StartDay;
     }
 }

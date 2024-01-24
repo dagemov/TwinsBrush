@@ -17,8 +17,7 @@ namespace Twins.Shared.Entities
         [JsonIgnore]
         public DateTime? Updated { get; set; } = null!;
 
-        [JsonIgnore]
-        [MaxLength(7)]
+        [MaxLength(7,ErrorMessage ="The week only must have maximum 7 days")]
         public ICollection<Day>? Days { get; set; }
         public int DaysNumber => Days == null ? 0 : Days.Count;
 

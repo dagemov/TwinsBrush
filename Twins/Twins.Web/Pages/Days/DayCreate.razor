@@ -1,0 +1,35 @@
+﻿@page "/days/create/{WeekWorkedId:int}"
+@inject IRepository repository
+@inject NavigationManager nav
+@inject SweetAlertService swl
+
+<h3>Create new day to the week</h3>
+
+
+<DayForm @ref="dayForm" Day="day" OnValidSubmit="CreateAsync" ReturnAction="Return" />
+
+@code {
+    private Day day = new();
+    private DayForm? dayForm;
+    [Parameter]
+    public int WeekWorkedId { get; set; }
+    private async Task CreateAsync()
+    {
+        day.WeekWorkedId = WeekWorkedId;
+        var httpResponse = await repository.Post("/api/days", day);
+        if (httpResponse.Error)
+        {
+            var message = await httpResponse.GetErrorMessageAsync();
+            await swl.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+
+        Return();
+    }
+
+    private void Return()
+    {
+        dayForm!.FormPostedSuccessFully = true;
+        nav.NavigateTo($"/weeks/details/{WeekWorkedId}");
+    }
+}

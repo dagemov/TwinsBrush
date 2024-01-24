@@ -40,7 +40,7 @@ namespace Twins.Api.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Twins.Shared.Entities.City", b =>
@@ -64,7 +64,7 @@ namespace Twins.Api.Migrations
                     b.HasIndex("StateId", "Name")
                         .IsUnique();
 
-                    b.ToTable("Cities");
+                    b.ToTable("Cities", (string)null);
                 });
 
             modelBuilder.Entity("Twins.Shared.Entities.Country", b =>
@@ -85,7 +85,7 @@ namespace Twins.Api.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Countries");
+                    b.ToTable("Countries", (string)null);
                 });
 
             modelBuilder.Entity("Twins.Shared.Entities.Day", b =>
@@ -112,7 +112,7 @@ namespace Twins.Api.Migrations
                     b.HasIndex("Id", "WeekWorkedId")
                         .IsUnique();
 
-                    b.ToTable("Days");
+                    b.ToTable("Days", (string)null);
                 });
 
             modelBuilder.Entity("Twins.Shared.Entities.State", b =>
@@ -136,7 +136,7 @@ namespace Twins.Api.Migrations
                     b.HasIndex("CountryId", "Name")
                         .IsUnique();
 
-                    b.ToTable("Statements");
+                    b.ToTable("Statements", (string)null);
                 });
 
             modelBuilder.Entity("Twins.Shared.Entities.Street", b =>
@@ -169,7 +169,7 @@ namespace Twins.Api.Migrations
                     b.HasIndex("CityId", "Name")
                         .IsUnique();
 
-                    b.ToTable("Streets");
+                    b.ToTable("Streets", (string)null);
                 });
 
             modelBuilder.Entity("Twins.Shared.Entities.WeekWorked", b =>
@@ -191,7 +191,7 @@ namespace Twins.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("WeekWorkeds");
+                    b.ToTable("WeekWorkeds", (string)null);
                 });
 
             modelBuilder.Entity("Twins.Shared.Entities.City", b =>

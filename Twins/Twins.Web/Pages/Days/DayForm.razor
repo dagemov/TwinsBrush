@@ -6,12 +6,14 @@
     <DataAnnotationsValidator />
     <div class="mb-3">
         <label>Day : </label>
-        <div>
-            <InputDate class="form-control" @bind-Value="@Day.StartDay" />
+        <div class="m-2">
+            <label>Start Day</label>
+            <InputDate Type="InputDateType.DateTimeLocal" class="form-control" @bind-Value="@Day.StartDay" />
             <ValidationMessage For="@(()=>Day.StartDay)" />
         </div>
-        <div>
-            <InputDate class="form-control" @bind-Value="@Day.EndDay" />
+        <div class="m-2">
+            <label>End Day</label>
+            <InputDate Type="InputDateType.DateTimeLocal"  class="form-control" @bind-Value="@Day.EndDay" />
             <ValidationMessage For="@(()=>Day.EndDay)" />
         </div>
     </div>

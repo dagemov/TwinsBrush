@@ -19,6 +19,7 @@ namespace Twins.Api.Controllers
         public async Task<IActionResult> GetAsync()
         {
             return Ok(await _context.WeekWorkeds
+                .Include(w=>w.Days)
                 .ToListAsync());
         }
 

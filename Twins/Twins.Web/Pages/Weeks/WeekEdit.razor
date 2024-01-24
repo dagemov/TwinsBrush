@@ -1,0 +1,69 @@
+﻿@page "/weeks/edit/{Id:int}"
+
+@inject IRepository repository
+@inject NavigationManager nav
+@inject SweetAlertService swl
+
+
+
+
+@if (week is null) // validation to paint formulari ( wait the country to show)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <h3>Edit week : @week!.WeekNumber</h3>
+
+    <WeekForm ReturnAction="Return" OnValidSubmit="UpdateAsync" @ref="weekForm" WeekWorked="week" />
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private WeekWorked? week;
+    private WeekForm? weekForm;
+
+    //get the country from the databse with his data and headers. ( get country in memory)
+    protected override async Task OnInitializedAsync()
+    {
+        //get the country with the Id , METADATA
+        var responseHttp = await repository.Get<WeekWorked>($"/api/weeks/{Id}");
+        if (responseHttp.Error)
+        {
+            if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)//Edit at country invalid
+            {
+                nav.NavigateTo("/weeks");
+                return;
+            }
+            var message = await responseHttp.GetErrorMessageAsync();
+            await swl.FireAsync(
+                "Error",
+                message,
+                SweetAlertIcon.Error
+            );
+            return;
+        }
+        week = responseHttp.Response;
+    }
+    //Put the country
+    private async Task UpdateAsync()
+    {
+        var httpResponse = await repository.Put("/api/weeks", week);
+        if (httpResponse.Error)
+        {
+            var message = await httpResponse.GetErrorMessageAsync();
+            await swl.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+
+        Return();
+    }
+
+    private void Return()
+    {
+        weekForm!.FormPostedSuccessFully = true;
+        nav.NavigateTo("/weeks");
+    }
+}

@@ -25,6 +25,7 @@ else
 
                     <th>Startd Day</th>
                     <th>End Day</th>
+                    <th>Totals Hours</th>
                     <th></th>
                 </tr>
             </thead>
@@ -38,6 +39,9 @@ else
                         </td>
                         <td>
                             @day.EndDay
+                        </td>
+                        <td>
+                            @day.TotalHours
                         </td>
                         <td>
                             <a class="btn btn-info" href="/days/details/@day.Id">Details</a>
@@ -79,6 +83,7 @@ else
             return;
         }
         weekWorked = responseHttpData.Response;
+        Days = weekWorked!.Days!.ToList();
         //states = country!.States!.ToList();
     }
     public async Task DeleteAsync(int id)
