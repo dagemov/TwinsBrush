@@ -6,6 +6,7 @@
 
 <h3>Weeks</h3>
 <a class="btn btn-primary" href="/weeks/create"> New week</a>
+
 <GenericList MyList="Weeks">
 
     <Body>
@@ -14,25 +15,25 @@
                 <tr>
 
                     <th>Week</th>
-                    <th>Days</th>
+                    <th>Days Worked on the Week</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var country in Weeks!)
+                @foreach (var week in Weeks!)
                 {
                     <tr>
 
                         <td>
-                            @country.WeekNumber
+                            @week.WeekNumber
                         </td>
                         <td>
-                            Days Number
+                            @week.DaysNumber
                         </td>
                         <td>
-                            <a class="btn btn-info" href="/weeks/details/@country.Id">Details</a>
-                            <a class="btn btn-warning" href="/weeks/edit/@country.Id">Edit</a>
-                            <button class="btn btn-danger" @onclick="(()=>DeleteAsync(country.Id))">Delete</button>
+                            <a class="btn btn-info" href="/weeks/details/@week.Id">Details</a>
+                            <a class="btn btn-warning" href="/weeks/edit/@week.Id">Edit</a>
+                            <button class="btn btn-danger" @onclick="(()=>DeleteWeekAsync(week.Id))">Delete</button>
                         </td>
                     </tr>
                 }
@@ -45,7 +46,6 @@
     //Making Data index with Blazor :) . Remmeber create the reference
     public List<WeekWorked>? Weeks { get; set; }
     private WeekWorked? week { get; set; }
-
     //With metodo on , we get all the metadata abaout whatever Tmodel
     protected override async Task OnInitializedAsync()
     {
@@ -58,7 +58,7 @@
         Weeks = responseHttp.Response;
     }
 
-    public async Task DeleteAsync(int id)
+    public async Task DeleteWeekAsync(int id)
     {
         //Get metada to show in swl
         var responseHttp = await repository.Get<WeekWorked>($"/api/weeks/{id}");

@@ -9,7 +9,7 @@ namespace Twins.Api.Data
         {
                 
         }
-      
+        public DbSet<Day> Days { get; set; }
         public DbSet<Category> Categories { get; set; } 
         public DbSet<Country> Countries { get; set; }
         public DbSet<City> Cities { get; set; }
@@ -25,7 +25,7 @@ namespace Twins.Api.Data
             modelBuilder.Entity<City>().HasIndex("StateId","Name").IsUnique();
             modelBuilder.Entity<State>().HasIndex("CountryId","Name").IsUnique();
             modelBuilder.Entity<Street>().HasIndex("CityId","Name").IsUnique();
-            
+            modelBuilder.Entity<Day>().HasIndex("Id", "WeekWorkedId").IsUnique();
         }
     }
 }

@@ -16,33 +16,33 @@ else
     </div>
 }
 
-<GenericList MyList="states">
+<GenericList MyList="Days">
 
     <Body>
         <table class="table table-striped">
             <thead>
                 <tr>
 
-                    <th>Days</th>
-                    <th>Break Times </th>
+                    <th>Startd Day</th>
+                    <th>End Day</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var state in states!)
+                @foreach (var day in Days!)
                 {
                     <tr>
 
                         <td>
-                            @state.Name
+                            @day.StartDay
                         </td>
                         <td>
-                            @state.CitiesNumber
+                            @day.EndDay
                         </td>
                         <td>
-                            <a class="btn btn-info" href="/states/details/@state.Id">Details</a>
-                            <a class="btn btn-warning" href="/states/edit/@state.Id">Edit</a>
-                            <button class="btn btn-danger" @onclick="(()=>DeleteAsync(state.Id))">Delete</button>
+                            <a class="btn btn-info" href="/days/details/@day.Id">Details</a>
+                            <a class="btn btn-warning" href="/days/edit/@day.Id">Edit</a>
+                            <button class="btn btn-danger" @onclick="(()=>DeleteAsync(day.Id))">Delete</button>
                         </td>
                     </tr>
                 }
@@ -54,8 +54,8 @@ else
 @code {
 
     private WeekWorked? weekWorked { get; set; }
-    private State? state { get; set; }
-    public List<State>? states { get; set; }
+    private Day? day { get; set; }
+    public List<Day>? Days { get; set; }
     [Parameter]
     public int Id { get; set; }
 
@@ -83,7 +83,7 @@ else
     }
     public async Task DeleteAsync(int id)
     {
-        var responseHttpData = await repository.Get<State>($"/api/days/{id}");
+        var responseHttpData = await repository.Get<Day>($"/api/days/{id}");
         if (responseHttpData.Error)
         {
             if (responseHttpData.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
@@ -95,12 +95,12 @@ else
             await swl.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
-        state = responseHttpData.Response;
+        day = responseHttpData.Response;
 
         var resultSwl = await swl.FireAsync(new SweetAlertOptions
             {
                 Title = "Confirm Delete",
-                Text = $"Are you sure abaout Delete this State ? : < {state!.Name} > ",
+                Text = $"Are you sure abaout Delete this State ? : < {day!.StartDay} > ",
                 Icon = SweetAlertIcon.Question,
                 ShowCancelButton = true,
                 CancelButtonText = "No",
@@ -112,7 +112,7 @@ else
             return;
         }
 
-        var responseHttpDelete = await repository.Delete($"/api/dats/{id}");
+        var responseHttpDelete = await repository.Delete($"/api/days/{id}");
         if (responseHttpDelete.Error)
         {
             if (responseHttpDelete.HttpResponseMessage.StatusCode != HttpStatusCode.NotFound)

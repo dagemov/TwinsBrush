@@ -26,6 +26,7 @@ namespace Twins.Api.Controllers
         public async Task<IActionResult> GetAsync(int id)
         {
             var week = await _context.WeekWorkeds
+                .Include(w=>w.Days!)
                 .FirstOrDefaultAsync(c => c.Id == id);
             if (week == null)
             {
