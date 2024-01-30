@@ -21,6 +21,7 @@ namespace Twins.Shared.Entities
         public ICollection<Day>? Days { get; set; }
         public int DaysNumber => Days == null ? 0 : Days.Count;
 
+
         //cuando tengamos usiario y semana , en la tabla userwekk se coloca total de horas de la semana + el pago total
     }
 }

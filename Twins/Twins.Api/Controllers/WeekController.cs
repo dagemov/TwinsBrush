@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using Twins.Api.Data;
 using Twins.Shared.Entities;
 
@@ -15,6 +16,8 @@ namespace Twins.Api.Controllers
         {
            _context = context;
         }
+
+
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
@@ -22,13 +25,27 @@ namespace Twins.Api.Controllers
                 .Include(w=>w.Days)
                 .ToListAsync());
         }
+        /*[HttpGet("{id:int}")]
+        public async Task<IActionResult> GetSumHourPerWeek(List<Day> days)
+        {
+            /*var days = await _context.Days
+                .ToListAsync();/// comentar esto
+            //var sum= new TimeSpan();
+            float sum=0;
+            for (int i = 1; i < 7; i++)
+            {
+                sum += Convert.ToDateTime( days[i].TotalHours).Hour;
+            }
+            Convert.ToDateTime(sum);
+            return Ok(sum);
+        }*/
 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetAsync(int id)
         {
             var week = await _context.WeekWorkeds
                 .Include(w=>w.Days!)
-                .FirstOrDefaultAsync(c => c.Id == id);
+                .FirstOrDefaultAsync(c => c.Id == id);            
             if (week == null)
             {
                 return NotFound();

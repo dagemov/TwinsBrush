@@ -11,13 +11,16 @@ else
 {
     <h3>Details  Week @weekWorked!.WeekNumber</h3>
     <div class="mb-3">
-        <a class="btn btn-primary" href="/days/create/@weekWorked.Id">Add Day</a>
+        @if(weekWorked!.Days!.Count<7){
+            <a class="btn btn-primary" href="/days/create/@weekWorked.Id">Add Day</a>
+        }   
         <a class="btn btn-success" href="/weeks">Back</a>
+     
     </div>
 }
 
 <GenericList MyList="Days">
-
+   
     <Body>
         <table class="table table-striped">
             <thead>
@@ -25,7 +28,7 @@ else
 
                     <th>Startd Day</th>
                     <th>End Day</th>
-                    <th>Totals Hours</th>
+                    <th>Totals Day Hours</th>
                     <th></th>
                 </tr>
             </thead>
@@ -54,16 +57,26 @@ else
         </table>
     </Body>
 </GenericList>
+@if (weekWorked is null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <h2>    Totasl Hours On the Week  @weekWorked.WeekNumber : { @totalHours.ToString("F2") } </h2>
+    <h2>Total To pay at the employed : {@totalPriceHoursDay.ToString("F2")}</h2>
+}
 
 @code {
 
     private WeekWorked? weekWorked { get; set; }
     private Day? day { get; set; }
     public List<Day>? Days { get; set; }
+    public List<TimeSpan>? list = new();
+    public double totalHours = 0.0D;
+    public double totalPriceHoursDay = 0.0D;
     [Parameter]
     public int Id { get; set; }
-
-
     protected override async Task OnInitializedAsync()
     {
         await LoadAsync();
@@ -84,7 +97,51 @@ else
         }
         weekWorked = responseHttpData.Response;
         Days = weekWorked!.Days!.ToList();
-        //states = country!.States!.ToList();
+
+        await LoadAcumDay();
+    }
+        /*
+        private async Task LoadSumDay()
+        {
+        //Days!.ForEach(x => sum += x.TotalHours!);
+        double valhour = 0.0D;
+
+            @foreach (var day in Days!)
+            {
+            sum = (day.EndDay-day.StartDay);
+            sum = (sum + sum);
+            //list!.Add();
+            valhour = Convert.ToDouble(day.TotalHours) * 14.85;
+            totals += Convert.ToDouble(day.TotalHours);
+    }
+
+    }*/
+    private async Task LoadAcumDay()
+    {
+        //double totalHours = 0.0D;
+        List<double> totals = new List<double>(); // Lista para almacenar los totales de cada día
+
+        foreach (var day in Days!)
+        {
+            // Fix the nullable TimpeSpan? to TimeSpan
+            if (day.StartDay.HasValue && day.EndDay.HasValue)
+            {
+                double dayDurationInHours = (day.EndDay.Value - day.StartDay.Value).TotalHours;
+
+                totalHours += dayDurationInHours;
+
+                double valhour = dayDurationInHours * 14.85;
+                totalPriceHoursDay += valhour;
+
+                totals.Add(valhour);
+            }
+            else
+            {
+               
+                Console.WriteLine($"Error: StartDay o EndDay is null to one day in Specific :  {day.Id}");
+            }
+        }
+
     }
     public async Task DeleteAsync(int id)
     {
