@@ -40,7 +40,7 @@ namespace Twins.Api.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Twins.Shared.Entities.City", b =>
@@ -64,7 +64,7 @@ namespace Twins.Api.Migrations
                     b.HasIndex("StateId", "Name")
                         .IsUnique();
 
-                    b.ToTable("Cities", (string)null);
+                    b.ToTable("Cities");
                 });
 
             modelBuilder.Entity("Twins.Shared.Entities.Country", b =>
@@ -85,7 +85,7 @@ namespace Twins.Api.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Countries", (string)null);
+                    b.ToTable("Countries");
                 });
 
             modelBuilder.Entity("Twins.Shared.Entities.Day", b =>
@@ -112,7 +112,61 @@ namespace Twins.Api.Migrations
                     b.HasIndex("Id", "WeekWorkedId")
                         .IsUnique();
 
-                    b.ToTable("Days", (string)null);
+                    b.ToTable("Days");
+                });
+
+            modelBuilder.Entity("Twins.Shared.Entities.Person", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id", "Email")
+                        .IsUnique();
+
+                    b.ToTable("Persons");
+                });
+
+            modelBuilder.Entity("Twins.Shared.Entities.PersonWeek", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("PersonId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WeekWorkedId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WeekWorkedId");
+
+                    b.HasIndex("PersonId", "WeekWorkedId")
+                        .IsUnique();
+
+                    b.ToTable("PersonWeeks");
                 });
 
             modelBuilder.Entity("Twins.Shared.Entities.State", b =>
@@ -136,7 +190,7 @@ namespace Twins.Api.Migrations
                     b.HasIndex("CountryId", "Name")
                         .IsUnique();
 
-                    b.ToTable("Statements", (string)null);
+                    b.ToTable("Statements");
                 });
 
             modelBuilder.Entity("Twins.Shared.Entities.Street", b =>
@@ -169,7 +223,7 @@ namespace Twins.Api.Migrations
                     b.HasIndex("CityId", "Name")
                         .IsUnique();
 
-                    b.ToTable("Streets", (string)null);
+                    b.ToTable("Streets");
                 });
 
             modelBuilder.Entity("Twins.Shared.Entities.WeekWorked", b =>
@@ -191,7 +245,7 @@ namespace Twins.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("WeekWorkeds", (string)null);
+                    b.ToTable("WeekWorkeds");
                 });
 
             modelBuilder.Entity("Twins.Shared.Entities.City", b =>
@@ -212,6 +266,25 @@ namespace Twins.Api.Migrations
                         .HasForeignKey("WeekWorkedId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("WeekWorked");
+                });
+
+            modelBuilder.Entity("Twins.Shared.Entities.PersonWeek", b =>
+                {
+                    b.HasOne("Twins.Shared.Entities.Person", "Person")
+                        .WithMany("Weeks")
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Twins.Shared.Entities.WeekWorked", "WeekWorked")
+                        .WithMany("Weeks")
+                        .HasForeignKey("WeekWorkedId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Person");
 
                     b.Navigation("WeekWorked");
                 });
@@ -248,6 +321,11 @@ namespace Twins.Api.Migrations
                     b.Navigation("States");
                 });
 
+            modelBuilder.Entity("Twins.Shared.Entities.Person", b =>
+                {
+                    b.Navigation("Weeks");
+                });
+
             modelBuilder.Entity("Twins.Shared.Entities.State", b =>
                 {
                     b.Navigation("Cities");
@@ -256,6 +334,8 @@ namespace Twins.Api.Migrations
             modelBuilder.Entity("Twins.Shared.Entities.WeekWorked", b =>
                 {
                     b.Navigation("Days");
+
+                    b.Navigation("Weeks");
                 });
 #pragma warning restore 612, 618
         }

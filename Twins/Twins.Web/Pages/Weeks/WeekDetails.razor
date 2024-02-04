@@ -64,7 +64,7 @@ else
 else
 {
     <h2>    Totasl Hours On the Week  @weekWorked.WeekNumber : { @totalHours.ToString("F2") } </h2>
-    <h2>Total To pay at the employed : {@totalPriceHoursDay.ToString("F2")}</h2>
+    <h2>Total To pay at the employed : {@totalPriceHoursDay.ToString("C2")}</h2>
 }
 
 @code {
@@ -100,40 +100,21 @@ else
 
         await LoadAcumDay();
     }
-        /*
-        private async Task LoadSumDay()
-        {
-        //Days!.ForEach(x => sum += x.TotalHours!);
-        double valhour = 0.0D;
-
-            @foreach (var day in Days!)
-            {
-            sum = (day.EndDay-day.StartDay);
-            sum = (sum + sum);
-            //list!.Add();
-            valhour = Convert.ToDouble(day.TotalHours) * 14.85;
-            totals += Convert.ToDouble(day.TotalHours);
-    }
-
-    }*/
     private async Task LoadAcumDay()
     {
-        //double totalHours = 0.0D;
-        List<double> totals = new List<double>(); // Lista para almacenar los totales de cada día
 
         foreach (var day in Days!)
         {
-            // Fix the nullable TimpeSpan? to TimeSpan
+            // Fixed the nullable TimpeSpan? to TimeSpan 
             if (day.StartDay.HasValue && day.EndDay.HasValue)
             {
-                double dayDurationInHours = (day.EndDay.Value - day.StartDay.Value).TotalHours;
+                double dayDurationInHours =   (day.EndDay.Value - day.StartDay.Value).TotalHours;
 
                 totalHours += dayDurationInHours;
 
                 double valhour = dayDurationInHours * 14.85;
                 totalPriceHoursDay += valhour;
 
-                totals.Add(valhour);
             }
             else
             {

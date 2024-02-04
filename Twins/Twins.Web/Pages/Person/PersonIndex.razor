@@ -1,0 +1,100 @@
+﻿@page "/persons"
+
+@inject IRepository repository;
+@inject NavigationManager nav;
+@inject SweetAlertService swl;
+
+<h3>Persons</h3>
+<a class="btn btn-primary" href="/persons/create"> New User</a>
+
+<GenericList MyList="Persons">
+
+    <Body>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var person in Persons!)
+                {
+                    <tr>
+
+                        <td>
+                            @person.Name
+                        </td>
+                        <td>
+                            @person.LastName
+                        </td>
+                        <td>
+                            @person.Email
+                        </td>
+                        <td>
+                            <a class="btn btn-info" href="/weeks/details/@person.Id">Details</a>
+                            <a class="btn btn-warning" href="/persons/edit/@person.Id">Edit</a>
+                            <button class="btn btn-danger" @onclick="(()=>DeletePersonAsync(person.Id))">Block User</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </Body>
+</GenericList>
+
+@code {
+    //Making Data index with Blazor :) . Remmeber create the reference
+    public List<Person>? Persons { get; set; }
+    private Person? person { get; set; }
+    //With metodo on , we get all the metadata abaout whatever Tmodel
+    protected override async Task OnInitializedAsync()
+    {
+        //Load metada list
+        await LoadAsync();
+    }
+    private async Task LoadAsync()
+    {
+        var responseHttp = await repository.Get<List<Person>>("/api/persons");
+        Persons = responseHttp.Response;
+    }
+
+    public async Task DeletePersonAsync(int id)
+    {
+        //Get metada to show in swl
+        var responseHttp = await repository.Get<Person>($"/api/persons/{id}");
+        person = responseHttp!.Response;
+        //Quesiton before remove
+        var result = await swl.FireAsync(
+            new SweetAlertOptions
+                {
+                    Title = "Confirm Block",
+                    Text = $"Are you sure abaout Delete this Week ? => {person!.Email}",
+                    Icon = SweetAlertIcon.Question,
+                    ShowCancelButton = true,
+                    CancelButtonText = "No",
+                    ConfirmButtonText = "Yes"
+                }
+        );
+        var confirmSwl = string.IsNullOrEmpty(result.Value);
+        if (confirmSwl)
+        {
+            return;
+        }
+        var responseHttpDelete = await repository.Delete($"/api/persons/{id}");
+
+        if (responseHttpDelete.Error)
+        {
+            if (responseHttpDelete.HttpResponseMessage.StatusCode != HttpStatusCode.NotFound)
+            {
+                var message = await responseHttpDelete.GetErrorMessageAsync();
+                await swl.FireAsync("Error", message, SweetAlertIcon.Error);
+                return;
+            }
+        }
+        await LoadAsync();
+    }
+}
