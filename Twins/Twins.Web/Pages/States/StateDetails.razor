@@ -3,7 +3,8 @@
 @inject NavigationManager nav
 @inject SweetAlertService swl
 
-@if(state is null){
+@if (state is null)
+{
     <p>Loading</p>
 }
 else
@@ -13,57 +14,69 @@ else
         <a class="btn btn-primary" href="/cities/create/@state.Id">New City</a>
         <a class="btn btn-success" href="/countries/details/@state.CountryId">Back</a>
     </div>
-}
-<GenericList MyList="Cities">
+    <Pagination CurrentPage="currentPage" TotalPages="totalPages" SelectedPage="SelectedPageAsycn" />
+    <GenericList MyList="Cities">
 
-    <Body>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-
-                    <th>Cities</th>
-                    <th>Streets</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var city in Cities!)
-                {
+        <Body>
+            <table class="table table-striped">
+                <thead>
                     <tr>
 
-                        <td>
-                            @city.Name
-                        </td>
-                        <td>
-                            @city.StreetsNumber
-                        </td>
-                        <td>
-                            <a class="btn btn-info" href="/cities/details/@city.Id">Details</a>
-                            <a class="btn btn-warning" href="/cities/edit/@city.Id">Edit</a>
-                            <button class="btn btn-danger" @onclick="(()=>CityDeleteAsync(city.Id))">Delete</button>
-                        </td>
+                        <th>Cities</th>
+                        <th>Streets</th>
+                        <th></th>
                     </tr>
-                }
-            </tbody>
-        </table>
-    </Body>
-</GenericList>
+                </thead>
+                <tbody>
+                    @foreach (var city in Cities!)
+                    {
+                        <tr>
 
-
+                            <td>
+                                @city.Name
+                            </td>
+                            <td>
+                                @city.StreetsNumber
+                            </td>
+                            <td>
+                                <a class="btn btn-info" href="/cities/details/@city.Id">Details</a>
+                                <a class="btn btn-warning" href="/cities/edit/@city.Id">Edit</a>
+                                <button class="btn btn-danger" @onclick="(()=>CityDeleteAsync(city.Id))">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </Body>
+    </GenericList>
+}
 @code {
 
     private State? state = new State();
     private City? city = new();
+    private int currentPage=1;
+    private int totalPages;
     [Parameter]
     public int Id { get; set; }
 
     public List<City>? Cities { get; set; }
+
+    private async Task SelectedPageAsycn(int page)
+    {
+        currentPage = page;
+        await LoadAsync(page);
+    }
+
     protected override async Task OnInitializedAsync()
     {
         await LoadAsync();
     }
-    private async Task LoadAsync()
+
+    private async Task LoadAsync(int page = 1)
     {
+        string urlDataCity = $"/api/cities?id={Id}&page={page}";
+        string urlPages = $"/api/cities/totalPages?id={Id}";
+
         var responHttpData = await repository.Get<State>($"/api/states/{Id}");
         if (responHttpData.Error)
         {
@@ -76,9 +89,23 @@ else
             await swl.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
+        var responseHttpcity = await repository.Get<List<City>>(urlDataCity);
+        if (responseHttpcity.Error)
+        {
+            if (responseHttpcity.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
+            {
+                nav.NavigateTo($"/states/details/{city!.StateId}");
+                return;
+            }
+            var message = await responseHttpcity.GetErrorMessageAsync();
+            await swl.FireAsync("Error Cities List", message,SweetAlertIcon.Error);
+        }
+        var responseHtttpPages = await repository.Get<int>(urlPages);
 
         state = responHttpData.Response;
-        Cities = state!.Cities!.ToList();
+        Cities = responseHttpcity.Response;
+        totalPages = responseHtttpPages.Response;
+        //Cities = state!.Cities!.ToList();
     }
     private async Task CityDeleteAsync(int id)
     {

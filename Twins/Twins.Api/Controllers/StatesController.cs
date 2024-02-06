@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Twins.Api.Data;
+using Twins.Api.Helpers;
+using Twins.Shared.DTOs;
 using Twins.Shared.Entities;
 
 namespace Twins.Api.Controllers
@@ -15,11 +17,26 @@ namespace Twins.Api.Controllers
         {
             _context = context;
         }
-        [HttpGet]
-        public async Task<IActionResult> StateGetAsync()
+        [HttpGet("totalPages")]
+        public async Task<IActionResult> GetPages([FromQuery] PaginationDTO pagination)
         {
-            return Ok(await _context.Statements
+            var queryable = _context.Statements
+                .Where(x => x.Country!.Id == pagination.Id)
+                .AsQueryable();
+            double count = await queryable.CountAsync();
+            double totalPages = Math.Ceiling(count/pagination.RecordsNumber);
+            return Ok(totalPages);
+        }
+        [HttpGet]
+        public async Task<IActionResult> StateGetAsync([FromQuery] PaginationDTO pagination)
+        {
+            var queryable = _context.Statements
                 .Include(s => s.Cities)
+                .Where(s => s.Country!.Id == pagination.Id)
+                .AsQueryable();
+            return Ok( await queryable
+                .OrderBy(s=>s.Name)
+                .Paginate(pagination)
                 .ToListAsync());
         }
 
