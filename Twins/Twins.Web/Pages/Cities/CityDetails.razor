@@ -14,16 +14,15 @@ else
         <a class="btn btn-primary" href="/streets/create/@city.Id">New Street</a>
         <a class="btn btn-success" href="/states/details/@city.StateId">Back</a>
     </div>
-}
+    <Pagination CurrentPage="currentPage" TotalPages="totalPage" SelectedPage="SelectPageAsync" /> 
 <GenericList MyList="Streets">
 
     <Body>
         <table class="table table-striped">
             <thead>
                 <tr>
-
-                    <th>Street</th>
-                    <th>Number</th>
+                    <th>Street Name</th>
+                    <th>Street Number</th>
                     <th>Zip Code Area</th>
                 </tr>
             </thead>
@@ -51,22 +50,32 @@ else
         </table>
     </Body>
 </GenericList>
-
+}
 
 @code {
 
     private Street? Street;
     private City? city;
+    private int totalPage;
+    private int currentPage=1;
     [Parameter]
     public int Id { get; set; }
 
     public List<Street>? Streets { get; set; }
+    public async Task SelectPageAsync(int page)
+    {
+        currentPage = page;
+        await LoadAsync(page);
+    }
     protected override async Task OnInitializedAsync()
     {
         await LoadAsync();
     }
-    private async Task LoadAsync()
+    private async Task LoadAsync(int page=1)
     {
+        var urlStreets = $"/api/streets?id={Id}&page{page}/";
+        var urlTotalPages = $"/api/streets/totalPages?id={Id}";
+
         var responHttpData = await repository.Get<City>($"/api/cities/{Id}");
         if (responHttpData.Error)
         {
@@ -80,8 +89,24 @@ else
             return;
         }
 
+        var responseHttpStreets = await repository.Get<List<Street>>(urlStreets);
+        if (responseHttpStreets.Error)
+        {
+            if (responseHttpStreets.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
+            {
+                nav.NavigateTo($"/cities/details/{Street!.CityId}");
+                return;
+            }
+            var message = await responseHttpStreets.GetErrorMessageAsync();
+            await swl.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+        var responseHttpTotalPages = await repository.Get<int>(urlTotalPages);
+
         city = responHttpData.Response;
-        Streets = city.Streets.ToList();
+        Streets = responseHttpStreets.Response;
+        totalPage = responseHttpTotalPages.Response;
+        //Streets = city.Streets.ToList();
     }
     private async Task StreetDeleteAsync(int id)
     {

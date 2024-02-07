@@ -31,8 +31,8 @@ namespace Twins.Api.Controllers
         public async Task<IActionResult> CityGetAsync([FromQuery] PaginationDTO pagination)
         {
             var queryable = _context.Cities
-                .Where(x => x.State!.Id == pagination.Id)
-                .Include(c=>c.Streets)
+                .Include(c => c.Streets)
+                .Where(x => x.State!.Id == pagination.Id)             
                 .AsQueryable();
             return Ok(await queryable
                 .OrderBy(x=>x.Name)
