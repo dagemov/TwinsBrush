@@ -3,44 +3,73 @@
 @inject IRepository repository;
 @inject NavigationManager nav;
 @inject SweetAlertService swl;
+@if (Categories is null)
+{
+    <div class="spinner"></div>
+}
+else
+{
 
-<h3>Categories </h3>
-<a class="btn btn-primary" href="/categories/create"> New Category</a>
-<GenericList MyList="Categories">
-    <Body>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Category</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var category in Categories!)
-                {
+    <h3>Categories </h3>
+    <a class="btn btn-primary" @onclick=@(()=>ShowModal())> New Category</a>
+    <GenericList MyList="Categories">
+        <Body>
+            <table class="table table-striped">
+                <thead>
                     <tr>
-                        <td>
-                            <a class="btn btn-warning" href="/categories/edit/@category.Id">Edit</a>
-                            <button class="btn btn-danger" @onclick="(()=>CategoryDeleteAsync(category.Id))">Delete</button>
-                        </td>
-                        <td>
-                            @category.Name
-                        </td>
+                        <th></th>
+                        <th>Category</th>
                     </tr>
-                }
-            </tbody>
-        </table>
-    </Body>
-</GenericList>
+                </thead>
+                <tbody>
+                    @foreach (var category in Categories!)
+                    {
+                        <tr>
+                            <td>
+                                <a class="btn btn-warning" @onclick=@(()=>ShowModal(category.Id,true))>Edit</a>
+                                <button class="btn btn-danger" @onclick="(()=>CategoryDeleteAsync(category.Id))">Delete</button>
+                            </td>
+                            <td>
+                                @category.Name
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </Body>
+    </GenericList>
+}
 @code {
     public List<Category>? Categories { get; set; }
 
     private Category? category;
+    //modal inyection
+    [CascadingParameter]
+    IModalService Modal { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
         //Load metada list
         await LoadAsync();
+    }
+    private async Task ShowModal(int id = 0, bool isEdit = false)
+    {
+        IModalReference modalReference;
+
+        if (isEdit)
+        {
+            modalReference = Modal.Show<CategoryEdit>(string.Empty, new ModalParameters().Add("CategoryId", id));
+        }
+        else
+        {
+            modalReference = Modal.Show<CategoryCreate>();
+        }
+
+        var result = await modalReference.Result;
+        if (result.Confirmed)
+        {
+            await LoadAsync();
+        }
     }
 
     public async Task LoadAsync()
@@ -69,7 +98,7 @@
         {
             return;
         }
-        var resultHttpDelete = await repository.Delete($"/api/categories/{id}");      
+        var resultHttpDelete = await repository.Delete($"/api/categories/{id}");
         if (resultHttpDelete.Error)
         {
             if (resultHttpDelete.HttpResponseMessage.StatusCode != HttpStatusCode.NotFound)

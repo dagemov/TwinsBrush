@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "Z45jfimIAQLGloGZoh+AaDo1DRCerYapSADBFKyWymcItwszIoDDkoF1OEYR0pK089F3/0dHU/i1Tn+PIxqo0g==",
+  "dgSpecHash": "xCLRQNuI3g6PFQXHortpEPqY3NF55WjOHy63Y9Vgkm1QA/qMq/7Ne+OPVeLTB6+RYYnOQZVgT+y5w+6okkqr+Q==",
   "success": true,
   "projectFilePath": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\Twins.Web.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\sebastian\\.nuget\\packages\\blazored.modal\\7.1.0\\blazored.modal.7.1.0.nupkg.sha512",
     "C:\\Users\\sebastian\\.nuget\\packages\\currietechnologies.razor.sweetalert2\\5.4.0\\currietechnologies.razor.sweetalert2.5.4.0.nupkg.sha512",
+    "C:\\Users\\sebastian\\.nuget\\packages\\fontawesome\\4.7.0\\fontawesome.4.7.0.nupkg.sha512",
     "C:\\Users\\sebastian\\.nuget\\packages\\microsoft.aspnetcore.authorization\\7.0.11\\microsoft.aspnetcore.authorization.7.0.11.nupkg.sha512",
     "C:\\Users\\sebastian\\.nuget\\packages\\microsoft.aspnetcore.components\\7.0.11\\microsoft.aspnetcore.components.7.0.11.nupkg.sha512",
     "C:\\Users\\sebastian\\.nuget\\packages\\microsoft.aspnetcore.components.analyzers\\7.0.11\\microsoft.aspnetcore.components.analyzers.7.0.11.nupkg.sha512",

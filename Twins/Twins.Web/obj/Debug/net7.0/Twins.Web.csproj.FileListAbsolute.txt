@@ -842,3 +842,8 @@ C:\WorkSpace\TwinsBrush\Twins\Twins.Web\bin\Debug\net7.0\wwwroot\_framework\Newt
 C:\WorkSpace\TwinsBrush\Twins\Twins.Web\bin\Debug\net7.0\wwwroot\_framework\Newtonsoft.Json.dll.gz
 C:\WorkSpace\TwinsBrush\Twins\Twins.Web\bin\Debug\net7.0\Newtonsoft.Json.dll
 C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\build-gz\JgVEySGb.gz
+C:\WorkSpace\TwinsBrush\Twins\Twins.Web\bin\Debug\net7.0\libman.json
+C:\WorkSpace\TwinsBrush\Twins\Twins.Web\bin\Debug\net7.0\wwwroot\_framework\Blazored.Modal.dll
+C:\WorkSpace\TwinsBrush\Twins\Twins.Web\bin\Debug\net7.0\wwwroot\_framework\Blazored.Modal.dll.gz
+C:\WorkSpace\TwinsBrush\Twins\Twins.Web\bin\Debug\net7.0\Blazored.Modal.dll
+C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\build-gz\wZtDSq95.gz

@@ -1,4 +1,4 @@
-﻿@page "/categories/edit/{Id:int}"
+﻿@page "/categories/edit/{CategoryId:int}"
 @inject IRepository repository
 @inject NavigationManager nav
 @inject SweetAlertService swl
@@ -22,6 +22,9 @@ else
     public int Id { get; set; }
     private Category? category;
     private CategoryForm? categoryForm;
+
+    [CascadingParameter]
+    BlazoredModalInstance BlazoredModal { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
@@ -49,6 +52,7 @@ else
             await swl.FireAsync("Error", messageErrorPut, SweetAlertIcon.Error);
             return;
         }
+        await BlazoredModal.CloseAsync(ModalResult.Ok());
         Return();
     }
     public void Return()

@@ -49,9 +49,17 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "Blazored.Modal": {
+              "target": "Package",
+              "version": "[7.1.0, )"
+            },
             "CurrieTechnologies.Razor.SweetAlert2": {
               "target": "Package",
               "version": "[5.4.0, )"
+            },
+            "FontAwesome": {
+              "target": "Package",
+              "version": "[4.7.0, )"
             },
             "Microsoft.AspNetCore.Components.WebAssembly": {
               "target": "Package",

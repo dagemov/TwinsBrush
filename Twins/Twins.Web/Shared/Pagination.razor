@@ -2,9 +2,10 @@
     <ul class="pagination">
         @foreach(var link in Links)
         {
-            <li @onclick=@(() => InternalSelectedPage(link)) style="cursor:pointer" 
+            
+            <li @onclick=@(() => InternalSelectedPage(link)) style="cursor:pointer"
                 class="page-item @(link.Enable?null:"disabled") @(link.Enable?"active":null)">
-                <a class="page-link">@link.Text</a>
+                <a class="page-link">@link.Text</a>               
             </li>
         }
     </ul>
@@ -21,6 +22,7 @@
     public int Radio { get; set; } = 5;
     [Parameter]
     public EventCallback<int> SelectedPage{ get; set; }
+
     List<PageModel> Links = new();
 
     class PageModel
@@ -32,7 +34,7 @@
     }
     private async Task InternalSelectedPage(PageModel pageModel)
     {
-        if (pageModel.Page == CurrentPage || pageModel.Page==0)
+        if (pageModel.Page == CurrentPage || pageModel.Page==0 )
         {
             return;
         }
@@ -43,6 +45,8 @@
         Links = new List<PageModel>();
         var previousLinkEnable = CurrentPage != 1;
         var previousLinkPage = CurrentPage - 1;
+
+
         Links.Add(new PageModel
         {
             Text="Anterior",
@@ -61,8 +65,13 @@
                 });
             }
         }
-        var linkNextEnable = CurrentPage != TotalPages;
+
+        var linkNextEnable = CurrentPage != TotalPages && TotalPages != CurrentPage;
         var linkNextPage = CurrentPage + 1;
+        if (CurrentPage >=TotalPages)
+        {
+            return;
+        }
         Links.Add(new PageModel
         {
             Text="Next",

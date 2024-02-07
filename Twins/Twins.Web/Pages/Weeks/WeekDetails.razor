@@ -105,7 +105,7 @@ else
 
         foreach (var day in Days!)
         {
-            // Fixed the nullable TimpeSpan? to TimeSpan 
+            //TODO: Fixed the nullable TimpeSpan? to TimeSpan 
             if (day.StartDay.HasValue && day.EndDay.HasValue)
             {
                 double dayDurationInHours =   (day.EndDay.Value - day.StartDay.Value).TotalHours;
