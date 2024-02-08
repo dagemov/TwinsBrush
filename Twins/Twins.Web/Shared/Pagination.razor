@@ -60,11 +60,11 @@
                 if (i >= CurrentPage - Radio && i <= CurrentPage + Radio)
                 {
                     Links.Add(new PageModel
-                    {
+                        {
                             Page = i,
                             Enable = CurrentPage == i,
                             Text = $"{i}"
-                    });
+                        });
                 }
             }
             else
@@ -72,13 +72,31 @@
                 if (i >= CurrentPage - Radio && i <= 10)
                 {
                     Links.Add(new PageModel
-                    {
+                        {
                             Page = i,
                             Enable = CurrentPage == i,
                             Text = $"{i}"
-                    });
+                        });
                 }
+                if (i>10)
+                {
+                    if (i > CurrentPage - 10 && i < CurrentPage + 10)
+                    {
+                        if (CurrentPage > Radio && i > CurrentPage - Radio && i <= CurrentPage)
+                        {
+                            Links.Add(new PageModel
+                                {
+                                    Page = i,
+                                    Enable = CurrentPage == i,
+                                    Text = $"{i}"
+                                });
+                        }
+
+                    }
+                }
+                
             }
+            
 
         }
 
