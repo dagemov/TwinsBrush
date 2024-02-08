@@ -5,7 +5,19 @@
 @inject SweetAlertService swl;
 
 <h3>Countries</h3>
-<a class="btn btn-primary" href="/countries/create"> New Country</a>
+<div class="mb-2" style="display: flex; flex-wrap:wrap; align-items: center;">
+    <div>
+        <a class="btn btn-primary" href="/countries/create">New Country</a>
+    </div>
+    <div class="mx-2">
+        <input style="width: 400px;" type="text" class="form-control" id="titulo" placeholder="Buscar país..." @bind-value="Filter" />
+    </div>
+    <div>
+        <button type="button" class="btn btn-outline-primary" @onclick="ApplyFilterAsync">Filter</button>
+        <button type="button" class="btn btn-outline-danger" @onclick="CleanFilterAsync">Clear</button>
+    </div>
+</div>
+
 <Pagination CurrentPage="currentPage" TotalPages="1" SelectedPage="SelectedPageAsync" />
 <GenericList MyList="Countries">
 
@@ -49,6 +61,14 @@
     private int currentPage = 1;
     private int totalPages;
 
+    [Parameter]
+    [SupplyParameterFromQuery]// when we change the pag , we don't gonna lose the filter or the page
+    public string Page { get; set; } = string.Empty;
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string Filter { get; set; } = string.Empty;
+
     //With metodo on , we get all the metadata abaout whatever Tmodel
     protected override async Task OnInitializedAsync()
     {
@@ -58,9 +78,26 @@
 
     private async Task LoadAsync(int page = 1)
     {
-        string urlDataCountries = $"api/countries?page={page}";
-        string urlTotalPages = $"api/countries/totalPages";
+        if (!string.IsNullOrWhiteSpace(Page))
+        {
+            page = Convert.ToInt32(Page);// if we get Page from the queryString , asum that Page and convert to int
+        }
 
+        string urlDataCountries = string.Empty;
+        string urlTotalPages = string.Empty;
+
+        if (string.IsNullOrEmpty(Filter))
+        {
+            urlDataCountries = $"api/countries?page={page}";
+            urlTotalPages = $"api/countries/totalPages";
+        }
+        else
+        {
+            urlDataCountries = $"api/countries?page={page}&filter={Filter}";
+            urlTotalPages = $"api/countries/totalPages?filter={Filter}";
+        }
+
+       
         var responseHttpData = await repository.Get<List<Country>>(urlDataCountries);
         var responseHttpPage = await repository.Get<int>(urlTotalPages);
 
@@ -109,4 +146,18 @@
         }
         await LoadAsync();
     }
+
+    private async Task CleanFilterAsync()
+    {
+        Filter = string.Empty;
+        await ApplyFilterAsync();
+    }
+
+    private async Task ApplyFilterAsync()
+    {
+        int page = 1;
+        await LoadAsync(page);
+        await SelectedPageAsync(page);
+    }
+
 }

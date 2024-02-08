@@ -21,6 +21,12 @@ namespace Twins.Api.Controllers
         public async Task<IActionResult> GetPages([FromQuery] PaginationDTO pagination)
         {
             var queryable = _context.Countries.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(pagination.Filter))
+            {
+                queryable = queryable.Where(x => x.Name.ToLower().Contains(pagination.Filter.ToLower()));
+            }
+
             double count = await queryable.CountAsync();
             double totalPages  = Math.Ceiling(count/pagination.RecordsNumber);
             return Ok(totalPages);
@@ -32,7 +38,12 @@ namespace Twins.Api.Controllers
             var queryable=_context.Countries
                 .Include(c=>c.States)
                 .AsQueryable();
-                
+
+            if (!string.IsNullOrWhiteSpace(pagination.Filter))
+            {
+                queryable = queryable.Where(x => x.Name.ToLower().Contains(pagination.Filter.ToLower()));
+            }
+
             return Ok(await queryable
                 .OrderBy(x=>x.Name)
                 .Paginate(pagination)
