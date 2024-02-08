@@ -10,9 +10,16 @@
 else
 {
     <h3>@city.Name Details</h3>
-    <div class="mb-3">
+    <div class="mb-2" style="display: flex; flex-wrap:wrap; align-items: center;">
         <a class="btn btn-primary" href="/streets/create/@city.Id">New Street</a>
         <a class="btn btn-success" href="/states/details/@city.StateId">Back</a>
+        <div class="mx-2">
+            <input style="width: 400px;" type="text" class="form-control" id="titulo" placeholder="Search Street" @bind-value="Filter" />
+        </div>
+        <div>
+            <button type="button" class="btn btn-outline-primary" @onclick="ApplyFilterAsync">Filter</button>
+            <button type="button" class="btn btn-outline-danger" @onclick="CleanFilterAsync">Clean</button>
+        </div>
     </div>
     <Pagination CurrentPage="currentPage" TotalPages="totalPage" SelectedPage="SelectPageAsync" /> 
 <GenericList MyList="Streets">
@@ -61,6 +68,14 @@ else
     [Parameter]
     public int Id { get; set; }
 
+    [Parameter]
+    [SupplyParameterFromQuery]// when we change the pag , we don't gonna lose the filter or the page
+    public string Page { get; set; } = string.Empty;
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string Filter { get; set; } = string.Empty;
+
     public List<Street>? Streets { get; set; }
     public async Task SelectPageAsync(int page)
     {
@@ -73,9 +88,23 @@ else
     }
     private async Task LoadAsync(int page=1)
     {
-        var urlStreets = $"/api/streets?id={Id}&page{page}/";
-        var urlTotalPages = $"/api/streets/totalPages?id={Id}";
+        if (!string.IsNullOrWhiteSpace(Page))
+        {
+            page = Convert.ToInt32(Page);
+        }
+        var urlStreets = string.Empty;
+        var urlTotalPages = string.Empty; 
 
+        if (string.IsNullOrEmpty(Filter))
+        {
+            urlStreets = $"/api/streets?id={Id}&page{page}/";
+            urlTotalPages = $"/api/streets/totalPages?id={Id}";
+        }
+        else
+        {
+            urlStreets = $"/api/streets?id={Id}&page={page}&filter={Filter}";
+            urlTotalPages = $"/api/streets/totalPages?id={Id}&filter={Filter}";
+        }
         var responHttpData = await repository.Get<City>($"/api/cities/{Id}");
         if (responHttpData.Error)
         {
@@ -151,5 +180,17 @@ else
             return;
         }
         await LoadAsync();
+    }
+    private async Task CleanFilterAsync()
+    {
+        Filter = string.Empty;
+        await ApplyFilterAsync();
+    }
+
+    private async Task ApplyFilterAsync()
+    {
+        int page = 1;
+        await LoadAsync(page);
+        await SelectPageAsync(page);
     }
 }

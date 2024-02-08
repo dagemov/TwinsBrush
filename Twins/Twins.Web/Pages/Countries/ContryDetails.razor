@@ -9,10 +9,20 @@
 else
 {
    <h3>Details @country.Name</h3>
-   <div class="mb-3">
-        <a class="btn btn-primary" href="/states/create/@country.Id">New State</a>
-        <a class="btn btn-success" href="/countries">Back</a>
-   </div>   
+    <div class="mb-2" style="display: flex; flex-wrap:wrap; align-items: center;">
+        <div>
+            <a class="btn btn-primary" href="/states/create/@country.Id">New State</a>
+            <a class="btn btn-success" href="/countries">Back</a>
+        </div>
+        <div class="mx-2">
+            <input style="width: 400px;" type="text" class="form-control" id="titulo" placeholder="Search State" @bind-value="Filter" />
+        </div>
+        <div>
+            <button type="button" class="btn btn-outline-primary" @onclick="ApplyFilterAsync">Filter</button>
+            <button type="button" class="btn btn-outline-danger" @onclick="CleanFilterAsync">Clean</button>
+        </div>
+    </div>
+
    <Pagination CurrentPage="currentPage" TotalPages="totalPages" SelectedPage="SelectedPageAsycn"/>
 
 <GenericList MyList="states">
@@ -61,6 +71,15 @@ else
     [Parameter]
     public int Id { get; set; }
 
+    
+    [Parameter]
+    [SupplyParameterFromQuery]// when we change the pag , we don't gonna lose the filter or the page
+    public string Page { get; set; } = string.Empty;
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string Filter { get; set; } = string.Empty;
+
     private async Task SelectedPageAsycn(int page)
     {
         currentPage = page;
@@ -72,9 +91,24 @@ else
     }
     private async Task LoadAsync(int page = 1)
     {
-        string urlDataState = $"/api/states?id={Id}&page={page}";
-        string urlPages = $"/api/states/totalPages?id={Id}";                     
-       
+        if (!string.IsNullOrWhiteSpace(Page))
+        {
+            page = Convert.ToInt32(Page);
+        }
+        string urlDataState = string.Empty;
+        string urlPages = string.Empty;
+
+        if (string.IsNullOrEmpty(Filter))
+        {
+            urlDataState = $"api/states?id={Id}&page={page}";
+            urlPages = $"api/states/totalPages?id={Id}";
+        }
+        else
+        {
+            urlDataState = $"api/states?id={Id}&page={page}&filter={Filter}";
+            urlPages = $"api/states/totalPages?id={Id}&filter={Filter}";
+        }
+                                 
         var responseHttpData = await repository.Get<Country>($"/api/countries/{Id}");
         if (responseHttpData.Error)
         {
@@ -154,4 +188,17 @@ else
         }
         await LoadAsync();
     }
+    private async Task CleanFilterAsync()
+    {
+        Filter = string.Empty;
+        await ApplyFilterAsync();
+    }
+
+    private async Task ApplyFilterAsync()
+    {
+        int page = 1;
+        await LoadAsync(page);
+        await SelectedPageAsycn(page);
+    }
+
 }

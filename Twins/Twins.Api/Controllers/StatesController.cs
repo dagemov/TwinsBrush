@@ -23,6 +23,13 @@ namespace Twins.Api.Controllers
             var queryable = _context.Statements
                 .Where(x => x.Country!.Id == pagination.Id)
                 .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(pagination.Filter))
+            {
+                queryable = queryable.Where(x => x.Name.ToLower().Contains(pagination.Filter.ToLower()));
+            }
+
+
             double count = await queryable.CountAsync();
             double totalPages = Math.Ceiling(count/pagination.RecordsNumber);
             return Ok(totalPages);
@@ -34,6 +41,13 @@ namespace Twins.Api.Controllers
                 .Include(s => s.Cities)
                 .Where(s => s.Country!.Id == pagination.Id)
                 .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(pagination.Filter))
+            {
+                queryable = queryable.Where(x => x.Name.ToLower().Contains(pagination.Filter.ToLower()));
+            }
+
+
             return Ok( await queryable
                 .OrderBy(s=>s.Name)
                 .Paginate(pagination)
