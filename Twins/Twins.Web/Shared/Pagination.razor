@@ -2,9 +2,8 @@
     <ul class="pagination">
         @foreach (var link in Links)
         {
-
-            <li @onclick=@(() => InternalSelectedPage(link)) style="cursor:pointer"
-                class="page-item @(link.Enable?null:"disabled") @(link.Enable?"active":null)">
+            <li @onclick="@(() => InternalSelectedPage(link))" style="cursor:pointer"
+                class="page-item @(link.Enable ? null : "disabled") @(link.Active ? "active" : null)">
                 <a class="page-link">@link.Text</a>
             </li>
         }
@@ -40,12 +39,11 @@
         }
         await SelectedPage.InvokeAsync(pageModel.Page);
     }
-    protected override void OnParametersSet() // This loading when the parameter are charged on the web , so for it is diferent at the OnInizialite
+    protected override void OnParametersSet()
     {
         Links = new List<PageModel>();
         var previousLinkEnable = CurrentPage != 1;
         var previousLinkPage = CurrentPage - 1;
-
 
         Links.Add(new PageModel
             {
@@ -53,64 +51,38 @@
                 Page = previousLinkPage,
                 Enable = previousLinkEnable
             });
-        for (int i = 1; i <= TotalPages; i++)
+
+        int startPage;
+        int endPage;
+
+        // Calulate Start and end Buttons size in this case 10 in 10
+        startPage = ((CurrentPage - 1) / 10) * 10 + 1;
+        endPage = Math.Min(startPage + 9, TotalPages);
+
+        // Load buttons every 10 each + example we are in the number 10 and we press next
+        //remember OnParameterSet is a cicle , so for that we only need 1 for 
+        for (int i = startPage; i <= endPage; i++)
         {
-            if (TotalPages < 10)
-            {
-                if (i >= CurrentPage - Radio && i <= CurrentPage + Radio)
+            Links.Add(new PageModel
                 {
-                    Links.Add(new PageModel
-                        {
-                            Page = i,
-                            Enable = CurrentPage == i,
-                            Text = $"{i}"
-                        });
-                }
-            }
-            else
-            {
-                if (i >= CurrentPage - Radio && i <= 10)
-                {
-                    Links.Add(new PageModel
-                        {
-                            Page = i,
-                            Enable = CurrentPage == i,
-                            Text = $"{i}"
-                        });
-                }
-                if (i>10)
-                {
-                    if (i > CurrentPage - 10 && i < CurrentPage + 10)
-                    {
-                        if (CurrentPage > Radio && i > CurrentPage - Radio && i <= CurrentPage)
-                        {
-                            Links.Add(new PageModel
-                                {
-                                    Page = i,
-                                    Enable = CurrentPage == i,
-                                    Text = $"{i}"
-                                });
-                        }
-
-                    }
-                }
-                
-            }
-            
-
+                    Page = i,
+                    Enable = true,
+                    Active = CurrentPage == i,
+                    Text = $"{i}"
+                });
         }
 
         var linkNextEnable = CurrentPage != TotalPages && TotalPages != CurrentPage;
         var linkNextPage = CurrentPage + 1;
-        if (CurrentPage >= TotalPages)
+
+        if (CurrentPage < TotalPages)
         {
-            return;
+            Links.Add(new PageModel
+                {
+                    Text = "Next",
+                    Page = linkNextPage,
+                    Enable = linkNextEnable
+                });
         }
-        Links.Add(new PageModel
-            {
-                Text = "Next",
-                Page = linkNextPage,
-                Enable = linkNextEnable
-            });
     }
 }
