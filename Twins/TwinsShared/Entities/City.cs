@@ -18,6 +18,8 @@ namespace Twins.Shared.Entities
         public int StateId { get; set; }
         public State? State { get; set; }
         public ICollection<Street>? Streets { get; set; }
+        public ICollection<User>? Users { get; set; }
+        public int UsersNumber=> Users == null? 0: Users.Count();
         public int StreetsNumber => Streets == null ? 0 : Streets.Count;
     }
 }

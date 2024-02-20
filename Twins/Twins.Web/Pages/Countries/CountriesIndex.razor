@@ -43,9 +43,9 @@
                             @country.StatesNumber
                         </td>
                         <td>
-                            <a class ="btn btn-info" href="/countries/details/@country.Id">Details</a>
-                            <a class="btn btn-warning" href="/countries/edit/@country.Id">Edit</a>
-                            <button class="btn btn-danger" @onclick="(()=>CountryDeleteAsync(country.Id))">Delete</button>
+                            <a class="btn btn-info oi oi-info" aria-hidden="true" style="cursor:pointer" href="/countries/details/@country.Id"></a>
+                            <a aria-hidden="true" class="btn btn-warning oi oi-pencil" href="/countries/edit/@country.Id"></a>
+                            <button aria-hidden="true" class="btn btn-danger oi oi-trash" @onclick="(()=>CountryDeleteAsync(country.Id))"></button>
                         </td>
                     </tr>
                 }

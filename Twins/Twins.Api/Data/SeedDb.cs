@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Twins.Api.Helpers;
+using Twins.Api.Helpers.Interfaces;
 using Twins.Api.Services;
 using Twins.Shared.Entities;
 using Twins.Shared.Responses;
@@ -9,19 +11,57 @@ namespace Twins.Api.Data
     {
         private readonly DataContext _context;
         private readonly IApiService _apiService;
+        private readonly IUserHelper _userHelper;
 
-        public SeedDb(DataContext context, IApiService apiService)
+        public SeedDb(DataContext context, IApiService apiService,IUserHelper userHelper)
         {
             _context = context;
             _apiService = apiService;
+            _userHelper = userHelper;
         }
         public async Task SeedAsync()
         {
             await _context.Database.EnsureCreatedAsync();//Update database
-            await CheckCountriesAsync();
 
+            await CheckCountriesAsync();
             await CheckCategoriesAsync();
+
+            await CheckRolesAsync();
+            await CheckUserAsync("1010", "Sebastian", "Martinez", "Dagemov1@yopmail.com", "2039234322", UserType.Admin);
+
         }
+
+        private async Task<User> CheckUserAsync(string Document, string FirstName, string LastName, string Email, string PhoneNumber, UserType userType)
+        {
+           var user = await _userHelper.GetUserAsync(Email);
+            if (user == null)
+            {
+                user = new User
+                {
+                    Documment=Document,
+                    FirstName = FirstName,
+                    LastName = LastName,
+                    Email = Email,
+                    PhoneNumber = PhoneNumber,
+                    UserName = Email,
+                    UserType = userType,
+                    City = _context.Cities.FirstOrDefault(),
+                };
+                await _userHelper.AddUserAsync(user, "123456");
+                await _userHelper.AddUserToRoleAsync(user, userType.ToString());
+
+            }
+            return user;
+        }
+
+        private async Task CheckRolesAsync()
+        {
+            await _userHelper.CheckRoleAsync(UserType.Admin.ToString());
+            await _userHelper.CheckRoleAsync(UserType.User.ToString());
+            await _userHelper.CheckRoleAsync(UserType.Employed.ToString());
+
+        }
+
         private async Task CheckCategoriesAsync()
         {
             if (!_context.Categories.Any())
