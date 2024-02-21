@@ -152,6 +152,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcV2Vla3NcV2Vla3NJbmRleC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/WorkSpace/TwinsBrush/Twins/Twins.Web/Shared/AuthLinks.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEF1dGhMaW5rcy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/WorkSpace/TwinsBrush/Twins/Twins.Web/Shared/GenericList.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEdlbmVyaWNMaXN0LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 

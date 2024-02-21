@@ -19,7 +19,12 @@ builder.Services.AddScoped<AuthenticationStateProvider, AuthenticationProviderTe
 
 
 builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7170/") });// api url  => https://localhost:7170/
+
 builder.Services.AddScoped<IRepository,Repository>();
+
+builder.Services.AddScoped<AuthenticationProviderJWT>();
+builder.Services.AddScoped<AuthenticationStateProvider, AuthenticationProviderJWT>(x => x.GetRequiredService<AuthenticationProviderJWT>());
+builder.Services.AddScoped<ILoginService, AuthenticationProviderJWT>(x => x.GetRequiredService<AuthenticationProviderJWT>());
 
 
 await builder.Build().RunAsync();

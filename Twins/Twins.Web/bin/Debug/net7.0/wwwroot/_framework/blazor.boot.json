@@ -41,9 +41,14 @@
       "Microsoft.Extensions.Logging.Abstractions.dll": "sha256-7mzUlhcvGxpAVO4h\/Tka7P\/8IXF9ZsHkGt0fp5aufkU=",
       "Microsoft.Extensions.Options.dll": "sha256-gcHJrSv1wTqvF9SyWTEKcbiShn4mkgfnm9+tRQr4OqY=",
       "Microsoft.Extensions.Primitives.dll": "sha256-q4ruoDSCjV\/QJY9ZkzV6uxvEvZUVrDbyUjU3SSh5SlE=",
+      "Microsoft.IdentityModel.Abstractions.dll": "sha256-VSg3C8MFOpe8mO9PC70KOGEcPFLKskSTPN5T2FxC2YU=",
+      "Microsoft.IdentityModel.JsonWebTokens.dll": "sha256-5RHBeDQH3zxmqz51wSbuqpCj9bknzPKaD1iUplaEWT8=",
+      "Microsoft.IdentityModel.Logging.dll": "sha256-fNFjLrY8b1Jg0y58X5GaougRs+fNx1t5HrJKACNYXqo=",
+      "Microsoft.IdentityModel.Tokens.dll": "sha256-7FXsVrdz4TyGVj0aDJIp7F44dyzVytPogxKHw2YwN0w=",
       "Microsoft.JSInterop.dll": "sha256-hytr5pqieVqq2IfucnWW9rAUb\/motnp3OOgNC48Gvgc=",
       "Microsoft.JSInterop.WebAssembly.dll": "sha256-UUzI4G04TERG+l+eVxA6xr\/kf7b1\/zAfmIpQFoAUXYw=",
       "Newtonsoft.Json.dll": "sha256-SBbEJ29XXk2FuAYzoN8urfKUlv4AvcM814Q+YTc73g4=",
+      "System.IdentityModel.Tokens.Jwt.dll": "sha256-sELtjHRI5SSTQG7W\/M09j+ysmzGKg83FTYJrApGh\/ek=",
       "System.IO.Pipelines.dll": "sha256-P\/MqD0fCBd5bgTM16JC1QC\/Zz7s+CwViyzmDFkBG4\/c=",
       "Microsoft.CSharp.dll": "sha256-Gvu0ys3sPcXXThnuUy8Z3\/uWnOTZ3pUq4N8YecQxUkg=",
       "Microsoft.VisualBasic.Core.dll": "sha256-NgHi32oNWYqlx3qh9Ymr25vNbGYqSUHO97hvnaMjAmI=",
@@ -214,14 +219,14 @@
       "netstandard.dll": "sha256-Cr6slBs\/R2v2t\/vecFDHbQHakbEhar0adYu0YemwiXI=",
       "System.Private.CoreLib.dll": "sha256-dDw5nzGJhW1jOjGfSJcs\/Mi4KQ+DZygXnoK+vJ+jHyk=",
       "Twins.Shared.dll": "sha256-wZwLYKsTLtf593aMHNUH7fStwOtG7jFHybaGkCNXUfI=",
-      "Twins.Web.dll": "sha256-rSFtZ8qx+DayusvVkaazNeO5ClHsnGFW6a2MVSKOuJo="
+      "Twins.Web.dll": "sha256-d+CvHS1V0t0d8X2o\/La2xcGfCwl0L4So0ISXs3S0\/TY="
     },
     "extensions": null,
     "lazyAssembly": null,
     "libraryInitializers": null,
     "pdb": {
       "Twins.Shared.pdb": "sha256-uNxB4u29xtPEK5sOHNfEzKIJUwndZBGVKxtg4La2c7E=",
-      "Twins.Web.pdb": "sha256-uaHVNhD7\/7M7CtQxe9IkX9IbxpRbPUSBuoEqKa5vDJ4="
+      "Twins.Web.pdb": "sha256-S9ShK8+YuaXwIz0oni9MsJDlgYweCnN0zF9F\/uh\/+TQ="
     },
     "runtime": {
       "dotnet.7.0.11.136qeoldaf.js": "sha256-RtIVigdAD1mUvR4pxoKyD8kcQgw4INP81v+PVSqkeQY=",
