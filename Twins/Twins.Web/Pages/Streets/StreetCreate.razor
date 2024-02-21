@@ -2,7 +2,7 @@
 @inject IRepository repository
 @inject NavigationManager nav
 @inject SweetAlertService swl
-
+@attribute [Authorize(Roles = "Admin,Employed")]
 
 <h3>Create new Street</h3>
 <StreetForm @ref="streetForm" Street="street" OnValidSubmit="CityCreateAsync" ReturnAction="Return"></StreetForm>

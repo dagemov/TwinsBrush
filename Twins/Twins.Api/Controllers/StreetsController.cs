@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Twins.Api.Data;
 using Twins.Api.Helpers;
@@ -9,6 +11,7 @@ namespace Twins.Api.Controllers
 {
     [ApiController]
     [Route("/api/streets")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class StreetsController : ControllerBase
     {
         private readonly DataContext _context;

@@ -4,6 +4,8 @@
 @inject NavigationManager nav
 @inject SweetAlertService swl
 
+@attribute [Authorize(Roles = "Admin")]
+
 <h3>Edit Country : @country!.Name</h3> 
 
 

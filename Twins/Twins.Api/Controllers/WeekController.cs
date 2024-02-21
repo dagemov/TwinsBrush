@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using Twins.Api.Data;
@@ -8,6 +10,7 @@ namespace Twins.Api.Controllers
 {
     [ApiController]
     [Route("/api/weeks")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class WeekController:ControllerBase
     {
         private readonly DataContext _context;

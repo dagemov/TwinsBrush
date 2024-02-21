@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "jEIAxGMwG7rb7JtmpQKo2lhI4xrXHRzcK64QSORFj24=",
+  "Hash": "wXZnlrr0TOcRelStHcVQcpsVf5+XR6HHSVRMUU5ako8=",
   "Source": "Twins.Web",
   "BasePath": "/",
   "Mode": "Root",
@@ -629,6 +629,23 @@
       "OriginalItemSpec": "C:\\Users\\sebastian\\.nuget\\packages\\currietechnologies.razor.sweetalert2\\5.4.0\\staticwebassets\\wordpressAdminTheme.min.js"
     },
     {
+      "Identity": "C:\\Users\\sebastian\\.nuget\\packages\\microsoft.aspnetcore.components.webassembly.authentication\\7.0.2\\staticwebassets\\AuthenticationService.js",
+      "SourceId": "Microsoft.AspNetCore.Components.WebAssembly.Authentication",
+      "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\sebastian\\.nuget\\packages\\microsoft.aspnetcore.components.webassembly.authentication\\7.0.2\\staticwebassets\\",
+      "BasePath": "_content/Microsoft.AspNetCore.Components.WebAssembly.Authentication",
+      "RelativePath": "AuthenticationService.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "C:\\Users\\sebastian\\.nuget\\packages\\microsoft.aspnetcore.components.webassembly.authentication\\7.0.2\\staticwebassets\\AuthenticationService.js"
+    },
+    {
       "Identity": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\_framework\\blazor.boot.json",
       "SourceId": "Twins.Web",
       "SourceType": "Computed",
@@ -833,6 +850,23 @@
       "OriginalItemSpec": "C:\\Users\\sebastian\\.nuget\\packages\\microsoft.aspnetcore.authorization\\7.0.11\\lib\\net7.0\\Microsoft.AspNetCore.Authorization.dll"
     },
     {
+      "Identity": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\_framework\\Microsoft.AspNetCore.Components.Authorization.dll",
+      "SourceId": "Twins.Web",
+      "SourceType": "Computed",
+      "ContentRoot": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\",
+      "BasePath": "/",
+      "RelativePath": "_framework/Microsoft.AspNetCore.Components.Authorization.dll",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "BlazorWebAssemblyResource",
+      "AssetTraitValue": "runtime",
+      "CopyToOutputDirectory": "PreserveNewest",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "C:\\Users\\sebastian\\.nuget\\packages\\microsoft.aspnetcore.components.authorization\\7.0.2\\lib\\net7.0\\Microsoft.AspNetCore.Components.Authorization.dll"
+    },
+    {
       "Identity": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\_framework\\Microsoft.AspNetCore.Components.dll",
       "SourceId": "Twins.Web",
       "SourceType": "Computed",
@@ -882,6 +916,23 @@
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "C:\\Users\\sebastian\\.nuget\\packages\\microsoft.aspnetcore.components.web\\7.0.11\\lib\\net7.0\\Microsoft.AspNetCore.Components.Web.dll"
+    },
+    {
+      "Identity": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\_framework\\Microsoft.AspNetCore.Components.WebAssembly.Authentication.dll",
+      "SourceId": "Twins.Web",
+      "SourceType": "Computed",
+      "ContentRoot": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\",
+      "BasePath": "/",
+      "RelativePath": "_framework/Microsoft.AspNetCore.Components.WebAssembly.Authentication.dll",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "BlazorWebAssemblyResource",
+      "AssetTraitValue": "runtime",
+      "CopyToOutputDirectory": "PreserveNewest",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "C:\\Users\\sebastian\\.nuget\\packages\\microsoft.aspnetcore.components.webassembly.authentication\\7.0.2\\lib\\net7.0\\Microsoft.AspNetCore.Components.WebAssembly.Authentication.dll"
     },
     {
       "Identity": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\_framework\\Microsoft.AspNetCore.Components.WebAssembly.dll",
@@ -5525,6 +5576,23 @@
       "OriginalItemSpec": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\_framework\\System.Formats.Asn1.dll"
     },
     {
+      "Identity": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\obj\\Debug\\net7.0\\build-gz\\en0PSqQl.gz",
+      "SourceId": "Twins.Web",
+      "SourceType": "Computed",
+      "ContentRoot": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\",
+      "BasePath": "/",
+      "RelativePath": "_framework/Microsoft.AspNetCore.Components.Authorization.dll.gz",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "RelatedAsset": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\_framework\\Microsoft.AspNetCore.Components.Authorization.dll",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "CopyToOutputDirectory": "PreserveNewest",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\_framework\\Microsoft.AspNetCore.Components.Authorization.dll"
+    },
+    {
       "Identity": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\obj\\Debug\\net7.0\\build-gz\\eOua33FO.gz",
       "SourceId": "Twins.Web",
       "SourceType": "Computed",
@@ -6254,6 +6322,23 @@
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\_framework\\System.Runtime.Serialization.dll"
+    },
+    {
+      "Identity": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\obj\\Debug\\net7.0\\build-gz\\LJc+eIU7.gz",
+      "SourceId": "Twins.Web",
+      "SourceType": "Computed",
+      "ContentRoot": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\",
+      "BasePath": "/",
+      "RelativePath": "_framework/Microsoft.AspNetCore.Components.WebAssembly.Authentication.dll.gz",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "RelatedAsset": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\_framework\\Microsoft.AspNetCore.Components.WebAssembly.Authentication.dll",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "CopyToOutputDirectory": "PreserveNewest",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\bin\\Debug\\net7.0\\wwwroot\\_framework\\Microsoft.AspNetCore.Components.WebAssembly.Authentication.dll"
     },
     {
       "Identity": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\obj\\Debug\\net7.0\\build-gz\\LtCocr2d.gz",

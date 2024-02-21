@@ -2,6 +2,7 @@
 @inject IRepository repository
 @inject NavigationManager nav
 @inject SweetAlertService swl
+@attribute [Authorize(Roles = "Admin")]
 <h3>Category Edit</h3>
 
 <h3>Edit Categor : @category!.Name</h3>

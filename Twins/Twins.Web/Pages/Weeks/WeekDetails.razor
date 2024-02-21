@@ -2,7 +2,7 @@
 @inject IRepository repository
 @inject NavigationManager nav
 @inject SweetAlertService swl
-
+@attribute [Authorize(Roles = "Admin,Employed")]
 @if (weekWorked is null)
 {
     <p>Loading...</p>

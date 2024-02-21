@@ -2,7 +2,7 @@
 @inject IRepository repository
 @inject NavigationManager nav
 @inject SweetAlertService swl
-
+@attribute [Authorize(Roles = "Admin")]
 <h3>Create new Country</h3>
 
 <WeekForm @ref="weekForm" WeekWorked="weekWorked" OnValidSubmit="CreateAsync" ReturnAction="Return" />

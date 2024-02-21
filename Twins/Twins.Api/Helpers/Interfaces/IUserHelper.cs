@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Twins.Shared.DTOs;
 using Twins.Shared.Entities;
 
 namespace Twins.Api.Helpers.Interfaces
@@ -10,5 +11,10 @@ namespace Twins.Api.Helpers.Interfaces
         Task<bool> IsUserInRoleAsync(User user, string roleName);
         Task<User> GetUserAsync(string email);
         Task CheckRoleAsync(string roleName);
+
+        Task<SignInResult> LoginAsync(LoginDTO model);
+
+        Task LogoutAsync();
+
     }
 }

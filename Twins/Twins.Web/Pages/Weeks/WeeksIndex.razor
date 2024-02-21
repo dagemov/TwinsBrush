@@ -3,7 +3,7 @@
 @inject IRepository repository;
 @inject NavigationManager nav;
 @inject SweetAlertService swl;
-
+@attribute [Authorize(Roles = "Admin,Employed")]
 <h3>Weeks</h3>
 <a class="btn btn-primary" href="/weeks/create"> New week</a>
 
