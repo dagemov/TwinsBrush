@@ -1,11 +1,11 @@
 ﻿<AuthorizeView>
     <Authorized>
-        <span>Hello, @context.User.Identity!.Name</span>
-        <a href="Logout" class="nav-link btn btn-link oi oi-account-logout"> Logout</a>
+        <span aria-hidden="true">Hello, @context.User.Identity!.Name</span>
+        <a href="Logout" aria-hidden="true" class="nav-link btn btn-link oi oi-account-logout"> Logout</a>
     </Authorized>
     <NotAuthorized>
-        <a href="Register" class="nav-link btn btn-link oi oi-people"> Register</a>
-        <a href="Login" class="nav-link btn btn-link oi oi-account-login"> Login</a>
+        <a href="Register" aria-hidden="true" class="nav-link btn btn-link oi oi-people"> Register</a>
+        <a href="Login" aria-hidden="true" class="nav-link btn btn-link oi oi-account-login"> Login</a>
     </NotAuthorized>
 </AuthorizeView>
 

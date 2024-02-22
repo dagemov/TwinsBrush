@@ -20,6 +20,18 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/WorkSpace/TwinsBrush/Twins/Twins.Web/Pages/Auth/Login.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQXV0aFxMb2dpbi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/WorkSpace/TwinsBrush/Twins/Twins.Web/Pages/Auth/Logout.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQXV0aFxMb2dvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/WorkSpace/TwinsBrush/Twins/Twins.Web/Pages/Auth/Register.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQXV0aFxSZWdpc3Rlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/WorkSpace/TwinsBrush/Twins/Twins.Web/Pages/Categories/CategoriesIndex.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2F0ZWdvcmllc1xDYXRlZ29yaWVzSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
