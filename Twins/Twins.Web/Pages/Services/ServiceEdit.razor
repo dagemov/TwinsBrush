@@ -1,0 +1,63 @@
+﻿@page "/services/edit/{Id:int}"
+@inject NavigationManager nav
+@inject SweetAlertService swl
+@inject IRepository repository
+
+@attribute [Authorize(Roles = "Admin,Mannager")]
+@if(service == null){
+    <div class="spinner" />
+}
+else
+{
+    <ServiceForm ReturnAction="Return" OnValidSubmit="UpdateAsync" @ref="serviceForm" Service="service"></ServiceForm>
+}
+
+
+@code {
+    private Service? service;
+    private ServiceForm? serviceForm;
+
+    [Parameter]
+    public int Id{ get; set; }
+    [CascadingParameter]
+    BlazoredModalInstance BlazoredModal { get; set; } = default!;
+    
+
+    protected async override Task OnInitializedAsync()
+    {
+        await LoadAsycn();
+    }
+    public async Task LoadAsycn()
+    {
+        var responseHttpGetService = await repository.Get<Service>($"/api/services/{Id}");
+        if (responseHttpGetService.Error)
+        {
+            if (responseHttpGetService.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)//Edit at country invalid
+            {
+                nav.NavigateTo("/services");
+                return;
+            }
+            var message = await responseHttpGetService.GetErrorMessageAsync();
+            await swl.FireAsync("Error",message,SweetAlertIcon.Error);
+            return;
+        }
+        service = responseHttpGetService.Response;
+    }
+    public async Task UpdateAsync()
+    {
+        var responseHttpPutService = await repository.Put($"/api/services", service);
+        if (responseHttpPutService.Error)
+        {           
+            var message = await responseHttpPutService.GetErrorMessageAsync();
+            await swl.FireAsync("Error",message,SweetAlertIcon.Error);
+            return;
+        }
+        await BlazoredModal.CloseAsync(ModalResult.Ok());
+        Return();
+    }
+    public void Return()
+    {
+        serviceForm!.FormPostedSuccessFully = true;
+        nav.NavigateTo("/services");
+    }
+}

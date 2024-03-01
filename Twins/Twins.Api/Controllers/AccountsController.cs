@@ -1,8 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Reflection.Metadata;
 using System.Security.Claims;
 using System.Text;
+using Twins.Api.Data;
+using Twins.Api.Helpers;
 using Twins.Api.Helpers.Interfaces;
 using Twins.Shared.DTOs;
 using Twins.Shared.Entities;
@@ -15,13 +19,64 @@ namespace Twins.Api.Controllers
     {
         private readonly IUserHelper _userHelper;
         private readonly IConfiguration _configuration;
+        private readonly DataContext _context;
 
-        public AccountsController(IUserHelper userHelper, IConfiguration configuration)
+        public AccountsController(IUserHelper userHelper, IConfiguration configuration,DataContext context)
         {
             _userHelper = userHelper;
             _configuration = configuration;
+            _context = context;
         }
 
+        [HttpGet("totalPages")]
+        public async Task<IActionResult> GetPages([FromQuery] PaginationDTO pagination)
+        {
+            var queryable = _context.Users.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(pagination.Filter))
+            {
+                queryable = queryable.Where(x => x.Documment.ToLower().Contains(pagination.Filter.ToLower()));
+
+            }
+
+            double count = await queryable.CountAsync();
+            double totalPages = Math.Ceiling(count / pagination.RecordsNumber);
+            return Ok(totalPages);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetUsers([FromQuery] PaginationDTO pagination)
+        {
+            var queryable = _context.Users
+                .Include(c=>c.City)
+                .AsQueryable();
+            if (queryable is null)
+            {
+                return BadRequest();
+            }
+            if (!string.IsNullOrWhiteSpace(pagination.Filter))
+            {
+                queryable = queryable.Where(x => x.Documment.ToLower().Contains(pagination.Filter.ToLower()));
+            }
+            return Ok(await queryable
+                .OrderBy(d => d.Documment)
+                .Paginate(pagination)
+                .ToListAsync()
+                );
+        }
+        [HttpGet("id:string")]
+        public async Task<IActionResult> GetUser(string id)
+        {
+            var user = await _context.Users
+                .Include(c => c.City)
+                .Include(su => su.Services)
+                .FirstOrDefaultAsync(u => u.Id == id);
+                //.AsQueryable();
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
+        }
         [HttpPost("CreateUser")]
         public async Task<ActionResult> CreateUser([FromBody] UserDTO model)
         {

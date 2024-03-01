@@ -1,0 +1,232 @@
+﻿@page "/services/showEmplooyes/{Id:int}"
+@inject NavigationManager nav;
+@inject SweetAlertService swl;
+@inject IRepository repository;
+
+@if (ServiceUsers == null)
+{
+    <div class="spinner" />
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+            <h3>Emplooyes List </h3>
+            <h3>Service Name : @service!.Name</h3>
+            <h3>Date Creation : @service.Created</h3>
+        </div>
+        <div class="card-body">
+            <Pagination CurrentPage="currentPage" TotalPages="1" SelectedPage="SelectedPageAsycn" />
+            <GenericList MyList="ServiceUsers">
+                <Body>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Documment</th>
+                                <th>Hours</th>
+                                <th>Email</th>
+                                <th>Full Name</th>
+                                <th >User Type</th>
+                                <th>Picture</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var emplooyed in ServiceUsers!)
+                            {
+                                @if (emplooyed.ServiceId == Id)
+                                {
+                                    <tr>
+                                        <th>
+                                            @emplooyed.EmployedDocument
+                                        </th>
+                                        <th>
+                                            @emplooyed.TotalHourService
+                                        </th>
+                                        <th>
+                                            @emplooyed.User!.Email
+                                        </th>
+                                        <th>
+                                            @emplooyed.User.FullName
+                                        </th>
+                                        <th>
+                                            @emplooyed.User.UserType
+                                        </th>
+                                        <th>
+                                            @emplooyed.User.Photo
+                                        </th>
+                                        <th>
+                                            <a class="btn btn-outline-danger" @onclick="()=>DeleteAsync(emplooyed.Id)">
+                                                <i class="oi oi-trash"></i>
+                                            </a>
+                                            <a class="btn btn-outline-primary" @onclick="()=>ShowModal(emplooyed.ServiceId,true,1)">
+                                                <i class="oi oi-calendar"></i>
+                                            </a>
+                                            <a class="btn btn-outline-success">
+                                                <i class="oi oi-envelope-closed"></i>
+                                            </a>
+                                        </th>
+                                    </tr>
+
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </Body>
+            </GenericList>
+        </div>
+        <div class="card-footer">
+            <div class="d-flex justify-content-center">
+                <a class="btn btn-outline-danger " href="/services/details/@Id">Cancel <i class="oi oi-x"></i> </a>
+            </div>
+            
+        </div>
+
+    </div>
+    
+    
+}
+@attribute [Authorize(Roles = "Admin,Mannager")]
+@code {
+    //public List<User>? Users { get; set; }
+    //public User? User { get; set; }
+    public List<ServiceUser>? ServiceUsers { get; set; }
+    public ServiceUser? ServiceUser{ get; set; }
+    private Service? service;
+    private int currentPage = 1;
+    private int totalPages;
+
+    [Parameter]
+    [SupplyParameterFromQuery]// when we change the pag , we don't gonna lose the filter or the page
+    public string Page { get; set; } = string.Empty;
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string Filter { get; set; } = string.Empty;
+
+    [Parameter]
+    public int Id { get; set; }
+    /* 
+    * [CascadingParameter]
+       BlazoredModalInstance BlazoredModal { get; set; } = default!;
+    */
+    [CascadingParameter]
+    IModalService Modal { get; set; } = default!;
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAsync();
+    }
+    public async Task LoadAsync(int page=1)
+    {
+        if (!string.IsNullOrWhiteSpace(Page))
+        {
+            page = Convert.ToInt32(Page);
+        }
+        string urlDataUserInService = string.Empty;
+        string urlPages = string.Empty;
+        if (string.IsNullOrEmpty(Filter))
+        {
+            urlDataUserInService = $"api/servicesUsers?page={page}";
+            urlPages = $"api/servicesUsers/totalPages";
+        }
+        else
+        {
+            urlDataUserInService = $"api/servicesUsers?page={page}&filter={Filter}";
+            urlPages = $"api/servicesUsers/totalPages?filter={Filter}";
+        }
+        var responseHttpDataUsers = await repository.Get<List<ServiceUser>>(urlDataUserInService);
+        if (responseHttpDataUsers.Error)
+        {
+            var message =await  responseHttpDataUsers.GetErrorMessageAsync();
+            await swl.FireAsync("Error", message + $"\nError get employed", SweetAlertIcon.Error);
+        }
+
+        var responseHttpDateService = await repository.Get<Service>($"/api/services/{Id}");
+        if (responseHttpDataUsers.Error)
+        {
+            var message = await responseHttpDataUsers.GetErrorMessageAsync();
+            await swl.FireAsync("Error", message + $"\nError get employed", SweetAlertIcon.Error);
+        }
+        ServiceUsers = responseHttpDataUsers.Response;
+        service = responseHttpDateService.Response;
+
+
+    }
+
+    private async Task SelectedPageAsycn(int page)
+    {
+        currentPage = page;
+        await LoadAsync(page);
+    }  
+    private async Task CleanFilterAsync()
+    {
+        Filter = string.Empty;
+        await ApplyFilterAsync();
+    }
+
+    private async Task ApplyFilterAsync()
+    {
+        int page = 1;
+        await LoadAsync(page);
+        await SelectedPageAsycn(page);
+    }
+
+    public async Task DeleteAsync(int id)
+    {
+        var httpsGetDataServiceUser = await repository.Get<ServiceUser>($"/api/servicesUsers/{id}");
+        if (httpsGetDataServiceUser.Error)
+        {
+            var messageGet = await httpsGetDataServiceUser.GetErrorMessageAsync();
+            await swl.FireAsync("Error",messageGet,SweetAlertIcon.Error);
+        }
+        ServiceUser = httpsGetDataServiceUser.Response;
+        var result = await swl.FireAsync(
+           new SweetAlertOptions
+               {
+                   Title = "Confirm Delete",
+                   Text = $"Are you sure abaout Delete this Employed ? => {ServiceUser!.EmployedDocument} + {ServiceUser!.User!.FullName}",
+                   Icon = SweetAlertIcon.Question,
+                   ShowCancelButton = true,
+                   CancelButtonText = "No",
+                   ConfirmButtonText = "Yes"
+               }
+
+        );
+        var confirmSwl = string.IsNullOrEmpty(result.Value);
+        if (confirmSwl)
+        {
+            return;
+        }
+
+        var HtttpDeleteServiceUser = await repository.Delete($"/api/servicesUsers/{id}");
+        if (HtttpDeleteServiceUser.Error)
+        {
+            if (HtttpDeleteServiceUser.HttpResponseMessage.StatusCode != HttpStatusCode.NotFound)
+            {
+                var message = await HtttpDeleteServiceUser.GetErrorMessageAsync();
+                await swl.FireAsync("Error", message, SweetAlertIcon.Error);
+                return;
+            }
+        }
+        await LoadAsync();
+    }
+
+    private async Task ShowModal(int id=0,bool isEdit = false,int option = 0)
+    {
+        IModalReference modalReference = null!;
+        if (isEdit && option == 1)
+        {
+            modalReference = Modal.Show<AddScheduleEmplooye>(string.Empty, new ModalParameters().Add("Id", id));
+            return;
+        }
+
+        var result = await modalReference.Result;
+        if (result.Confirmed)
+        {
+            await LoadAsync();
+        }
+    }
+}

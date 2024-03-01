@@ -10,8 +10,10 @@
 
     private Category category = new();
     private CategoryForm? categoryForm;
+
     [CascadingParameter]
     BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
     public async Task CreateCategoryAsycn()
     {
         var responseHttp = await repository.Post("/api/categories", category);

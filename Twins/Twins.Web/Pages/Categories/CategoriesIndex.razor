@@ -10,35 +10,46 @@
 }
 else
 {
+    <div class="card">
+        <div class="card-header">
+            <span>
+                Categories <i class="oi oi-tag"></i>
+                <a class="btn btn-primary float-end" @onclick=@(()=>ShowModal())> New Category <i class="oi oi-plus"></i></a>
+            </span>
+        </div>
+        <div class="card-body">
 
-    <h3>Categories </h3>
-    <a class="btn btn-primary" @onclick=@(()=>ShowModal())> New Category</a>
-    <GenericList MyList="Categories">
-        <Body>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Category</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var category in Categories!)
-                    {
-                        <tr>
-                            <td>
-                                <a class="btn btn-warning" @onclick=@(()=>ShowModal(category.Id,true))>Edit</a>
-                                <button class="btn btn-danger" @onclick="(()=>CategoryDeleteAsync(category.Id))">Delete</button>
-                            </td>
-                            <td>
-                                @category.Name
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </Body>
-    </GenericList>
+            <GenericList MyList="Categories">
+                <Body>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Category</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var category in Categories!)
+                            {
+                                <tr>
+                                    <td>
+                                        <a class="btn btn-warning" @onclick=@(()=>ShowModal(category.Id,true))>Edit</a>
+                                        <button class="btn btn-danger" @onclick="(()=>CategoryDeleteAsync(category.Id))">Delete</button>
+                                    </td>
+                                    <td>
+                                        @category.Name
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </Body>
+            </GenericList>
+        </div>
+        <div class="card-footer">
+
+        </div>
+    </div>       
 }
 @code {
     public List<Category>? Categories { get; set; }
@@ -76,6 +87,11 @@ else
     public async Task LoadAsync()
     {
         var responseHttp = await repository.Get<List<Category>>("/api/categories");
+        if (responseHttp.Error)
+        {
+            var message = await responseHttp.GetErrorMessageAsync();
+            await swl.FireAsync("Erro",message,SweetAlertIcon.Error);
+        }
         Categories = responseHttp.Response;
     }
 

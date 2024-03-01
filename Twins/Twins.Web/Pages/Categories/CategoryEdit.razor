@@ -3,11 +3,6 @@
 @inject NavigationManager nav
 @inject SweetAlertService swl
 @attribute [Authorize(Roles = "Admin")]
-<h3>Category Edit</h3>
-
-<h3>Edit Categor : @category!.Name</h3>
-
-
 
 @if (category is null) // validation to paint formulari ( wait the country to show)
 {
@@ -20,7 +15,7 @@ else
 
 @code {
     [Parameter]
-    public int Id { get; set; }
+    public int CategoryId { get; set; }//To the modal the Page Id and [Parameter] must macht
     private Category? category;
     private CategoryForm? categoryForm;
 
@@ -29,7 +24,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var resultHttpGet = await repository.Get<Category>($"/api/categories/{Id}");
+        var resultHttpGet = await repository.Get<Category>($"/api/categories/{CategoryId}");
 
         if (resultHttpGet.Error)
         {

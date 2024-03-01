@@ -1,0 +1,121 @@
+﻿@page "/calendar/Index/{Id:int}"
+
+@using Twins.Shared.Entities
+
+<div class="card">
+    <div class="card-header">
+        <h3>Calendar event <i class="oi oi-calendar"></i></h3>
+    </div>
+    <div class="card-body">
+        <select @onchange="@(e => LoadCalendar(e.Value!.ToString()))">
+            @foreach (var monthName in MonthNames)
+            {
+                <option>@monthName</option>
+            }
+        </select>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    @foreach (var day in days)
+                    {
+                        <th>
+                            @day
+                        </th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var week in Weeks)
+                {
+                    <tr>
+                        @foreach (var day in week.Days)
+                        {
+                            <td>
+                                @day.DateValue
+                                <br />
+                                @if (day.Note != null)
+                                {
+                                    <label style="color:#c00;font-weight:bold">@day.Note</label>
+                                    <br />
+                                }
+                                <!-- Puedes agregar más lógica aquí para mostrar otras propiedades de Day -->
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer">
+    </div>
+</div>
+
+@code {
+    public List<string> MonthNames { get; set; } = new List<string>();
+    public List<string> days { get; set; } = new List<string>();
+    public List<WeekWorked> Weeks { get; set; } = new List<WeekWorked>();
+    public DateTime StartDate { get; set; }
+    public DateTime EndDate { get; set; }
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override void OnInitialized()
+    {
+        MonthNames = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.MonthGenitiveNames.ToList();
+        //LoadCalendar(MonthNames.First());
+        Id = DateTime.Now.Month; // Establecer el mes actual como el valor por defecto
+        LoadCalendar(MonthNames[Id - 1]);
+    }
+
+    private void LoadCalendar(string month)
+    {
+        int monthIndex = DateTime.ParseExact(month, "MMMM", System.Globalization.CultureInfo.CurrentCulture).Month;
+        StartDate = new DateTime(DateTime.Now.Year, monthIndex, 1);
+        EndDate = StartDate.AddMonths(1).AddDays(-1); // Get the last day of the month
+        GenerateCalendarHead();
+        GenerateCalendarBody();
+    }
+
+    private void GenerateCalendarHead()
+    {
+        var day = new List<string>();
+        for (var dt = StartDate; dt <= EndDate; dt = dt.AddDays(1))
+        {
+            day.Add(dt.ToString("dddd"));
+        }
+        days = day.Distinct().ToList();
+    }
+
+    private void GenerateCalendarBody()
+    {
+        Weeks = new List<WeekWorked>();
+        var totalDays = (int)(EndDate - StartDate).TotalDays;
+        int flag = 0;
+        WeekWorked week = new WeekWorked();
+        List<Day> dates = new List<Day>();
+        int countDays = 0;
+
+        for (var dt = StartDate; dt <= EndDate; dt = dt.AddDays(1))
+        {
+            flag++;
+            dates.Add(new Day()
+                {
+                    DateValue = dt.ToString("dd-MMM-yyyy"),
+                    DateName = dt.ToString("dddd")
+                    // Puedes agregar más propiedades aquí si es necesario
+                });
+
+            if (flag == 7 || countDays == totalDays)
+            {
+                week = new WeekWorked();
+                week.Days = dates;
+                Weeks.Add(week);
+
+                dates = new List<Day>();
+                flag = 0;
+            }
+
+            countDays++;
+        }
+    }
+}

@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Twins.Api.Data;
+using Twins.Api.Helpers;
+using Twins.Shared.DTOs;
 using Twins.Shared.Entities;
 
 namespace Twins.Api.Controllers
@@ -18,10 +20,39 @@ namespace Twins.Api.Controllers
         {
             _context = context;
         }
-        [HttpGet]
-        public async Task<IActionResult> GetAsync()
+        [HttpGet("totalPages")]
+        public async Task<IActionResult> GetPages([FromQuery] PaginationDTO pagination)
         {
-            return Ok(await _context.Days.ToListAsync());
+            var queryable = _context.Days.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(pagination.Filter))
+            {
+                queryable = queryable.Where(x => x.StartDay.ToString()!.Contains(pagination.Filter.ToLower()));
+
+            }
+
+            double count = await queryable.CountAsync();
+            double totalPages = Math.Ceiling(count / pagination.RecordsNumber);
+            return Ok(totalPages);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetAsync([FromQuery] PaginationDTO pagination)
+        {
+            var queryable = _context.Days
+                .AsQueryable();
+            if (queryable is null)
+            {
+                return BadRequest();
+            }
+            if (!string.IsNullOrWhiteSpace(pagination.Filter))
+            {
+                queryable = queryable.Where(x => x.StartDay.ToString()!.ToLower().Contains(pagination.Filter.ToLower()));
+            }
+            return Ok(await queryable
+                .OrderBy(x=>x.StartDay)
+                .Paginate(pagination)
+                .ToListAsync());
+            //return Ok(await _context.Days.ToListAsync());
         }
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetAsync(int id)

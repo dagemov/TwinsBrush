@@ -28,6 +28,11 @@ namespace Twins.Api.Data
 
             await CheckRolesAsync();
             await CheckUserAsync("1010", "Sebastian", "Martinez", "Dagemov1@yopmail.com", "2039234322", UserType.Admin);
+            await CheckUserAsync("2020", "Felipe", "Martinez", "Felcos@yopmail.com", "4758694513", UserType.Employed);
+            await CheckUserAsync("5789", "Victor", "Manuel", "Manuel123@yopmail.com", "3206224516", UserType.Employed);
+            await CheckUserAsync("5698", "Stefany", "Abelaez", "Pepe@yopmail.com", "9865341274", UserType.Employed);
+            await CheckUserAsync("70512938", "Carlos", "Alberto", "Alberto123@yopmail.com", "36096814", UserType.Mannager);
+            await CheckUserAsync("61158237", "Isabel", "Calvo", "isabel429@yopmail.com", "3109234658", UserType.Mannager);
 
         }
 
@@ -59,6 +64,7 @@ namespace Twins.Api.Data
             await _userHelper.CheckRoleAsync(UserType.Admin.ToString());
             await _userHelper.CheckRoleAsync(UserType.User.ToString());
             await _userHelper.CheckRoleAsync(UserType.Employed.ToString());
+            await _userHelper.CheckRoleAsync(UserType.Mannager.ToString());
 
         }
 

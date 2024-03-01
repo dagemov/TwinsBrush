@@ -1,0 +1,127 @@
+﻿@page "/services/details/{Id:int}"
+@inject NavigationManager nav
+@inject SweetAlertService swl
+@inject IRepository repository
+<h3>ServicesDetails</h3>
+
+@if(service == null){
+    <div class="spinner" />
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+            <span>
+                <i class="oi oi-bookmark"></i>  @service.Name Service
+            </span>
+        </div>
+        <div class="card-body">
+            <div class="mb-2" style="display: flex; flex-wrap:wrap; align-items: center;">
+                <div class="col-6">
+                    <div class="m-3">
+                        <h5 style="color:purple"> Name : <i class="oi oi-info"></i></h5>
+                        <label>@service.Name</label>
+                    </div>
+                    <div class="m-3">
+                        <h5 style="color:purple">Description : <i class="oi oi-document"></i> </h5>                        
+                        <label>@service.Description</label>
+                    </div> 
+                    <div class="m-3">
+                        <h5 style="color:purple">Status Type Of Service : <i class="oi oi-tags"></i></h5> 
+                        <label>@service.ServiceStatusType</label>
+                    </div>
+                    <div class="m-3">
+                        <h5 style="color:darkblue">Price by Hour : <i class="oi oi-clock"></i></h5>
+
+                        <label>@service.PriceService <i class="oi oi-dollar"></i></label>
+                    </div>
+                    <div class="m-3">
+                        <h5 style="color:darkblue">Price Final with taz Inlcude</h5>                        
+                        <label>@service.FinalPrice <i class="oi oi-dollar"></i></label>
+                    </div>
+                    <div class="m-3">
+                        <h5 style="color:darkblue">Created Date : <i class="oi oi-calendar"></i></h5>                       
+                        <label>@service.Created</label>
+                    </div>
+                    <div class="m-3">
+                        <h5 style="color:darkgoldenrod"> Toltal User in this service : <i class="oi oi-people"></i></h5>                           
+                        <label>@service.UserCount</label>                        
+                        
+                    </div>                                                         
+                  
+                </div>
+                <div class="col-6">
+                   <div>
+                       <h5>Refences Pictures : <i class="oi oi-camera-slr"></i></h5>
+                   </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer mt-3">
+            <div class="d-flex justify-content-between">
+                <a class="btn btn-primary oi oi-plus" @onclick=@(()=>ShowModal(service.Id,true,1))> Add Employed</a>
+                <a class="btn btn-secondary oi oi-plus" @onclick=@(()=>ShowModal(service.Id,true,2))>Add address</a>
+                <a class="btn btn-warning oi oi-plus" @onclick=@(()=>ShowModal(service.Id,true,3))> Add Customer</a>
+                <a class="btn btn-success oi oi-people" href="/services/showEmplooyes/@service.Id"> Employees</a>
+            </div>
+            
+        </div>
+    </div>
+}
+@code {
+    [Parameter]
+    public int Id{ get; set; }
+
+    private Service? service;
+    private ServiceUser? serviceUser;
+    [CascadingParameter]
+    IModalService Modal { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAsync();
+    }
+    private async Task LoadAsync()
+    {
+        var httpResponseGetData = await repository.Get<Service>($"/api/services/{Id}");
+        if (httpResponseGetData.Error)
+        {
+            if (httpResponseGetData.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
+            {
+                nav.NavigateTo("/services");
+                return;
+            }
+            var message = await httpResponseGetData.GetErrorMessageAsync();
+            await swl.FireAsync("Error", message, SweetAlertIcon.Error);
+        }
+        service = httpResponseGetData.Response;
+    }
+    private async Task ShowModal(int id = 0, bool isEdit = false,int option = 0)
+    {
+        IModalReference modalReference = null!;
+
+        if (isEdit && option == 1)
+        {
+            modalReference = Modal.Show<AddEmployed>(string.Empty, new ModalParameters().Add("Id", id));
+            return;
+        }
+        if (isEdit && option == 2)
+        {
+
+        }
+        if (isEdit && option == 3)
+        {
+
+        }
+        else
+        {
+            modalReference = Modal.Show<ServiceCreate>();
+        }
+
+        var result = await modalReference.Result;
+        if (result.Confirmed)
+        {
+            await LoadAsync();
+        }
+    }
+}

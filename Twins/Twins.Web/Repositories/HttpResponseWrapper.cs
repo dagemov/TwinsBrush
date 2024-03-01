@@ -27,7 +27,7 @@ namespace Twins.Web.Repositories
             var codigoEstatus = HttpResponseMessage.StatusCode;
             if (codigoEstatus == HttpStatusCode.NotFound)
             {
-                return "Recurse Not FOUND";
+                return "404\nRecurse Not FOUND";
             }
             else if (codigoEstatus == HttpStatusCode.BadRequest)
             {
@@ -35,11 +35,14 @@ namespace Twins.Web.Repositories
             }
             else if (codigoEstatus == HttpStatusCode.Unauthorized)
             {
-                return "You must be Login to do this action";
+                return "Error 401\nYou must be Login to do this action";
             }
             else if (codigoEstatus == HttpStatusCode.Forbidden)
             {
-                return "You aren't Atuorize TO DO THIS";
+                return "Error 403 \nYou aren't Atuorize TO DO THIS";
+            }else if (codigoEstatus == HttpStatusCode.InternalServerError)
+            {
+                return "Error 500\n Interal error server";
             }
 
             return "Undefined ERROR";

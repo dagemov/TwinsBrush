@@ -12,8 +12,8 @@ using Twins.Api.Data;
 namespace Twins.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240220173446_UserEntityTables")]
-    partial class UserEntityTables
+    [Migration("20240306183023_FixedWeekAndDayEntitiesCalendar")]
+    partial class FixedWeekAndDayEntitiesCalendar
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -232,7 +232,34 @@ namespace Twins.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime?>("CreatedRecord")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DateName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DateValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("EditRecord")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("EndBreak")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime?>("EndDay")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float?>("PayByHour")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime?>("StartBreak")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("StartDay")
@@ -303,6 +330,107 @@ namespace Twins.Api.Migrations
                         .IsUnique();
 
                     b.ToTable("PersonWeeks");
+                });
+
+            modelBuilder.Entity("Twins.Shared.Entities.Service", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<float?>("PriceService")
+                        .HasColumnType("real");
+
+                    b.Property<int>("ServiceStatusType")
+                        .HasColumnType("int");
+
+                    b.Property<float?>("Taz")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime?>("Updated")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id", "Created")
+                        .IsUnique()
+                        .HasFilter("[Created] IS NOT NULL");
+
+                    b.ToTable("Services");
+                });
+
+            modelBuilder.Entity("Twins.Shared.Entities.ServicePicture", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ServiceId");
+
+                    b.ToTable("ServicePictures");
+                });
+
+            modelBuilder.Entity("Twins.Shared.Entities.ServiceUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("EmployedDocument")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool?>("Register")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("int");
+
+                    b.Property<float>("TotalHourService")
+                        .HasColumnType("real");
+
+                    b.Property<float>("TotalToPay")
+                        .HasColumnType("real");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("ServiceId", "EmployedDocument")
+                        .IsUnique()
+                        .HasFilter("[EmployedDocument] IS NOT NULL");
+
+                    b.ToTable("ServiceUsers");
                 });
 
             modelBuilder.Entity("Twins.Shared.Entities.State", b =>
@@ -377,6 +505,9 @@ namespace Twins.Api.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("Created")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Documment")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -429,6 +560,9 @@ namespace Twins.Api.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime?>("Updated")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -448,6 +582,9 @@ namespace Twins.Api.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
+                    b.HasIndex("Id", "Documment")
+                        .IsUnique();
+
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
@@ -462,6 +599,9 @@ namespace Twins.Api.Migrations
                     b.Property<DateTime?>("Created")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("Updated")
                         .HasColumnType("datetime2");
 
@@ -469,6 +609,11 @@ namespace Twins.Api.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ServiceId");
+
+                    b.HasIndex("Id", "ServiceId")
+                        .IsUnique();
 
                     b.ToTable("WeekWorkeds");
                 });
@@ -555,7 +700,7 @@ namespace Twins.Api.Migrations
                         .IsRequired();
 
                     b.HasOne("Twins.Shared.Entities.WeekWorked", "WeekWorked")
-                        .WithMany("Weeks")
+                        .WithMany()
                         .HasForeignKey("WeekWorkedId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -563,6 +708,36 @@ namespace Twins.Api.Migrations
                     b.Navigation("Person");
 
                     b.Navigation("WeekWorked");
+                });
+
+            modelBuilder.Entity("Twins.Shared.Entities.ServicePicture", b =>
+                {
+                    b.HasOne("Twins.Shared.Entities.Service", "Service")
+                        .WithMany("Pictures")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Service");
+                });
+
+            modelBuilder.Entity("Twins.Shared.Entities.ServiceUser", b =>
+                {
+                    b.HasOne("Twins.Shared.Entities.Service", "Service")
+                        .WithMany("Users")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Twins.Shared.Entities.User", "User")
+                        .WithMany("Services")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Service");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Twins.Shared.Entities.State", b =>
@@ -598,6 +773,17 @@ namespace Twins.Api.Migrations
                     b.Navigation("City");
                 });
 
+            modelBuilder.Entity("Twins.Shared.Entities.WeekWorked", b =>
+                {
+                    b.HasOne("Twins.Shared.Entities.Service", "Service")
+                        .WithMany("WeekWorked")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Service");
+                });
+
             modelBuilder.Entity("Twins.Shared.Entities.City", b =>
                 {
                     b.Navigation("Streets");
@@ -615,16 +801,28 @@ namespace Twins.Api.Migrations
                     b.Navigation("Weeks");
                 });
 
+            modelBuilder.Entity("Twins.Shared.Entities.Service", b =>
+                {
+                    b.Navigation("Pictures");
+
+                    b.Navigation("Users");
+
+                    b.Navigation("WeekWorked");
+                });
+
             modelBuilder.Entity("Twins.Shared.Entities.State", b =>
                 {
                     b.Navigation("Cities");
                 });
 
+            modelBuilder.Entity("Twins.Shared.Entities.User", b =>
+                {
+                    b.Navigation("Services");
+                });
+
             modelBuilder.Entity("Twins.Shared.Entities.WeekWorked", b =>
                 {
                     b.Navigation("Days");
-
-                    b.Navigation("Weeks");
                 });
 #pragma warning restore 612, 618
         }

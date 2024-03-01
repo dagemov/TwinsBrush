@@ -4,15 +4,29 @@
 
 <EditForm EditContext="EditContext" OnValidSubmit="OnValidSubmit">
     <DataAnnotationsValidator />
-    <div class="mb-3">
-        <label>Cateogry : </label>
-        <div>
-            <InputText class="form-control" @bind-Value="@Category.Name" />
-            <ValidationMessage For="@(()=>Category.Name)" />
+    <div  class="card">
+        <div class="card-header">            
+            <h3>Category <i class="oi oi-tag"></i></h3>
+        </div>
+        <div class="card-body">
+            <div class="mb-3">
+                <label>Cateogry : </label>
+                <div>
+                    <InputText class="form-control" @bind-Value="@Category.Name" />
+                    <ValidationMessage For="@(()=>Category.Name)" />
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary ">Save <i class="oi oi-plus"></i></button>
+                <button class="btn btn-danger" @onclick="ReturnAction">Cancel <i class="oi oi-x"></i></button>
+            </div>
+           
         </div>
     </div>
-    <button type="submit" class="btn btn-primary ">Save</button>
-    <button class="btn btn-success" @onclick="ReturnAction">Back</button>
+    
+   
 </EditForm>
 
 @code {

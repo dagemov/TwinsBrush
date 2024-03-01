@@ -4,30 +4,41 @@
 @inject NavigationManager navigationManager
 @inject ILoginService loginService
 
-<h3>Login</h3>
+
+
 
 <EditForm Model="loginDTO" OnValidSubmit="LoginAsync">
     <DataAnnotationsValidator />
-
-    <div class="row">
-        <div class="col-4">
-            <div class="mb-3">
-                <label>Email:</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="@loginDTO.Email" />
-                    <ValidationMessage For="@(() => loginDTO.Email)" />
+    <div class="card">
+        <div class="card-header">
+            <h3>Login</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-4">
+                    <div class="mb-3">
+                        <label>Email:</label>
+                        <div>
+                            <InputText class="form-control" @bind-Value="@loginDTO.Email" />
+                            <ValidationMessage For="@(() => loginDTO.Email)" />
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label>Password:</label>
+                        <div>
+                            <InputText type="password" class="form-control" @bind-Value="@loginDTO.Password" />
+                            <ValidationMessage For="@(() => loginDTO.Password)" />
+                        </div>
+                    </div>
+                   
                 </div>
             </div>
-            <div class="mb-3">
-                <label>Password:</label>
-                <div>
-                    <InputText type="password" class="form-control" @bind-Value="@loginDTO.Password" />
-                    <ValidationMessage For="@(() => loginDTO.Password)" />
-                </div>
-            </div>
+        </div>
+        <div class="card-footer d-flex justify-content-center">
             <button class="btn btn-primary oi oi-account-login" aria-hidden="true" type="submit"> Login</button>
         </div>
     </div>
+    
 </EditForm>
 
 @code {

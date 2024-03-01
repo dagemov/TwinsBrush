@@ -15,11 +15,19 @@ namespace Twins.Api.Controllers
     public class CountriesController : ControllerBase
     {
         private readonly DataContext _context;
-
+        
         public CountriesController(DataContext context)
         {
             _context = context;
         }
+
+        [AllowAnonymous]
+        [HttpGet("combo")]
+        public async Task<ActionResult> GetCombo()
+        {
+            return Ok(await _context.Countries.ToListAsync());
+        }
+
         [HttpGet("totalPages")]
         public async Task<IActionResult> GetPages([FromQuery] PaginationDTO pagination)
         {

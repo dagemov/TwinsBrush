@@ -28,5 +28,8 @@ namespace Twins.Shared.Entities
         [Display(Name = "Picture")]
         public string? Photo { get; set; }
 
+        public ICollection<ServiceUser>? Services { get; set; }
+        public DateTime? Created { get; set; }
+        public DateTime? Updated { get; set; } = null!;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -21,7 +22,9 @@ namespace Twins.Shared.Entities
         public ICollection<Day>? Days { get; set; }
         public int DaysNumber => Days == null ? 0 : Days.Count;
 
-       public ICollection<PersonWeek>? Weeks { get; set; }
-        //cuando tengamos usiario y semana , en la tabla userwekk se coloca total de horas de la semana + el pago total
+        public int ServiceId { get; set; }
+        public Service? Service { get; set; }
+       
+       // public List<Day>? DaysList { get; set;} = new List<Day>();
     }
 }

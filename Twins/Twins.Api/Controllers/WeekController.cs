@@ -27,21 +27,7 @@ namespace Twins.Api.Controllers
             return Ok(await _context.WeekWorkeds
                 .Include(w=>w.Days)
                 .ToListAsync());
-        }
-        /*[HttpGet("{id:int}")]
-        public async Task<IActionResult> GetSumHourPerWeek(List<Day> days)
-        {
-            /*var days = await _context.Days
-                .ToListAsync();/// comentar esto
-            //var sum= new TimeSpan();
-            float sum=0;
-            for (int i = 1; i < 7; i++)
-            {
-                sum += Convert.ToDateTime( days[i].TotalHours).Hour;
-            }
-            Convert.ToDateTime(sum);
-            return Ok(sum);
-        }*/
+        }       
 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetAsync(int id)

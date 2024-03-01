@@ -267,3 +267,4 @@ C:\WorkSpace\TwinsBrush\Twins\Twins.Movil\obj\Debug\net7.0-ios\iossimulator-x64\
 C:\WorkSpace\TwinsBrush\Twins\Twins.Movil\obj\Debug\net7.0-ios\iossimulator-x64\Twins.Movil.pdb
 C:\WorkSpace\TwinsBrush\Twins\Twins.Movil\obj\Debug\net7.0-ios\iossimulator-x64\Twins.Movil.genruntimeconfig.cache
 C:\WorkSpace\TwinsBrush\Twins\Twins.Movil\obj\Debug\net7.0-ios\iossimulator-x64\ref\Twins.Movil.dll
+C:\WorkSpace\TwinsBrush\Twins\Twins.Movil\obj\Debug\net7.0-ios\iossimulator-x64\build-signature\signature

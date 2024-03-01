@@ -1,0 +1,35 @@
+﻿@page "/services/create"
+<h3>CreateService</h3>
+@inject NavigationManager nav;
+@inject SweetAlertService swl;
+@inject IRepository repository;
+
+@attribute [Authorize(Roles = "Admin,Mannager")]
+
+<ServiceForm @ref="serviceForm" Service="service" OnValidSubmit="CreateAsync" ReturnAction="Return" ></ServiceForm>
+
+@code {
+    private Service? service = new();
+
+    private ServiceForm? serviceForm;
+
+    [CascadingParameter]
+    BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
+    private async Task CreateAsync()
+    {
+        var httpResponse = await repository.Post($"/api/services",service);
+        if (httpResponse.Error)
+        {
+            var message = await httpResponse.GetErrorMessageAsync();
+            await swl.FireAsync("Error", message, SweetAlertIcon.Error);
+        }
+        await BlazoredModal.CloseAsync(ModalResult.Ok());
+        Return();
+    }
+    private void Return()
+    {
+        serviceForm!.FormPostedSuccessFully = true;
+        nav.NavigateTo("/services");
+    }
+}

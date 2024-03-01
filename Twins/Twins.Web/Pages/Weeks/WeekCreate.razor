@@ -1,4 +1,4 @@
-﻿@page "/weeks/create"
+﻿@page "/weeks/create/{ServiceId:int}"
 @inject IRepository repository
 @inject NavigationManager nav
 @inject SweetAlertService swl
@@ -8,11 +8,14 @@
 <WeekForm @ref="weekForm" WeekWorked="weekWorked" OnValidSubmit="CreateAsync" ReturnAction="Return" />
 
 @code {
+    [Parameter]
+    public int ServiceId{ get; set; }
     private WeekWorked weekWorked = new();
     private WeekForm? weekForm;
 
     private async Task CreateAsync()
     {
+        weekWorked.ServiceId = ServiceId;
         var httpResponse = await repository.Post("/api/weeks", weekWorked);
         if (httpResponse.Error)
         {
@@ -27,6 +30,6 @@
     private void Return()
     {
         weekForm!.FormPostedSuccessFully = true;
-        nav.NavigateTo("/weeks");
+        nav.NavigateTo($"/services/showEmplooyes/{ServiceId}");
     }
 }

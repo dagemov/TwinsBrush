@@ -5,7 +5,7 @@
 @attribute [Authorize(Roles = "Admin,Employed")]
 @if (street is null)
 {
-    <p>Loading...</p>
+    <div class="spinner" />
 }
 else
 {

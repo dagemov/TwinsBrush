@@ -4,9 +4,15 @@
 @inject NavigationManager nav;
 @inject SweetAlertService swl;
 @attribute [Authorize(Roles = "Admin,Employed")]
-<h3>Weeks</h3>
-<a class="btn btn-primary" href="/weeks/create"> New week</a>
 
+
+<a class="btn btn-primary" href="/weeks/create"> New week</a>
+<select @onchange="LoadCalendar">
+    @foreach (string monthName in MonthNames)
+    {
+        <option>@monthName</option>
+    }
+</select>
 <GenericList MyList="Weeks">
 
     <Body>
@@ -41,12 +47,50 @@
         </table>
     </Body>
 </GenericList>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            @for (var dayIndex=0;dayIndex<DaysNames.Count();dayIndex++)
+            {
+                <th>
+                    @DaysNames[dayIndex]
+                </th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @for (var weekIndex = 0; weekIndex<Weeks!.Count();weekIndex++)
+        {
+            <tr>
+                @for (var dayIndex=0;dayIndex<Weeks![weekIndex]!.Days!.Count();dayIndex++)
+                {
+                    var wIndex = weekIndex;
+                    var dIndex = dayIndex;
+                    <td>
+                        @DaysMonths.TotalHours
+                        <br/>
+                        <label style="color:#c00;font-weight:bold">
+                            @DaysMonths.EndDay
+                        </label>
+                        <br/>
+
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
 
 @code {
-    //Making Data index with Blazor :) . Remmeber create the reference
     public List<WeekWorked>? Weeks { get; set; }
+    public List<string> MonthNames = new List<string>();
+    public List<string> DaysNames = new List<string>();
+    public Day DaysMonths{ get; set; }
+    DateTime StartDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+    DateTime EndDate = (new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1)).AddMonths(1).AddDays(-1);
+
     private WeekWorked? week { get; set; }
-    //With metodo on , we get all the metadata abaout whatever Tmodel
+
     protected override async Task OnInitializedAsync()
     {
         //Load metada list
@@ -56,14 +100,15 @@
     {
         var responseHttp = await repository.Get<List<WeekWorked>>("/api/weeks");
         Weeks = responseHttp.Response;
+        MonthNames = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.MonthGenitiveNames.ToList();
+        GenerateCalendarHead();
+        GenerateCalendarBody();
     }
 
     public async Task DeleteWeekAsync(int id)
     {
-        //Get metada to show in swl
         var responseHttp = await repository.Get<WeekWorked>($"/api/weeks/{id}");
         week = responseHttp!.Response;
-        //Quesiton before remove
         var result = await swl.FireAsync(
             new SweetAlertOptions
                 {
@@ -92,5 +137,56 @@
             }
         }
         await LoadAsync();
+    }
+    private void LoadCalendar(ChangeEventArgs e)
+    {
+        var monthSelected = e.Value!.ToString();
+        int monthIndex = DateTime.ParseExact(monthSelected!, "MMM", System.Globalization.CultureInfo.CreateSpecificCulture("en-GB")).Month;
+        StartDate = new DateTime(DateTime.Now.Year, monthIndex, 1);
+        EndDate = (new DateTime(DateTime.Now.Year, monthIndex, 1)).AddMonths(1).AddDays(-1);
+    }
+    private void GenerateCalendarHead()
+    {
+        var day1 = new List<string>();
+        for (var dt = StartDate; dt <= EndDate;dt=dt.AddDays(1))
+        {
+            day1.Add(dt.ToString("dddd"));
+        }
+        DaysNames = day1.Distinct().ToList();
+    }
+    private void GenerateCalendarBody()
+    {
+        Weeks = new List<WeekWorked>();
+        int flag = 0;
+        List<Day> days = new List<Day>();
+        var totalDaysMonth = (int)(EndDate - StartDate).TotalDays;
+        int countDays = 0;
+
+        for (var dt=StartDate;dt<=EndDate;dt=dt.AddDays(1))
+        {
+            flag++;
+            days.Add(new Day()
+            {
+
+            });
+            if (flag == 7)
+            {
+                week = new WeekWorked();
+                week.Days = days;
+                Weeks.Add(week);
+
+                days = new List<Day>();
+                flag = 0;
+            }
+            if (countDays == totalDaysMonth)
+            {
+                week = new WeekWorked();
+                week.Days = days;
+                Weeks.Add(week);
+                break;
+            }
+            countDays++;
+        }
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Twins.Shared.Entities;
 
 namespace Twins.Api.Data
@@ -11,15 +12,22 @@ namespace Twins.Api.Data
                 
         }
         public DbSet<Day> Days { get; set; }
+
         public DbSet<Category> Categories { get; set; } 
         public DbSet<Country> Countries { get; set; }
         public DbSet<City> Cities { get; set; }
+
         public DbSet<Person> Persons { get; set; }
         public DbSet<PersonWeek> PersonWeeks { get; set; }
+
         public DbSet<State> Statements { get; set; }
         public DbSet<Street> Streets { get; set; }
+        public DbSet<ServicePicture> ServicePictures { get; set; }
+        public DbSet<ServiceUser> ServiceUsers { get; set; }
+        public DbSet<Service> Services { get; set; }
         public DbSet<WeekWorked> WeekWorkeds { get; set; }
 
+       
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -28,10 +36,14 @@ namespace Twins.Api.Data
             modelBuilder.Entity<City>().HasIndex("StateId","Name").IsUnique();
             modelBuilder.Entity<Person>().HasIndex("Id", "Email").IsUnique();
             modelBuilder.Entity<PersonWeek>().HasIndex("PersonId", "WeekWorkedId").IsUnique();
+            modelBuilder.Entity<User>().HasIndex("Id", "Documment").IsUnique();
             modelBuilder.Entity<State>().HasIndex("CountryId","Name").IsUnique();
             modelBuilder.Entity<Street>().HasIndex("CityId","Name").IsUnique();
+            modelBuilder.Entity<Service>().HasIndex("Id", "Created").IsUnique();
+            modelBuilder.Entity<ServiceUser>().HasIndex("ServiceId" , "EmployedDocument").IsUnique();
             modelBuilder.Entity<Day>().HasIndex("Id", "WeekWorkedId").IsUnique();
-
+            modelBuilder.Entity<WeekWorked>().HasIndex("Id", "ServiceId").IsUnique();
+       
         }
     }
 }

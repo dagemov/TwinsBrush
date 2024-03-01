@@ -1,0 +1,168 @@
+﻿@page "/services/AddScheduleEmplooye/{Id:int}"
+@inject NavigationManager nav;
+@inject SweetAlertService swl;
+@inject IRepository repository;
+@attribute [Authorize(Roles = "Admin,Mannager")]
+
+@if(Days == null){
+    <div class="spinner"></div>
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+
+        </div>
+        <div class="card-body">
+            <GenericList MyList="Days">
+                 <Body>
+                    <table class="table table-striped">
+                         <thead>
+                             <tr>
+                                 <th>Start</th>
+                                 <th>End</th>
+                                 <th>Total</th>
+                                 <th></th>
+                             </tr>
+                         </thead>
+                         <tbody>
+                            @foreach (var day in Days!)
+                            {
+                                <tr>
+                                    <td>@day.StartDay!.Value.Hour</td>
+                                    <td>@day.EndDay!.Value.Hour</td>
+                                    <td>@day.TotalHours</td>
+                                    <td>
+                                        <a class="btn btn-warning" href="/days/edit/@day.Id">Edit</a>
+                                        <button class="btn btn-danger" @onclick="(()=>DeleteAsync(day.Id))">Delete</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                     </table>
+                 </Body>
+            </GenericList>
+        </div>
+        <div class="card-footer">
+           
+        </div>
+    </div>
+   
+}
+
+@code {
+
+    /*
+     * 
+     * CREAR CALENDARIO DE EVENTO PARA ANADIR LA SEMANA CON DIA  Y MESES :)))
+     *
+     */
+    [Parameter]
+    public int Id{ get; set; }
+    public List<Service>? Services{ get; set; }
+    public ServiceUser? ServiceUser { get; set; }
+    public List<Day>? Days{ get; set; }
+    public Day? day{ get; set; }
+
+
+    private int currentPage = 1;
+    private int totalPages;
+
+    [Parameter]
+    [SupplyParameterFromQuery]// when we change the pag , we don't gonna lose the filter or the page
+    public string Page { get; set; } = string.Empty;
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string Filter { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAsync();
+    }
+    public async Task LoadAsync(int page = 1)
+    {
+        if (!string.IsNullOrWhiteSpace(Page))
+        {
+            page = Convert.ToInt32(Page);
+        }
+        string urlDataDaysUser = string.Empty;
+        string urlTotalPages = string.Empty;
+
+        if (string.IsNullOrEmpty(Filter))
+        {
+            urlDataDaysUser = $"api/days?page={page}";
+            urlTotalPages = $"api/days/totalPages";
+        }
+        else
+        {
+            urlDataDaysUser = $"api/days?page={page}&filter={Filter}";
+            urlTotalPages = $"api/days/totalPages?filter={Filter}";
+        }
+        try
+        {
+            var responseHttPage = await repository.Get<int>(urlTotalPages);
+            totalPages = responseHttPage.Response;
+            var responseHttpDataDays = await repository.Get<List<Day>>(urlDataDaysUser);
+            if (responseHttpDataDays.Error)
+            {
+                var message = await responseHttpDataDays.GetErrorMessageAsync();
+                await swl.FireAsync("Error", message + $"\nError get Days", SweetAlertIcon.Error);
+            }
+            
+            Days = responseHttpDataDays.Response;
+
+        }
+        catch(Exception ex)
+        {
+            await swl.FireAsync("Error", ex.Message, SweetAlertIcon.Error);
+        }
+       
+    }
+
+    public async Task DeleteAsync(int id)
+    {
+        var responseHttpData = await repository.Get<Day>($"/api/days/{id}");
+        if (responseHttpData.Error)
+        {
+            if (responseHttpData.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
+            {
+                nav.NavigateTo("/weeks");
+                return;
+            }
+            var message = await responseHttpData.GetErrorMessageAsync();
+            await swl.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+        day = responseHttpData.Response;
+
+        var resultSwl = await swl.FireAsync(new SweetAlertOptions
+            {
+                Title = "Confirm Delete",
+                Text = $"Are you sure abaout Delete this State ? : < {day!.StartDay} > ",
+                Icon = SweetAlertIcon.Question,
+                ShowCancelButton = true,
+                CancelButtonText = "No",
+                ConfirmButtonText = "Yes",
+            });
+        var confirm = string.IsNullOrEmpty(resultSwl.Value);
+        if (confirm)
+        {
+            return;
+        }
+
+        var responseHttpDelete = await repository.Delete($"/api/days/{id}");
+        if (responseHttpDelete.Error)
+        {
+            if (responseHttpDelete.HttpResponseMessage.StatusCode != HttpStatusCode.NotFound)
+            {
+                var message = await responseHttpData.GetErrorMessageAsync();
+                await swl.FireAsync("Error", message, SweetAlertIcon.Error);
+                return;
+            }
+            var messageDanger = await responseHttpData.GetErrorMessageAsync();
+            await swl.FireAsync("Error", messageDanger, SweetAlertIcon.Error);
+        }
+        await LoadAsync();
+    }
+}

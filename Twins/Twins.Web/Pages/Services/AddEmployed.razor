@@ -1,0 +1,256 @@
+﻿@page "/services/addEmployed/{Id:int}"
+@inject NavigationManager nav;
+@inject SweetAlertService swl;
+@inject IRepository repository;
+
+@attribute [Authorize(Roles = "Admin,Mannager")]
+
+@if (Users == null)
+{
+    <div class="spinner" />
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+            <h3>Add Employed</h3>
+        </div>
+        <div class="card-body">
+            <Pagination CurrentPage="currentPage" TotalPages="1" SelectedPage="SelectedPageAsync" />
+            <GenericList MyList="Users">
+                <Body>
+                    <table class="table table-striped table-responsive">
+                        <thead>
+                            <tr>
+                                <th>Documment</th>
+                                <th>Name</th>
+                                <th>PhoneNumber</th>
+                                <th>City</th>
+                                <th>User Type</th>
+                                <th>Picture</th>
+                                <th>Funtions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var user in Emplooyes!)
+                            {
+                                if (user.UserType == UserType.Employed || user.UserType == UserType.Mannager)
+                                {
+                                    <tr>
+                                        <th>
+                                            @user.Documment
+                                        </th>
+                                        <th>
+                                            @user.FullName
+                                        </th>
+                                        <th>
+                                            @user.PhoneNumber
+                                        </th>
+                                        <th>
+                                            @user.CityName
+                                        </th>
+                                        <th>
+                                            @user.UserType
+                                        </th>
+                                        <th>
+                                            @user.Photo
+                                        </th>
+                                        <th>
+
+                                            @if (valid(ServiceUsers!, user.Documment) == false)
+                                            {
+
+                                                <a class="btn btn-success" @onclick="()=>AddUser(user.Documment,Id)">
+                                                    <i class="oi oi-plus"></i> Add
+                                                </a>
+                                            }
+                                            else if (ServiceUsers!.Exists(x => x.EmployedDocument == user.Documment))
+                                            {
+                                                <i class="oi oi-lock-locked"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="oi oi-lock-locked"></i>
+                                            }                                                                                      
+                                                                                  
+                                        </th>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </Body>
+            </GenericList>
+        </div>
+        <div class="card-footer">
+
+            <a class="btn btn-danger" href="/services/details/@Id"><i class="oi oi-x"></i>Close</a>
+        </div>
+    </div>
+}
+@attribute [Authorize(Roles = "Admin,Mannager")]
+@code {    
+
+    private int currentPage = 1;
+    private int totalPages;
+
+    public List<User>? Users { get; set; }
+    public List<ServiceUser>? ServiceUsers { get; set; }
+    public List<AddEmployeedUserDTO>? Emplooyes = new();
+
+    [Parameter]
+    [SupplyParameterFromQuery]// when we change the pag , we don't gonna lose the filter or the page
+    public string Page { get; set; } = string.Empty;
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string Filter { get; set; } = string.Empty;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    [CascadingParameter]
+    BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
+
+
+    protected override async Task OnInitializedAsync()
+    {        
+        await LoadAsync();
+        GenerateEmplooyes();
+    }
+    private async Task LoadAsync(int page = 1)
+    {
+        if (!string.IsNullOrWhiteSpace(Page))
+        {
+            page = Convert.ToInt32(Page);
+        }
+        string urlUserData = string.Empty;
+        string urlTotalPages = string.Empty;
+        if (string.IsNullOrEmpty(Filter))
+        {
+            urlUserData = $"api/accounts?page={page}";
+            urlTotalPages = $"api/accounts/totalPages";
+        }
+        else
+        {
+            urlUserData = $"api/accounts?page={page}&filter={Filter}";
+            urlTotalPages = $"api/accounts/totalPages?filter={Filter}";
+        }
+        try
+        {
+            var responseHttData = await repository.Get<List<User>>(urlUserData);
+            var responseHttPage = await repository.Get<int>(urlTotalPages);
+            Users = responseHttData.Response;
+            totalPages = responseHttPage.Response;
+
+            var responseHttpDataServiceUser = await repository.Get<List<ServiceUser>>($"api/servicesUsers?page={page}");
+            if (responseHttpDataServiceUser.Error)
+            {
+                var message = await responseHttpDataServiceUser.GetErrorMessageAsync();
+                await swl.FireAsync("Error",message,SweetAlertIcon.Error);
+            }
+            ServiceUsers = responseHttpDataServiceUser.Response;
+        }
+        catch (Exception ex)
+        {
+            await swl.FireAsync("Error", ex.Message, SweetAlertIcon.Error);
+        }
+
+    }
+    private async Task SelectedPageAsync(int page)
+    {
+        currentPage = page;
+        await LoadAsync(page);
+    }
+    private async Task CleanFilterAsync()
+    {
+        Filter = string.Empty;
+        await ApplyFilterAsync();
+    }
+
+    private async Task ApplyFilterAsync()
+    {
+        int page = 1;
+        await LoadAsync(page);
+        await SelectedPageAsync(page);
+    }
+    private void GenerateEmplooyes()
+    {
+        AddEmployeedUserDTO Emplooyed = new();
+        @foreach (var user in Users!)
+        {
+            Emplooyed = new()
+                {
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    PhoneNumber = user.PhoneNumber,
+                    Documment = user.Documment,
+                    Email = user.Email,
+                    CityId = user.CityId,
+                    CityName = user.City!.Name,
+                    Photo = user.Photo,
+                    UserType = user.UserType,
+                    ServiceId = Id,
+                };
+            Emplooyes!.Add(Emplooyed);
+        }
+    }
+    private async Task AddUser(string document, int id)
+    {
+        AddEmployeedUserDTO Emplooyed = new();
+        @foreach (var user in Users!)
+        {
+            if (document == user.Documment)
+            {
+                Emplooyed = new()
+                    {
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        PhoneNumber = user.PhoneNumber,
+                        Documment = user.Documment,
+                        Email = user.Email,
+                        CityId = user.CityId,
+                        CityName = user.City!.Name,
+                        Photo = user.Photo,
+                        UserType = user.UserType,
+                        ServiceId = Id,
+                        
+                    };
+
+            }
+
+        }
+
+        var HttpResponseAddEmployeed = await repository.Post<AddEmployeedUserDTO>($"/api/services/AddEmployed?id={Id}", Emplooyed!);
+        if (HttpResponseAddEmployeed.Error)
+        {
+            var message = await HttpResponseAddEmployeed.GetErrorMessageAsync();
+            await swl.FireAsync("Error Register User on this service", message, SweetAlertIcon.Error);
+            return;
+        }
+        await swl.FireAsync("Succes", "Macth register User", SweetAlertIcon.Success);
+
+        //await BlazoredModal.CloseAsync(ModalResult.Ok());
+
+
+        await LoadAsync();
+
+    }
+    public bool valid(List<ServiceUser> models,string documment)
+    {
+        //Funciona !!!
+        // remeber is comparate the PK compuest and validate that one (DATACONTEXT INDEX)
+        for (var i=0; i<models.Count();i++)
+        {
+            if (models[i].ServiceId == Id && models[i].EmployedDocument == documment)
+            {
+                return true;
+            }
+        }
+        
+       
+        return false;
+    }
+
+}

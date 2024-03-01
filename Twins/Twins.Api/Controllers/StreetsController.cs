@@ -20,6 +20,15 @@ namespace Twins.Api.Controllers
         {
            _context = context;
         }
+        [AllowAnonymous]
+        [HttpGet("combo/{cityId:int}")]
+        public async Task<ActionResult> GetCombo(int cityId)
+        {
+            return Ok(await _context.Streets
+                .Where(x => x.CityId == cityId)
+                .ToListAsync());
+        }
+
         [HttpGet("totalPages")]
         public async Task<IActionResult> GetPages([FromQuery] PaginationDTO pagination)
         {
