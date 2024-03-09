@@ -1,6 +1,15 @@
 ﻿@page "/calendar/Index/{Id:int}"
+@inject NavigationManager nav
+@inject SweetAlertService swl
+@inject IRepository repository
 
 @using Twins.Shared.Entities
+
+<style>
+    .table td:hover {
+        background-color: #e3e3e3;
+    }
+</style>
 
 <div class="card">
     <div class="card-header">
@@ -10,7 +19,7 @@
         <select @onchange="@(e => LoadCalendar(e.Value!.ToString()))">
             @foreach (var monthName in MonthNames)
             {
-                <option>@monthName</option>
+                <option value="@monthName" selected="@((DateTime.Now.ToString("MMMM") == monthName) ? "selected" : null)">@monthName</option>
             }
         </select>
         <table class="table table-bordered table-striped">
@@ -30,15 +39,33 @@
                     <tr>
                         @foreach (var day in week.Days)
                         {
-                            <td>
+                            <td @onclick="@(e => DayClicked(day,week.Id))">
                                 @day.DateValue
+                                <br>
                                 <br />
                                 @if (day.Note != null)
                                 {
                                     <label style="color:#c00;font-weight:bold">@day.Note</label>
                                     <br />
+                                   
                                 }
-                                <!-- Puedes agregar más lógica aquí para mostrar otras propiedades de Day -->
+                                @if(day.ServiceCount>0){
+                                    <a class="btn btn-success"><i class="oi oi-list"></i></a>
+                                }
+                                @if (ServiceDays != null && ServiceDaysLoaded)
+                                {
+                                    @if (ServiceDays!.Exists(x => x.DateValue == day.DateValue) || Days.Exists(x=>x.DateValue == day.DateValue))
+                                    {
+                                        <a class="btn btn-success m-3"><i class="oi oi-list"></i></a>
+                                        <a class="btn btn-warning m-3"><i class="oi oi-pencil"></i></a>
+                                    }
+                                }
+                                else if (ServiceDays == null)
+                                {
+                                    <label>No Service Yet</label>
+                                }
+                               
+                                                               
                             </td>
                         }
                     </tr>
@@ -50,30 +77,44 @@
     </div>
 </div>
 
+
 @code {
+    // if() <a class="btn btn-primary" @onclick=@(()=>ShowModal(0,true,0))><i class="oi oi-plus"></i></a>
+    public bool ServiceDaysLoaded = false;
     public List<string> MonthNames { get; set; } = new List<string>();
     public List<string> days { get; set; } = new List<string>();
+    public List<ServiceDays>? ServiceDays { get; set; }
     public List<WeekWorked> Weeks { get; set; } = new List<WeekWorked>();
+    public List<Day> Days { get; set; } = new List<Day>();
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
+
     [Parameter]
     public int Id { get; set; }
+    [CascadingParameter]
+    IModalService Modal { get; set; } = default!;
 
-    protected override void OnInitialized()
+
+    protected override async Task OnInitializedAsync()
     {
+        await LoadAsync();
+    }
+    public async Task LoadAsync()
+    {
+        await LoadServiceDaysAsync();
         MonthNames = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.MonthGenitiveNames.ToList();
-        //LoadCalendar(MonthNames.First());
-        Id = DateTime.Now.Month; // Establecer el mes actual como el valor por defecto
-        LoadCalendar(MonthNames[Id - 1]);
+        Id = DateTime.Now.Month;
+        await LoadCalendar(MonthNames[Id - 1]);
     }
 
-    private void LoadCalendar(string month)
+    private async Task LoadCalendar(string month)
     {
         int monthIndex = DateTime.ParseExact(month, "MMMM", System.Globalization.CultureInfo.CurrentCulture).Month;
         StartDate = new DateTime(DateTime.Now.Year, monthIndex, 1);
-        EndDate = StartDate.AddMonths(1).AddDays(-1); // Get the last day of the month
+        EndDate = StartDate.AddMonths(1).AddDays(-1); // Get the last day of the month      
         GenerateCalendarHead();
         GenerateCalendarBody();
+               
     }
 
     private void GenerateCalendarHead()
@@ -101,10 +142,9 @@
             dates.Add(new Day()
                 {
                     DateValue = dt.ToString("dd-MMM-yyyy"),
-                    DateName = dt.ToString("dddd")
+                    DateName = dt.ToString("dddd"),
                     // Puedes agregar más propiedades aquí si es necesario
                 });
-
             if (flag == 7 || countDays == totalDays)
             {
                 week = new WeekWorked();
@@ -117,5 +157,83 @@
 
             countDays++;
         }
+    }
+    private async Task LoadServiceDaysAsync()
+    {
+        var htppResponseGetDataServiceDays = await repository.Get<List<ServiceDays>>($"/api/serviceDays");
+        if (htppResponseGetDataServiceDays.Error)
+        {
+            var message = await htppResponseGetDataServiceDays.GetErrorMessageAsync();
+            await swl.FireAsync("Error ServiceDays List\n", message, SweetAlertIcon.Error);
+        }
+        ServiceDays = htppResponseGetDataServiceDays.Response;
+        ServiceDaysLoaded = true;
+        if (ServiceDays == null)
+        {
+            await swl.FireAsync("Empy Response", "List ServiceDays empy", SweetAlertIcon.Warning);
+        }
+
+    }
+
+
+
+
+    private async Task DayClicked(Day day, int Id)
+    {
+        if (!Days.Exists(x => x.DateValue == day.DateValue))
+        {
+            var HttpPostCreateDay = await repository.Post("/api/days", day);
+            if (HttpPostCreateDay.Error)
+            {
+                var message = await HttpPostCreateDay.GetErrorMessageAsync();
+                await swl.FireAsync("Error", message, SweetAlertIcon.Error);
+                return;
+            }
+        }
+        await ShowModal(isEdit: false, option: 0, SelectedDay: day!.DateValue!);
+    }
+
+
+    private async Task ShowModal(int id = 0, bool isEdit = false, int option = 0, string SelectedDay = null!)
+    {
+        IModalReference modalReference;
+
+        if (isEdit && option == 1)
+        {
+            modalReference = Modal.Show<RegisterDayService>(string.Empty, new ModalParameters
+            {
+                { "DayValue", SelectedDay },
+            });
+            return;
+        }
+        else
+        {
+            modalReference = Modal.Show<RegisterDayService>(string.Empty, new ModalParameters
+            {
+                {"DayValue",SelectedDay}
+            });
+        }
+
+        var result = await modalReference.Result;
+        if (result.Confirmed)
+        {
+            await LoadAsync();
+        }
+    }
+
+    public bool valid(List<ServiceDays> models, int id)
+    {
+        //Funciona !!!
+        // remeber is comparate the PK compuest and validate that one (DATACONTEXT INDEX)
+        for (var i = 0; i < models.Count(); i++)
+        {
+            if (models[i].ServiceId == id && models[i].DayId == id)
+            {
+                return true;
+            }
+        }
+
+
+        return false;
     }
 }

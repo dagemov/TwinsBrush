@@ -25,6 +25,7 @@ namespace Twins.Api.Data
         public DbSet<ServicePicture> ServicePictures { get; set; }
         public DbSet<ServiceUser> ServiceUsers { get; set; }
         public DbSet<Service> Services { get; set; }
+        public DbSet<ServiceDays> ServiceDays { get; set; }
         public DbSet<WeekWorked> WeekWorkeds { get; set; }
 
        
@@ -41,6 +42,7 @@ namespace Twins.Api.Data
             modelBuilder.Entity<Street>().HasIndex("CityId","Name").IsUnique();
             modelBuilder.Entity<Service>().HasIndex("Id", "Created").IsUnique();
             modelBuilder.Entity<ServiceUser>().HasIndex("ServiceId" , "EmployedDocument").IsUnique();
+            modelBuilder.Entity<ServiceDays>().HasIndex("ServiceId", "DayId").IsUnique();
             modelBuilder.Entity<Day>().HasIndex("Id", "WeekWorkedId").IsUnique();
             modelBuilder.Entity<WeekWorked>().HasIndex("Id", "ServiceId").IsUnique();
        

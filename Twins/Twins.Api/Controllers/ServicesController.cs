@@ -41,7 +41,6 @@ namespace Twins.Api.Controllers
         public async Task<IActionResult> GetAsync([FromQuery] PaginationDTO pagination)
         {
             var queryable = _context.Services
-                .Include(w => w.WeekWorked)
                 .Include(u => u.Users)
                 .Include(picture => picture.Pictures)
                 .AsQueryable();
@@ -62,7 +61,6 @@ namespace Twins.Api.Controllers
         public async Task<IActionResult> ServicesGetAsync(int id)
         {
             var service = await _context.Services
-                .Include(w => w.WeekWorked)
                 .Include(u => u.Users)
                 .Include(picture => picture.Pictures)
                 .FirstOrDefaultAsync(s => s.Id == id);
@@ -163,7 +161,39 @@ namespace Twins.Api.Controllers
             }
             return Ok(user);
         }
-        
+        [HttpPost("ServiceDay")]
+        public async Task<IActionResult> AddServiceDay( [FromBody] AddServiceDay service)
+        {
+            if (service == null || service.DayValue == null)
+            {
+                return BadRequest("Invalid service or day value");
+            }
+            var day = await _context.Days.FirstOrDefaultAsync(d => d.DateValue == service.DayValue);
+            if (day == null)
+            {
+                return BadRequest("Day not found");
+            }
+
+            ServiceDays sd = new()
+            {
+                DayId = day.Id,
+                ServiceId = service.Id,
+                Service = await _context.Services.FirstOrDefaultAsync(s => s.Id == service.Id),
+                Day = day,
+                CreateDate = DateTime.Now,
+                DateValue = service.DayValue
+            };
+            try
+            {
+                
+                _context.ServiceDays.Add(sd);
+                await _context.SaveChangesAsync();
+            }catch (Exception ex)
+            {
+                return BadRequest($"Failed to add record Service in the day\n"+ex.Message);
+            }
+            return Ok(sd);
+        }
         
         
     }

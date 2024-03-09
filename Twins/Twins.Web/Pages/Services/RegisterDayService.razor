@@ -1,0 +1,93 @@
+﻿@page "/services/registerDayService/{DayValue}"
+@inject NavigationManager nav;
+@inject SweetAlertService swl;
+@inject IRepository repository;
+
+@if(Services == null){
+    <div class="spinner"></div>
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+            Services Aviables
+        </div>
+        <div class="card-body">
+            <GenericList MyList="Services">
+                <Body>
+                    <table>
+                        <thead>
+                            <tr class="m-3">
+                                <th>Service Name</th>
+                                <th>Picture</th>
+                                <th>Description</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(var s in Services){
+                                @if (s.ServiceStatusType != ServiceStatusType.Due || s.ServiceStatusType != ServiceStatusType.Working)
+                                {
+                                    <tr class="m-3">
+                                        <td>@s.Name</td>
+                                        <td><i class="oi oi-camera-slr"></i></td>
+                                        <td>@s.Description</td>
+                                        <td><a class="btn btn-primary" @onclick="()=>AddService(s)"><i class="oi oi-plus"></i></a></td>
+                                    </tr>
+                                }
+                                
+                            }
+                        </tbody>
+                    </table>
+                </Body>
+            </GenericList>
+        </div>
+        <div class="card-footer d-flex justify-content-center">
+            <a class="btn btn-danger" href="/calendar/Index/1">Close <i class="oi oi-X"></i></a>
+        </div>
+    </div>
+}
+@code {
+    [Parameter]
+    public string? DayValue { get; set; }
+
+    public List<Service>? Services { get; set; }
+
+    [CascadingParameter]
+    BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadServicesAsync();
+    }
+
+    private async Task LoadServicesAsync()
+    {
+        var servicesResponse = await repository.Get<List<Service>>("/api/services");
+        if (servicesResponse.Error)
+        {
+            var message = await servicesResponse.GetErrorMessageAsync();
+            await swl.FireAsync("Erro",message,SweetAlertIcon.Error);
+        }
+        Services = servicesResponse.Response;
+    }
+    private async Task AddService(Service s)
+    {
+        AddServiceDay addService = new()
+        {
+            Id = s.Id,
+            Name = s.Name,
+            Description = s.Description,
+            DayValue = DayValue,
+        };       
+        var httpPost = await repository.Post<AddServiceDay>($"/api/services/ServiceDay", addService);
+        if (httpPost.Error)
+        {
+            var message = await httpPost.GetErrorMessageAsync();
+            await swl.FireAsync("Error",message,SweetAlertIcon.Error);
+        }
+        await swl.FireAsync("Succes", "Macth register", SweetAlertIcon.Success);
+        await BlazoredModal.CloseAsync(ModalResult.Ok());
+
+    }
+}

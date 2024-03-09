@@ -6,7 +6,7 @@
     <DataAnnotationsValidator />
     <div class="card">
         <div class="card-header">
-
+            Register Schedule
         </div>
         <div class="card-body">
             <div class="mb-3">
@@ -21,16 +21,36 @@
                     <InputDate Type="InputDateType.DateTimeLocal" class="form-control" @bind-Value="@Day.EndDay" />
                     <ValidationMessage For="@(()=>Day.EndDay)" />
                 </div>
+                <div>
+                    <label>Start Break</label>
+                    <InputDate Type="InputDateType.DateTimeLocal" class="form-control" @bind-Value="@Day.StartBreak" />
+                    <ValidationMessage For="@(()=>Day.StartBreak)" />
+                </div>
+                <div>
+                    <label>End Break</label>
+                    <InputDate Type="InputDateType.DateTimeLocal" class="form-control" @bind-Value="@Day.EndBreak" />
+                    <ValidationMessage For="@(()=>Day.EndBreak)" />
+                </div>
+                <div>
+                    <label>Price By Hour</label>
+                    <InputNumber class="form-control" @bind-Value="@Day.PayByHour"/>
+                    <ValidationMessage For="@(()=>Day.PayByHour)" />
+                </div>
+                <div>
+                    <label>Note of the Date</label>
+                    <InputTextArea class="form-control" @bind-Value="@Day.Note"/>
+                    <ValidationMessage For="@(()=>Day.Note)"/>
+                </div>
             </div>
         </div>
         <div class="card-footer">
-            <div class="d-flex justify-content-between">                
-                <button class="btn btn-success" @onclick="ReturnAction">Back</button>
+            <div class="d-flex justify-content-between">
                 <button type="submit" class="btn btn-primary ">Save</button>
-            </div>          
+                <button class="btn btn-success" @onclick="ReturnAction">Back</button>
+            </div>
         </div>
     </div>
-    
+
 
 </EditForm>
 

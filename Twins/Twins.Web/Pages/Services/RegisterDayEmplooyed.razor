@@ -1,0 +1,45 @@
+﻿@page "/services/registerDayEmployoted/{Id:int}"
+@inject IRepository repository
+@inject NavigationManager nav
+@inject SweetAlertService swl
+@attribute [Authorize(Roles = "Admin,Employed")]
+
+<DayForm @ref="dayForm" Day="day" OnValidSubmit="CreateAsync" ReturnAction="Return" />
+
+@code {
+    private Day day=new();
+    private DayForm? dayForm;
+    [Parameter]
+    public int Id { get; set; }
+    public Service? Service{ get; set; }
+    public int WeekId{ get; set; }
+    private async Task LoadAsync()
+    {
+        var HttpResponseService = await repository.Get<Service>($"/api/services/{Id}");
+        if (HttpResponseService.Error)
+        {
+            var message = await HttpResponseService.GetErrorMessageAsync();
+            await swl.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+        Service = HttpResponseService.Response;
+    }
+    private async Task CreateAsync()
+    {
+        var httpResponse = await repository.Post($"/api/days", day);
+        if (httpResponse.Error)
+        {
+            var message = await httpResponse.GetErrorMessageAsync();
+            await swl.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+
+        Return();
+    }
+
+    private void Return()
+    {
+        dayForm!.FormPostedSuccessFully = true;
+        nav.NavigateTo($"/calendar/Index/{Id}");
+    }
+}

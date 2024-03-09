@@ -15,7 +15,7 @@
     public int WeekWorkedId { get; set; }
     private async Task CreateAsync()
     {
-        day.WeekWorkedId = WeekWorkedId;
+        //day.WeekWorkedId = WeekWorkedId;
         var httpResponse = await repository.Post("/api/days", day);
         if (httpResponse.Error)
         {

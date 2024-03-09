@@ -12,8 +12,8 @@ using Twins.Api.Data;
 namespace Twins.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240306183023_FixedWeekAndDayEntitiesCalendar")]
-    partial class FixedWeekAndDayEntitiesCalendar
+    [Migration("20240309215304_AddScheduelCalendarAtService")]
+    partial class AddScheduelCalendarAtService
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -265,7 +265,7 @@ namespace Twins.Api.Migrations
                     b.Property<DateTime?>("StartDay")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("WeekWorkedId")
+                    b.Property<int?>("WeekWorkedId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -273,7 +273,8 @@ namespace Twins.Api.Migrations
                     b.HasIndex("WeekWorkedId");
 
                     b.HasIndex("Id", "WeekWorkedId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[WeekWorkedId] IS NOT NULL");
 
                     b.ToTable("Days");
                 });
@@ -343,6 +344,9 @@ namespace Twins.Api.Migrations
                     b.Property<DateTime?>("Created")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("DayId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -366,11 +370,43 @@ namespace Twins.Api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DayId");
+
                     b.HasIndex("Id", "Created")
                         .IsUnique()
                         .HasFilter("[Created] IS NOT NULL");
 
                     b.ToTable("Services");
+                });
+
+            modelBuilder.Entity("Twins.Shared.Entities.ServiceDays", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DayId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DayId");
+
+                    b.HasIndex("ServiceId", "DayId")
+                        .IsUnique();
+
+                    b.ToTable("ServiceDays");
                 });
 
             modelBuilder.Entity("Twins.Shared.Entities.ServicePicture", b =>
@@ -557,6 +593,9 @@ namespace Twins.Api.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ServiceDaysId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -581,6 +620,8 @@ namespace Twins.Api.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("ServiceDaysId");
 
                     b.HasIndex("Id", "Documment")
                         .IsUnique();
@@ -682,13 +723,9 @@ namespace Twins.Api.Migrations
 
             modelBuilder.Entity("Twins.Shared.Entities.Day", b =>
                 {
-                    b.HasOne("Twins.Shared.Entities.WeekWorked", "WeekWorked")
+                    b.HasOne("Twins.Shared.Entities.WeekWorked", null)
                         .WithMany("Days")
-                        .HasForeignKey("WeekWorkedId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("WeekWorked");
+                        .HasForeignKey("WeekWorkedId");
                 });
 
             modelBuilder.Entity("Twins.Shared.Entities.PersonWeek", b =>
@@ -708,6 +745,32 @@ namespace Twins.Api.Migrations
                     b.Navigation("Person");
 
                     b.Navigation("WeekWorked");
+                });
+
+            modelBuilder.Entity("Twins.Shared.Entities.Service", b =>
+                {
+                    b.HasOne("Twins.Shared.Entities.Day", null)
+                        .WithMany("ServicesInDay")
+                        .HasForeignKey("DayId");
+                });
+
+            modelBuilder.Entity("Twins.Shared.Entities.ServiceDays", b =>
+                {
+                    b.HasOne("Twins.Shared.Entities.Day", "Day")
+                        .WithMany()
+                        .HasForeignKey("DayId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Twins.Shared.Entities.Service", "Service")
+                        .WithMany("ServiceDays")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Day");
+
+                    b.Navigation("Service");
                 });
 
             modelBuilder.Entity("Twins.Shared.Entities.ServicePicture", b =>
@@ -770,13 +833,17 @@ namespace Twins.Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Twins.Shared.Entities.ServiceDays", null)
+                        .WithMany("Emplooyes")
+                        .HasForeignKey("ServiceDaysId");
+
                     b.Navigation("City");
                 });
 
             modelBuilder.Entity("Twins.Shared.Entities.WeekWorked", b =>
                 {
                     b.HasOne("Twins.Shared.Entities.Service", "Service")
-                        .WithMany("WeekWorked")
+                        .WithMany()
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -796,6 +863,11 @@ namespace Twins.Api.Migrations
                     b.Navigation("States");
                 });
 
+            modelBuilder.Entity("Twins.Shared.Entities.Day", b =>
+                {
+                    b.Navigation("ServicesInDay");
+                });
+
             modelBuilder.Entity("Twins.Shared.Entities.Person", b =>
                 {
                     b.Navigation("Weeks");
@@ -805,9 +877,14 @@ namespace Twins.Api.Migrations
                 {
                     b.Navigation("Pictures");
 
-                    b.Navigation("Users");
+                    b.Navigation("ServiceDays");
 
-                    b.Navigation("WeekWorked");
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("Twins.Shared.Entities.ServiceDays", b =>
+                {
+                    b.Navigation("Emplooyes");
                 });
 
             modelBuilder.Entity("Twins.Shared.Entities.State", b =>

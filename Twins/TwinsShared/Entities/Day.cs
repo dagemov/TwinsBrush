@@ -17,8 +17,8 @@ namespace Twins.Shared.Entities
         public DateTime? StartBreak { get; set; }
         public DateTime? EndBreak { get; set; }
 
-        public int WeekWorkedId { get; set; }
-        public WeekWorked? WeekWorked { get; set; }
+        public ICollection<Service>? ServicesInDay { get; set; }
+        public int ServiceCount => ServicesInDay == null ? 0 : ServicesInDay.Count();
         public TimeSpan? TotalHours => EndDay - StartDay;
         
         public  float? PayByHour { get;set; }

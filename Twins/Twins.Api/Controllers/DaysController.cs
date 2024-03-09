@@ -68,7 +68,7 @@ namespace Twins.Api.Controllers
         public async Task<IActionResult> PostAsync(Day day)
         {
             if (ModelState.IsValid)
-            {
+            {                
                 try
                 {
                     _context.Days.Add(day);

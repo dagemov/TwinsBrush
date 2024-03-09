@@ -1,5 +1,5 @@
 ﻿@page "/services/create"
-<h3>CreateService</h3>
+<h3>Add Service</h3>
 @inject NavigationManager nav;
 @inject SweetAlertService swl;
 @inject IRepository repository;
@@ -10,9 +10,7 @@
 
 @code {
     private Service? service = new();
-
     private ServiceForm? serviceForm;
-
     [CascadingParameter]
     BlazoredModalInstance BlazoredModal { get; set; } = default!;
 

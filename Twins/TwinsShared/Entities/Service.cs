@@ -27,7 +27,8 @@ namespace Twins.Shared.Entities
         public ICollection<ServicePicture>? Pictures { get; set; }
         //public string? MainPictre => Pictures == null ? string.Empty : Pictures.FirstOrDefault()!.Image;
 
-        public ICollection<WeekWorked>? WeekWorked { get; set; }
+       // public ICollection<WeekWorked>? WeekWorked { get; set; }
+       public ICollection<ServiceDays>? ServiceDays { get; set; }
         public ServiceStatusType ServiceStatusType { get; set; }
         public DateTime? Created { get; set; }
         public DateTime? Updated { get; set;} = null!;
