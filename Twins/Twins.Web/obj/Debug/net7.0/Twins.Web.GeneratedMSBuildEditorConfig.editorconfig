@@ -132,6 +132,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2VydmljZXNcRGF5Rm9ybS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/WorkSpace/TwinsBrush/Twins/Twins.Web/Pages/Services/EditServiceDay.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2VydmljZXNcRWRpdFNlcnZpY2VEYXkucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/WorkSpace/TwinsBrush/Twins/Twins.Web/Pages/Services/RegisterDayEmplooyed.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2VydmljZXNcUmVnaXN0ZXJEYXlFbXBsb295ZWQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 

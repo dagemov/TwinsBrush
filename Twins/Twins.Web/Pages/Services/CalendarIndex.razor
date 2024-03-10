@@ -56,7 +56,11 @@
                                 {
                                     @if (ServiceDays!.Exists(x => x.DateValue == day.DateValue) || Days.Exists(x=>x.DateValue == day.DateValue))
                                     {
-                                        <a class="btn btn-success m-3"><i class="oi oi-list"></i></a>
+                                        var IdService = ServiceDays.FirstOrDefault(x => x.DateValue == day.DateValue);
+                                        <a class="btn btn-success m-3" 
+                                            @onclick="@(()=>ShowModal(IdService!.ServiceId,true,1,day!.DateValue))">
+                                            <i class="oi oi-list"></i>
+                                        </a>
                                         <a class="btn btn-warning m-3"><i class="oi oi-pencil"></i></a>
                                     }
                                 }
@@ -198,11 +202,12 @@
     {
         IModalReference modalReference;
 
-        if (isEdit && option == 1)
+        if (isEdit && option == 1 && id!=0)
         {
-            modalReference = Modal.Show<RegisterDayService>(string.Empty, new ModalParameters
+            modalReference = Modal.Show<ServicesDetails>(string.Empty, new ModalParameters
             {
-                { "DayValue", SelectedDay },
+                {"Id",id},
+                //{ "DayValue", SelectedDay },
             });
             return;
         }
