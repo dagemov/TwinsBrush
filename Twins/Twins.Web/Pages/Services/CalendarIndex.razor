@@ -66,7 +66,7 @@
                                         @onclick="@(()=>ShowModal(IdService!.ServiceId,true,2,day!.DateValue!))">
                                             <i class="oi oi-pencil"></i>
                                         </a>
-                                        <a class="btn btn-danger" @onclick="@(()=>ShowModal(IdService!.Id,true,3,day!.DateValue!))">
+                                        <a class="btn btn-danger" @onclick="(()=>ServiceDeleteAsync(IdService!.Id))">
                                             <i class="oi oi-trash"></i>
                                         </a>
                                     }
@@ -244,12 +244,6 @@
             });
 
         }
-        else if (isEdit && option == 3 && id != 0)
-        {
-            await ServiceDeleteAsync(id);
-            //await BlazoredModal.CloseAsync(ModalResult.Ok());
-            await LoadAsync();
-        }
         else
         {
 
@@ -261,13 +255,14 @@
         try
         {
             var result = await modalReference!.Result;
-            if (result.Confirmed || result != null)
+            if (result.Confirmed)
             {
                 await LoadAsync();
             }
+            
         }catch(Exception ex)
         {
-             //await swl.FireAsync("Error", "Result ErrorModal", SweetAlertIcon.Error);
+          Console.WriteLine($"Error modal Reference null: {ex.Message}");
         }
        
         
@@ -297,7 +292,7 @@
             new SweetAlertOptions
                 {
                     Title = "Confirm Delete",
-                    Text = $"Are you sure abaout Delete this Service \n ? =>  ,\n on the date : ",
+                    Text = $"Are you sure abaout Delete this Service \n : {ServiceDay.DateValue}",
                     Icon = SweetAlertIcon.Question,
                     ShowCancelButton = true,
                     CancelButtonText = "No",
