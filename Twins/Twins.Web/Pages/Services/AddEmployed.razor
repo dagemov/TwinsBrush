@@ -84,7 +84,8 @@ else
         </div>
         <div class="card-footer">
 
-            <a class="btn btn-danger" href="/services/details/@Id"><i class="oi oi-x"></i>Close</a>
+            <a class="btn btn-danger" @onclick="CloseModal"><i class="oi oi-x"></i>Close</a>
+
         </div>
     </div>
 }
@@ -251,6 +252,10 @@ else
         
        
         return false;
+    }
+    private void CloseModal()
+    {
+        BlazoredModal.CloseAsync(ModalResult.Ok());
     }
 
 }

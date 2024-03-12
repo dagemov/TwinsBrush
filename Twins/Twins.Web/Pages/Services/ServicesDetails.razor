@@ -14,6 +14,9 @@ else
             <span>
                 <i class="oi oi-bookmark"></i>  @service.Name Service
             </span>
+            <div class="d-flex justify-content-end">
+                <i class="oi oi-x btn btn-danger" @onclick="CloseModal"></i>
+            </div>
         </div>
         <div class="card-body">
             <div class="mb-2" style="display: flex; flex-wrap:wrap; align-items: center;">
@@ -74,6 +77,10 @@ else
 
     private Service? service;
     private ServiceUser? serviceUser;
+
+    [CascadingParameter]
+    BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
     [CascadingParameter]
     IModalService Modal { get; set; } = default!;
 
@@ -123,5 +130,9 @@ else
         {
             await LoadAsync();
         }
+    }
+    private void CloseModal()
+    {
+        BlazoredModal.CloseAsync(ModalResult.Ok());
     }
 }

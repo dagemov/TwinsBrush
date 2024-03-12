@@ -47,29 +47,36 @@
                                 {
                                     <label style="color:#c00;font-weight:bold">@day.Note</label>
                                     <br />
-                                   
+
                                 }
-                                @if(day.ServiceCount>0){
+                                @if (day.ServiceCount > 0)
+                                {
                                     <a class="btn btn-success"><i class="oi oi-list"></i></a>
                                 }
                                 @if (ServiceDays != null && ServiceDaysLoaded)
                                 {
-                                    @if (ServiceDays!.Exists(x => x.DateValue == day.DateValue) || Days.Exists(x=>x.DateValue == day.DateValue))
+                                    @if (ServiceDays!.Exists(x => x.DateValue == day.DateValue) || Days.Exists(x => x.DateValue == day.DateValue))
                                     {
                                         var IdService = ServiceDays.FirstOrDefault(x => x.DateValue == day.DateValue);
-                                        <a class="btn btn-success m-3" 
-                                            @onclick="@(()=>ShowModal(IdService!.ServiceId,true,1,day!.DateValue))">
+                                        <a class="btn btn-success m-3"
+                                        @onclick="@(()=>ShowModal(IdService!.ServiceId,true,1,day!.DateValue!))">
                                             <i class="oi oi-list"></i>
                                         </a>
-                                        <a class="btn btn-warning m-3"><i class="oi oi-pencil"></i></a>
+                                        <a class="btn btn-warning m-3"
+                                        @onclick="@(()=>ShowModal(IdService!.ServiceId,true,2,day!.DateValue!))">
+                                            <i class="oi oi-pencil"></i>
+                                        </a>
+                                        <a class="btn btn-danger" @onclick="@(()=>ShowModal(IdService!.Id,true,3,day!.DateValue!))">
+                                            <i class="oi oi-trash"></i>
+                                        </a>
                                     }
                                 }
                                 else if (ServiceDays == null)
                                 {
                                     <label>No Service Yet</label>
                                 }
-                               
-                                                               
+
+
                             </td>
                         }
                     </tr>
@@ -88,6 +95,7 @@
     public List<string> MonthNames { get; set; } = new List<string>();
     public List<string> days { get; set; } = new List<string>();
     public List<ServiceDays>? ServiceDays { get; set; }
+    public ServiceDays? ServiceDay { get; set; }
     public List<WeekWorked> Weeks { get; set; } = new List<WeekWorked>();
     public List<Day> Days { get; set; } = new List<Day>();
     public DateTime StartDate { get; set; }
@@ -95,6 +103,10 @@
 
     [Parameter]
     public int Id { get; set; }
+
+    [CascadingParameter]
+    BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
     [CascadingParameter]
     IModalService Modal { get; set; } = default!;
 
@@ -105,20 +117,28 @@
     }
     public async Task LoadAsync()
     {
-        await LoadServiceDaysAsync();
-        MonthNames = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.MonthGenitiveNames.ToList();
-        Id = DateTime.Now.Month;
-        await LoadCalendar(MonthNames[Id - 1]);
+        try
+        {
+            await LoadServiceDaysAsync();
+            MonthNames = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.MonthGenitiveNames.ToList();
+            Id = DateTime.Now.Month;
+            await LoadCalendar(MonthNames[Id - 1]);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error in LoadAsync: {ex.Message}");
+        }
+
     }
 
     private async Task LoadCalendar(string month)
     {
         int monthIndex = DateTime.ParseExact(month, "MMMM", System.Globalization.CultureInfo.CurrentCulture).Month;
         StartDate = new DateTime(DateTime.Now.Year, monthIndex, 1);
-        EndDate = StartDate.AddMonths(1).AddDays(-1); // Get the last day of the month      
+        EndDate = StartDate.AddMonths(1).AddDays(-1); // Get the last day of the month
         GenerateCalendarHead();
         GenerateCalendarBody();
-               
+
     }
 
     private void GenerateCalendarHead()
@@ -194,36 +214,63 @@
                 return;
             }
         }
-        await ShowModal(isEdit: false, option: 0, SelectedDay: day!.DateValue!);
+        if (!ServiceDays!.Exists(x => x.DateValue == day.DateValue))
+        {
+            await ShowModal(isEdit: false, option: 0, SelectedDay: day!.DateValue!);
+        }
+
     }
 
 
     private async Task ShowModal(int id = 0, bool isEdit = false, int option = 0, string SelectedDay = null!)
     {
-        IModalReference modalReference;
+        IModalReference? modalReference = null;
 
-        if (isEdit && option == 1 && id!=0)
+        if (isEdit && option == 1 && id != 0)
         {
             modalReference = Modal.Show<ServicesDetails>(string.Empty, new ModalParameters
             {
                 {"Id",id},
                 //{ "DayValue", SelectedDay },
             });
-            return;
+
+        }
+        else if (isEdit && option == 2 && id != 0)
+        {
+            modalReference = Modal.Show<ServiceEdit>(string.Empty, new ModalParameters
+            {
+                {"Id",id},
+                //{ "DayValue", SelectedDay },
+            });
+
+        }
+        else if (isEdit && option == 3 && id != 0)
+        {
+            await ServiceDeleteAsync(id);
+            //await BlazoredModal.CloseAsync(ModalResult.Ok());
+            await LoadAsync();
         }
         else
         {
-            modalReference = Modal.Show<RegisterDayService>(string.Empty, new ModalParameters
-            {
-                {"DayValue",SelectedDay}
-            });
-        }
 
-        var result = await modalReference.Result;
-        if (result.Confirmed)
-        {
-            await LoadAsync();
+            modalReference = Modal.Show<RegisterDayService>(string.Empty, new ModalParameters
+                {
+                    { "DayValue", SelectedDay }
+                });
         }
+        try
+        {
+            var result = await modalReference!.Result;
+            if (result.Confirmed || result != null)
+            {
+                await LoadAsync();
+            }
+        }catch(Exception ex)
+        {
+             //await swl.FireAsync("Error", "Result ErrorModal", SweetAlertIcon.Error);
+        }
+       
+        
     }
 
     public bool valid(List<ServiceDays> models, int id)
@@ -240,5 +287,43 @@
 
 
         return false;
+    }
+    public async Task ServiceDeleteAsync(int id)
+    {
+        var responseHttp = await repository.Get<ServiceDays>($"/api/serviceDays/{id}");
+        ServiceDay = responseHttp!.Response;
+        //Quesiton before remove
+        var result = await swl.FireAsync(
+            new SweetAlertOptions
+                {
+                    Title = "Confirm Delete",
+                    Text = $"Are you sure abaout Delete this Service \n ? =>  ,\n on the date : ",
+                    Icon = SweetAlertIcon.Question,
+                    ShowCancelButton = true,
+                    CancelButtonText = "No",
+                    ConfirmButtonText = "Yes"
+                }
+        );
+        var confirmSwl = string.IsNullOrEmpty(result.Value);
+        if (confirmSwl)
+        {
+            return;
+        }
+        var responseHttpDelete = await repository.Delete($"/api/serviceDays/{id}");
+
+        if (responseHttpDelete.Error)
+        {
+            if (responseHttpDelete.HttpResponseMessage.StatusCode != HttpStatusCode.NotFound)
+            {
+                var message = await responseHttpDelete.GetErrorMessageAsync();
+                await swl.FireAsync("Error", message, SweetAlertIcon.Error);
+                return;
+            }
+        }
+        await LoadAsync();
+    }
+    private void CloseModal()
+    {
+        BlazoredModal.CloseAsync(ModalResult.Ok());
     }
 }

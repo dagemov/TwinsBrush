@@ -27,7 +27,30 @@ namespace Twins.Api.Controllers
             return Ok(await queryable
                 .ToListAsync());
         }
-        
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetAsync(int id)
+        {
+            var ServiceDay = await _context.ServiceDays.FirstOrDefaultAsync(x => x.Id == id);
+            if (ServiceDay == null)
+            {
+                return NotFound();
+            }          
+            return Ok(ServiceDay);
+        }
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteAsync(int id)
+        {
+            var ServiceDay = await _context.ServiceDays.FirstOrDefaultAsync(x => x.Id == id);
+            if (ServiceDay == null)
+            {
+                return NotFound();
+            }
+
+            _context.ServiceDays.Remove(ServiceDay);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
     }
 
    
