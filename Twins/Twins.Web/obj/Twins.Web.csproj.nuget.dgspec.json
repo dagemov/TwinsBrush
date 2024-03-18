@@ -74,6 +74,10 @@
               "target": "Package",
               "version": "[7.0.11, )"
             },
+            "Radzen.Blazor": {
+              "target": "Package",
+              "version": "[4.27.1, )"
+            },
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
               "version": "[7.3.1, )"

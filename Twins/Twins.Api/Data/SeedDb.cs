@@ -33,6 +33,7 @@ namespace Twins.Api.Data
             await CheckUserAsync("5698", "Stefany", "Abelaez", "Pepe@yopmail.com", "9865341274", UserType.Employed);
             await CheckUserAsync("70512938", "Carlos", "Alberto", "Alberto123@yopmail.com", "36096814", UserType.Mannager);
             await CheckUserAsync("61158237", "Isabel", "Calvo", "isabel429@yopmail.com", "3109234658", UserType.Mannager);
+            await CheckUserAsync("698745", "Sara", "Squivolqui", "Sara@yopmail.com", "5897641253", UserType.User);
 
         }
 

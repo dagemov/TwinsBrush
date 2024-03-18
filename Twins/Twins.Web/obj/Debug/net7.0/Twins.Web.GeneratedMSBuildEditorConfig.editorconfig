@@ -116,6 +116,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUGVyc29uXFBlcnNvbkluZGV4LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/WorkSpace/TwinsBrush/Twins/Twins.Web/Pages/Services/AddAddressService.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2VydmljZXNcQWRkQWRkcmVzc1NlcnZpY2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/WorkSpace/TwinsBrush/Twins/Twins.Web/Pages/Services/AddCustomerService.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2VydmljZXNcQWRkQ3VzdG9tZXJTZXJ2aWNlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/WorkSpace/TwinsBrush/Twins/Twins.Web/Pages/Services/AddEmployed.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2VydmljZXNcQWRkRW1wbG95ZWQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 

@@ -341,6 +341,9 @@ namespace Twins.Api.Migrations
                     b.Property<DateTime?>("Created")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("CustomerDocument")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("DayId")
                         .HasColumnType("int");
 
@@ -439,13 +442,16 @@ namespace Twins.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("EmployedDocument")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<bool?>("Register")
-                        .HasColumnType("bit");
-
                     b.Property<int>("ServiceId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("StreetId")
                         .HasColumnType("int");
 
                     b.Property<float>("TotalHourService")
@@ -453,6 +459,58 @@ namespace Twins.Api.Migrations
 
                     b.Property<float>("TotalToPay")
                         .HasColumnType("real");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StreetId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("ServiceId", "EmployedDocument")
+                        .IsUnique()
+                        .HasFilter("[EmployedDocument] IS NOT NULL");
+
+                    b.ToTable("ServiceUsers");
+                });
+
+            modelBuilder.Entity("Twins.Shared.Entities.ServicesCustomer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CustomerDocument")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumberAgency")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("int");
+
+                    b.Property<float>("TotalHourService")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -462,11 +520,11 @@ namespace Twins.Api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.HasIndex("ServiceId", "EmployedDocument")
+                    b.HasIndex("ServiceId", "CustomerDocument")
                         .IsUnique()
-                        .HasFilter("[EmployedDocument] IS NOT NULL");
+                        .HasFilter("[CustomerDocument] IS NOT NULL");
 
-                    b.ToTable("ServiceUsers");
+                    b.ToTable("ServiceCustomers");
                 });
 
             modelBuilder.Entity("Twins.Shared.Entities.State", b =>
@@ -792,8 +850,33 @@ namespace Twins.Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Twins.Shared.Entities.Street", "Street")
+                        .WithMany()
+                        .HasForeignKey("StreetId");
+
                     b.HasOne("Twins.Shared.Entities.User", "User")
                         .WithMany("Services")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Service");
+
+                    b.Navigation("Street");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Twins.Shared.Entities.ServicesCustomer", b =>
+                {
+                    b.HasOne("Twins.Shared.Entities.Service", "Service")
+                        .WithMany()
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Twins.Shared.Entities.User", "User")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

@@ -2,9 +2,12 @@
 @inject NavigationManager nav;
 @inject SweetAlertService swl;
 @inject IRepository repository;
+ 
+
+<link rel="stylesheet" href="https://localhost:5001/css/Services.css" />
 
 @if(Services == null){
-    <div class="spinner"></div>
+    <div  class="spinner"></div>
 }
 else
 {
@@ -19,7 +22,7 @@ else
                         <thead>
                             <tr class="mb-10">
                                 <th>Service Name</th>
-                                <th>Picture</th>
+                                <th>Picture <i class="oi oi-camera-slr"> </i></th>
                                 <th>Description</th>
                                 <th>Action</th>
                             </tr>
@@ -30,7 +33,10 @@ else
                                 {
                                     <tr class="m-3">
                                         <td>@s.Name</td>
-                                        <td class="d-flex justify-content-center"> <i class="oi oi-camera-slr"></i></td>
+                                        <td class="d-flex justify-content-center">
+                                            <img class="imagenModalTable" src="/Images/ServicesExample/No_Picture.jpg" 
+                                                />
+                                            </td>
                                         <td>@s.Description</td>
                                         <td><a class="btn btn-primary" @onclick="()=>AddService(s)"><i class="oi oi-plus"></i></a></td>
                                     </tr>

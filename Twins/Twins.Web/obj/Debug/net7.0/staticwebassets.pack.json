@@ -13,6 +13,18 @@
       "PackagePath": "staticwebassets\\Twins.Web.styles.css"
     },
     {
+      "Id": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\wwwroot\\Images\\ServicesExample\\DeepCleanService.jpg",
+      "PackagePath": "staticwebassets\\Images\\ServicesExample\\DeepCleanService.jpg"
+    },
+    {
+      "Id": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\wwwroot\\Images\\ServicesExample\\No_Picture.jpg",
+      "PackagePath": "staticwebassets\\Images\\ServicesExample\\No_Picture.jpg"
+    },
+    {
+      "Id": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\wwwroot\\css\\Services.css",
+      "PackagePath": "staticwebassets\\css\\Services.css"
+    },
+    {
       "Id": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\wwwroot\\css\\app.css",
       "PackagePath": "staticwebassets\\css\\app.css"
     },

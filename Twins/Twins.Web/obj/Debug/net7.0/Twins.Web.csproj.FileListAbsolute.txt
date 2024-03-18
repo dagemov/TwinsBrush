@@ -608,12 +608,9 @@ C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\Twins.Web.AssemblyInfoI
 C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\Twins.Web.AssemblyInfo.cs
 C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\Twins.Web.csproj.CoreCompileInputs.cache
 C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\Twins.Web.MvcApplicationPartsAssemblyInfo.cache
-C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\build-gz\+mOn2Fid.gz
-C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\build-gz\itPvmWXJ.gz
 C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\build-gz\yDRzvCuu.gz
 C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\build-gz\LEBFt+au.gz
 C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\build-gz\x3juLqRp.gz
-C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\build-gz\a2+LI14Q.gz
 C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\build-gz\cQV+jfQ9.gz
 C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\build-gz\eVqfDHKp.gz
 C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\build-gz\RCIWTY+Q.gz
@@ -915,3 +912,14 @@ C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\build-gz\CyzuJIMO.gz
 C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\build-gz\5XLiMm+7.gz
 C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\build-gz\VXth9wde.gz
 C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\build-gz\aO64nd9e.gz
+C:\WorkSpace\TwinsBrush\Twins\Twins.Web\bin\Debug\net7.0\wwwroot\_framework\Radzen.Blazor.dll
+C:\WorkSpace\TwinsBrush\Twins\Twins.Web\bin\Debug\net7.0\wwwroot\_framework\System.Linq.Dynamic.Core.dll
+C:\WorkSpace\TwinsBrush\Twins\Twins.Web\bin\Debug\net7.0\wwwroot\_framework\Radzen.Blazor.dll.gz
+C:\WorkSpace\TwinsBrush\Twins\Twins.Web\bin\Debug\net7.0\wwwroot\_framework\System.Linq.Dynamic.Core.dll.gz
+C:\WorkSpace\TwinsBrush\Twins\Twins.Web\bin\Debug\net7.0\Radzen.Blazor.dll
+C:\WorkSpace\TwinsBrush\Twins\Twins.Web\bin\Debug\net7.0\System.Linq.Dynamic.Core.dll
+C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\build-gz\cOk0xrN1.gz
+C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\build-gz\eaSUB9c0.gz
+C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\build-gz\BTXfY+UT.gz
+C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\build-gz\05d9c9Tt.gz
+C:\WorkSpace\TwinsBrush\Twins\Twins.Web\obj\Debug\net7.0\build-gz\Tf+BAvVs.gz

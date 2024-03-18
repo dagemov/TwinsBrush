@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Twins.Api.Helpers;
 using Twins.Shared.Enum;
 
 namespace Twins.Shared.Entities
@@ -22,8 +23,10 @@ namespace Twins.Shared.Entities
        
 
         public ICollection<ServiceUser>? Users { get; set; }
-        public int  UserCount => Users == null ? 0 : Users.Count() ;
-
+        // public int EmployeedsCount => Users == null ? 0 : Users.Count(u=>u.User.UserType == UserType.Employed || u.User.UserType == UserType.Mannager) ;
+        public int UserCount => Users == null ? 0 : Users.Count();
+        //public int Customer => Users == null ? 0 : Users.Count(u => u.User.UserType == UserType.User);
+        public string? CustomerDocument { get; set; }
         public ICollection<ServicePicture>? Pictures { get; set; }
         //public string? MainPictre => Pictures == null ? string.Empty : Pictures.FirstOrDefault()!.Image;
 

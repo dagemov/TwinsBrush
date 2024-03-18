@@ -135,7 +135,6 @@ namespace Twins.Api.Controllers
                     EmployedDocument = user.Documment,
                     ServiceId = id,
                     Service = await _context.Services.FirstOrDefaultAsync(x => x.Id == id),
-                    Register = true,
                 };
                 await _context.ServiceUsers.AddAsync(serviceUser);
                 try
@@ -161,6 +160,50 @@ namespace Twins.Api.Controllers
             }
             return Ok(user);
         }
+        [HttpPost("AddCustomer")]
+        public async Task<IActionResult> AddCustomerService([FromBody] AddCustomerDTO user, [FromQuery] int id)
+        {
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (user.UserType == UserType.User)
+            {
+                ServicesCustomer ServicesCustomer = new()
+                {
+                    UserId = user.Id,
+                    User = await _context.Users.FirstOrDefaultAsync(x => x.Email == user.Email),
+                    ServiceId = id,
+                    Service = await _context.Services.FirstOrDefaultAsync(x => x.Id == id),
+                    CreatedDate = DateTime.Now,
+                    CustomerDocument = user.Documment
+                };
+                await _context.ServiceCustomers.AddAsync(ServicesCustomer);
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateException dbUpdateException)
+                {
+                    if (dbUpdateException.InnerException!.Message.Contains("duplicate"))
+                    {
+                        return BadRequest($"Is Alredy exist one Custommer with this document in this service \n : < {user.Documment} >");
+                    }
+                    return BadRequest(dbUpdateException.Message);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+            else
+            {
+                return BadRequest("The User must be Customer User to register here");
+            }
+            return Ok(user);
+        }
+
         [HttpPost("ServiceDay")]
         public async Task<IActionResult> AddServiceDay( [FromBody] AddServiceDay service)
         {

@@ -36,38 +36,40 @@ else
                             {
                                 @if (emplooyed.ServiceId == Id)
                                 {
-                                    <tr>
-                                        <th>
-                                            @emplooyed.EmployedDocument
-                                        </th>
-                                        <th>
-                                            @emplooyed.TotalHourService
-                                        </th>
-                                        <th>
-                                            @emplooyed.User!.Email
-                                        </th>
-                                        <th>
-                                            @emplooyed.User.FullName
-                                        </th>
-                                        <th>
-                                            @emplooyed.User.UserType
-                                        </th>
-                                        <th>
-                                            @emplooyed.User.Photo
-                                        </th>
-                                        <th>
-                                            <a class="btn btn-outline-danger" @onclick="()=>DeleteAsync(emplooyed.Id)">
-                                                <i class="oi oi-trash"></i>
-                                            </a>
-                                            <a class="btn btn-outline-primary" @onclick="()=>ShowModal(emplooyed.ServiceId,true,1)">
-                                                <i class="oi oi-calendar"></i>
-                                            </a>
-                                            <a class="btn btn-outline-success">
-                                                <i class="oi oi-envelope-closed"></i>
-                                            </a>
-                                        </th>
-                                    </tr>
-
+                                    @if (emplooyed.User.UserType == UserType.Employed || emplooyed.User.UserType == UserType.Mannager)
+                                    {
+                                        <tr>
+                                            <th>
+                                                @emplooyed.EmployedDocument
+                                            </th>
+                                            <th>
+                                                @emplooyed.TotalHourService
+                                            </th>
+                                            <th>
+                                                @emplooyed.User!.Email
+                                            </th>
+                                            <th>
+                                                @emplooyed.User.FullName
+                                            </th>
+                                            <th>
+                                                @emplooyed.User.UserType
+                                            </th>
+                                            <th>
+                                                @emplooyed.User.Photo
+                                            </th>
+                                            <th>
+                                                <a class="btn btn-outline-danger" @onclick="()=>DeleteAsync(emplooyed.Id)">
+                                                    <i class="oi oi-trash"></i>
+                                                </a>
+                                                <a class="btn btn-outline-primary" @onclick="()=>ShowModal(emplooyed.ServiceId,true,1)">
+                                                    <i class="oi oi-calendar"></i>
+                                                </a>
+                                                <a class="btn btn-outline-success">
+                                                    <i class="oi oi-envelope-closed"></i>
+                                                </a>
+                                            </th>
+                                        </tr>
+                                    }
                                 }
                             }
                         </tbody>
