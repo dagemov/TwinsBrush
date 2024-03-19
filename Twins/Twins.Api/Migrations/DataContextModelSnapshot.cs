@@ -362,6 +362,9 @@ namespace Twins.Api.Migrations
                     b.Property<int>("ServiceStatusType")
                         .HasColumnType("int");
 
+                    b.Property<int?>("StreetId")
+                        .HasColumnType("int");
+
                     b.Property<float?>("Taz")
                         .HasColumnType("real");
 
@@ -371,6 +374,8 @@ namespace Twins.Api.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("DayId");
+
+                    b.HasIndex("StreetId");
 
                     b.HasIndex("Id", "Created")
                         .IsUnique()
@@ -810,6 +815,12 @@ namespace Twins.Api.Migrations
                     b.HasOne("Twins.Shared.Entities.Day", null)
                         .WithMany("ServicesInDay")
                         .HasForeignKey("DayId");
+
+                    b.HasOne("Twins.Shared.Entities.Street", "Street")
+                        .WithMany()
+                        .HasForeignKey("StreetId");
+
+                    b.Navigation("Street");
                 });
 
             modelBuilder.Entity("Twins.Shared.Entities.ServiceDays", b =>

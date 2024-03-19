@@ -6,7 +6,7 @@
 
 @attribute [Authorize(Roles = "Admin,Mannager")]
 
-<ServiceForm @ref="serviceForm" Service="service" OnValidSubmit="CreateAsync" ReturnAction="Return" ></ServiceForm>
+<ServiceForm @ref="serviceForm" Service="service"  OnValidSubmit="CreateAsync" ReturnAction="Return" ></ServiceForm>
 
 @code {
     private Service? service = new();
@@ -16,6 +16,7 @@
 
     private async Task CreateAsync()
     {
+
         var httpResponse = await repository.Post($"/api/services",service);
         if (httpResponse.Error)
         {
@@ -23,6 +24,7 @@
             await swl.FireAsync("Error", message, SweetAlertIcon.Error);
         }
         await BlazoredModal.CloseAsync(ModalResult.Ok());
+
         Return();
     }
     private void Return()

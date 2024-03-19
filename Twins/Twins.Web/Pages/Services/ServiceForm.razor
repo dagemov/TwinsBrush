@@ -1,4 +1,6 @@
-﻿@inject SweetAlertService swl
+﻿@inject IRepository repository
+@inject NavigationManager nav
+@inject SweetAlertService swl
 
 <NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
 <EditForm EditContext="EditContext" OnValidSubmit="OnValidSubmit">
@@ -11,54 +13,52 @@
             </div>
         </div>
         <div class="card-body">
-            <div class="mb-3">
-                <label>Service : </label>
-                <div>
-                    <label>Name Service</label>
-                    <InputText class="form-control" @bind-Value="@Service.Name" />
-                    <ValidationMessage For="@(()=>Service.Name)" />
-                </div>
-                <div>
-                    <label>Description Of this Service</label>
-                    <InputText class="form-control" @bind-Value="@Service.Description" />
-                    <ValidationMessage For="@(()=>Service.Description)" />
-                </div>
-                <div>
-                    <label> Price By Hour <i class="oi oi-dollar"></i></label>
-                    <InputNumber class="form-control" @bind-Value="@Service.PriceService" />
-                    <ValidationMessage For="@(()=>Service.PriceService)" />
-                </div>
-                <div>
-                    <label>Actual Taz <i class="oi oi-calculator"></i></label>
-                    <InputNumber class="form-control" @bind-Value="@Service.Taz" placeholder="Example 0.14" />
-                    <ValidationMessage For="@(()=>Service.Taz)" />
-                </div>
-                <div>
-                    <label>Status Service <i class="oi oi-tag"></i></label>
-                    <select class="form-select" @bind="@serviceStatusType">
-                        <option value="0">-- Choose Service Status --</option>
-                        @foreach (var Status in Enum.GetValues(typeof(ServiceStatusType)))
-                        {
-                            <option value="@Status">@Status</option>
-                        }
-                    </select>
-                    <ValidationMessage For="@(()=>Service.ServiceStatusType)" />
+            <div class="col-6">
+                <div class="mb-3">
+                    <div>
+                        <label>Name Service</label>
+                        <InputText class="form-control" @bind-Value="@Service.Name" />
+                        <ValidationMessage For="@(()=>Service.Name)" />
+                    </div>
+                    <div>
+                        <label>Description Of this Service</label>
+                        <InputText class="form-control" @bind-Value="@Service.Description" />
+                        <ValidationMessage For="@(()=>Service.Description)" />
+                    </div>
+                    <div>
+                        <label> Price By Hour <i class="oi oi-dollar"></i></label>
+                        <InputNumber class="form-control" @bind-Value="@Service.PriceService" />
+                        <ValidationMessage For="@(()=>Service.PriceService)" />
+                    </div>
+                    <div>
+                        <label>Actual Taz <i class="oi oi-calculator"></i></label>
+                        <InputNumber class="form-control" @bind-Value="@Service.Taz" placeholder="Example 0.14" />
+                        <ValidationMessage For="@(()=>Service.Taz)" />
+                    </div>
+                    <div>
+                        <label>Status Service <i class="oi oi-tag"></i></label>
+                        <select class="form-select" @bind="@serviceStatusType">
+                            <option value="0">-- Choose Service Status --</option>
+                            @foreach (var Status in Enum.GetValues(typeof(ServiceStatusType)))
+                            {
+                                <option value="@Status">@Status</option>
+                            }
+                        </select>
+                        <ValidationMessage For="@(()=>Service.ServiceStatusType)" />
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class=" card-footer ">
-            <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-primary ">Save</button>               
-            </div>
-           
-        </div>
-    </div>   
+         </div>
+         <div class="card-footer">
+            <button type="submit" class="btn btn-primary ">Save</button>
+         </div>
+    </div>
 </EditForm>
 
 @code {
     private EditContext EditContext = null!;
+    private ServiceStatusType serviceStatusType { get; set; }
 
-    private ServiceStatusType serviceStatusType{ get; set; }
 
     [CascadingParameter]
     BlazoredModalInstance BlazoredModal { get; set; } = default!;
@@ -66,6 +66,7 @@
     [Parameter]
     [EditorRequired]
     public Service Service { get; set; } = null!;
+
 
     [Parameter]
     [EditorRequired]
@@ -112,4 +113,5 @@
     {
         BlazoredModal.CloseAsync(ModalResult.Ok());
     }
+   
 }

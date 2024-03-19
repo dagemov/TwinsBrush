@@ -1,32 +1,93 @@
-﻿@inject SweetAlertService swl
+﻿@inject IRepository repository
+@inject NavigationManager nav
+@inject SweetAlertService swl
+
 
 <NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
 
 <EditForm EditContext="EditContext" OnValidSubmit="OnValidSubmit">
     <DataAnnotationsValidator />
-    <div class="mb-3">
-        <label>Street : Number </label>
-        <div>
-            <InputText class="form-control" @bind-Value="@Street.StreetNumber" />
-            <ValidationMessage For="@(()=>Street.StreetNumber)" />
+    <div class="card">
+        <div class="card-header">
+            <span>Street Addres</span>
         </div>
-        <label>Street : Name </label>
-        <div>
-            <InputText class="form-control" @bind-Value="@Street.Name" />
-            <ValidationMessage For="@(()=>Street.Name)" />
+        <div class="card-body">
+            <div class="mb-3">
+                <div class="mb-3">
+                    <label> Country <i class="oi oi-globe"></i></label>
+                    <select class="form-select" @onchange="CountryChangedAsycn">
+                        <option value="0">-- Choose one Country --</option>
+                        @if (countries is not null)
+                        {
+                            @foreach (var country in countries)
+                            {
+                                <option value="@country.Id">@country.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label>State </label>
+                    <div>
+                        <select class="form-select" @onchange="StateChangedAsync">
+                            <option value="0">-- Choose one State --</option>
+                            @if (states is not null)
+                            {
+                                @foreach (var state in states)
+                                {
+                                    <option value="@state.Id">@state.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label>City </label>
+                    <div>
+                        <select class="form-select" @bind="Street.CityId">
+                            <option value="0">-- Choose one city --</option>
+                            @if (cities is not null)
+                            {
+                                @foreach (var city in cities)
+                                {
+                                    <option value="@city.Id">@city.Name</option>
+                                }
+                            }
+                        </select>
+                        <ValidationMessage For="@(() => Street.CityId)" />
+                    </div>
+                </div>
+
+                <label>Street : Number </label>
+                <div>
+                    <InputText class="form-control" @bind-Value="@Street.StreetNumber" />
+                    <ValidationMessage For="@(()=>Street.StreetNumber)" />
+                </div>
+                <label>Street : Name </label>
+                <div>
+                    <InputText class="form-control" @bind-Value="@Street.Name" />
+                    <ValidationMessage For="@(()=>Street.Name)" />
+                </div>
+                <label>Street : ZipCode </label>
+                <div>
+                    <InputText class="form-control" @bind-Value="@Street.ZipCode" />
+                    <ValidationMessage For="@(()=>Street.ZipCode)" />
+                </div>
+            </div>
         </div>
-        <label>Street : ZipCode </label>
-        <div>
-            <InputText class="form-control" @bind-Value="@Street.ZipCode" />
-            <ValidationMessage For="@(()=>Street.ZipCode)" />
+        <div class="card-footer d-flex justify-content-between"> 
+            <button class="btn btn-success" @onclick="ReturnAction">Back</button>
+            <button type="submit" class="btn btn-primary ">Save</button>
+            
         </div>
-    </div>
-    <button type="submit" class="btn btn-primary ">Save</button>
-    <button class="btn btn-success" @onclick="ReturnAction">Back</button>
+    </div>   
+    
 </EditForm>
 @code {
     private EditContext EditContext = null!;
-
+    private List<Country>? countries;
+    private List<State>? states;
+    private List<City>? cities;
     [Parameter]
     [EditorRequired]
     public Street Street { get; set; } = null!;
@@ -41,11 +102,16 @@
 
     public bool FormPostedSuccessFully { get; set; }
 
-    protected override void OnInitialized()
+    /*protected override async void OnInitialized()
+    {
+        
+        //await LoadCountriesAsync();
+    }*/
+    protected async override Task OnInitializedAsync()
     {
         EditContext = new(Street);
+        await LoadCountriesAsync();
     }
-
     private async Task OnBeforeInternalNavigation(LocationChangingContext context)
     {
         var formWasMofied = EditContext.IsModified();
@@ -72,4 +138,50 @@
 
         context.PreventNavigation();
     }
+    private async Task LoadCountriesAsync()
+    {
+        var responseHttp = await repository.Get<List<Country>>("/api/countries/combo");
+        if (responseHttp.Error)
+        {
+            var message = await responseHttp.GetErrorMessageAsync();
+            await swl.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+
+        countries = responseHttp.Response;
+    }
+    private async Task LoadStatesAsync(int countryId)
+    {
+        var responseHttp = await repository.Get<List<State>>($"/api/states/combo/{countryId}");
+        if (responseHttp.Error)
+        {
+            var message = await responseHttp.GetErrorMessageAsync();
+            await swl.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+        states = responseHttp.Response;
+    }
+    private async Task LoadCitiesAsync(int stateId)
+    {
+        var responseHttp = await repository.Get<List<City>>($"/api/cities/combo/{stateId}");
+        if (responseHttp.Error)
+        {
+            var message = await responseHttp.GetErrorMessageAsync();
+            await swl.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+        cities = responseHttp.Response;
+    }
+
+    private async Task CountryChangedAsycn(ChangeEventArgs change)
+    {
+        var selectedCountry = Convert.ToInt32(change.Value!);
+        await LoadStatesAsync(selectedCountry);
+    }
+    private async Task StateChangedAsync(ChangeEventArgs change)
+    {
+        var selectedState = Convert.ToInt32(change.Value!);
+        await LoadCitiesAsync(selectedState);
+    }
+    
 }

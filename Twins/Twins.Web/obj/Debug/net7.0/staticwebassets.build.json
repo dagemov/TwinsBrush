@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "IjJDdsv4UjMm4jT57JIiBnoN/UwRFmx7JKZ1jjI7+ow=",
+  "Hash": "2A4+u/9v7gzm5XpEQ5oDGEeGlgdL5u8c89/W4YUU7sY=",
   "Source": "Twins.Web",
   "BasePath": "/",
   "Mode": "Root",
@@ -9450,6 +9450,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Images\\ServicesExample\\DeepCleanService.jpg"
+    },
+    {
+      "Identity": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\wwwroot\\Images\\ServicesExample\\ManngerSara.jpg",
+      "SourceId": "Twins.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\wwwroot\\",
+      "BasePath": "/",
+      "RelativePath": "Images/ServicesExample/ManngerSara.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\ServicesExample\\ManngerSara.jpg"
     },
     {
       "Identity": "C:\\WorkSpace\\TwinsBrush\\Twins\\Twins.Web\\wwwroot\\Images\\ServicesExample\\No_Picture.jpg",

@@ -11,6 +11,7 @@
 }
 else
 {
+
     <div class="card">
         <div class="card-header">
             <span>
@@ -58,8 +59,8 @@ else
                                         <a class="btn btn-info oi oi-list" aria-hidden="true" style="cursor:pointer"
                                            href="/services/details/@service.Id"></a>
                                         <a aria-hidden="true" class="btn btn-warning oi oi-pencil" @onclick=@(()=>ShowModal(service.Id,true))></a>
-                                        <button aria-hidden="true" class="btn btn-danger oi oi-trash" @onclick="(()=>ServiceDeleteAsync(service.Id))"></button>
-                                        <a class="btn btn-warning" href="/calendar/Index/@service.Id">Test Calendar</a>
+                                        <button aria-hidden="true" class="btn btn-danger oi oi-trash" @onclick="(()=>ServiceDeleteAsync(service.Id))"/>
+                                        <a class="btn btn-warning" href="/calendar/Index/@service.Id"><i class="oi oi-calendar"></i> Test Calendar</a>
                                     </td>
                                 </tr>
                             }

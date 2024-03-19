@@ -19,13 +19,12 @@ namespace Twins.Shared.Entities
         public float? PriceService { get; set; }
         public float? Taz { get; set; }
         public float? FinalPrice => PriceService+(PriceService*Taz) == null ?0 : PriceService + (PriceService * Taz);
-
-       
-
+        
+        public int? StreetId { get; set; }
+        public Street? Street { get; set; }
         public ICollection<ServiceUser>? Users { get; set; }
         // public int EmployeedsCount => Users == null ? 0 : Users.Count(u=>u.User.UserType == UserType.Employed || u.User.UserType == UserType.Mannager) ;
         public int UserCount => Users == null ? 0 : Users.Count();
-        //public int Customer => Users == null ? 0 : Users.Count(u => u.User.UserType == UserType.User);
         public string? CustomerDocument { get; set; }
         public ICollection<ServicePicture>? Pictures { get; set; }
         //public string? MainPictre => Pictures == null ? string.Empty : Pictures.FirstOrDefault()!.Image;
@@ -35,5 +34,6 @@ namespace Twins.Shared.Entities
         public ServiceStatusType ServiceStatusType { get; set; }
         public DateTime? Created { get; set; }
         public DateTime? Updated { get; set;} = null!;
+        
     }
 }

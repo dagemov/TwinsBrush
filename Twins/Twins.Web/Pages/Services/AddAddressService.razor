@@ -1,4 +1,8 @@
-﻿<h3>AddAddressService</h3>
+﻿
+@inject NavigationManager nav;
+@inject SweetAlertService swl;
+@inject IRepository repository;
+@attribute [Authorize(Roles = "Admin,Mannager")]
 
 @code {
 
