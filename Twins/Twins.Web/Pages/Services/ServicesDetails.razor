@@ -84,21 +84,27 @@ else
 
                         </div>
                         address
-                        <h5> @service.Street.Name</h5>
                    </div>
                     
                 </div>
             </div>
         </div>
         <div class="card-footer mt-3">
-            <div class="d-flex justify-content-between">
-                <a class="btn btn-primary oi oi-plus" @onclick=@(()=>ShowModal(service.Id,true,1))> Add Employed</a>
-                <a class="btn btn-secondary oi oi-plus" @onclick=@(()=>ShowModal(service.Id,true,2))>Add address</a>
-                <a class="btn btn-warning oi oi-plus" @onclick=@(()=>ShowModal(service.Id,true,3))> Add Customer</a>
-                <a class="btn btn-success oi oi-people" href="/services/showEmplooyes/@service.Id"> Employees</a>
-                <a class="btn btn-primary" href="/services/addEmployedService/@service.Id">test Radzen</a>
-            </div>
-            
+            <AuthorizeView Roles="Admin,Mannager">
+                <Authorized>
+                    <div class="d-flex justify-content-between">
+                        <a class="btn btn-primary oi oi-plus" @onclick=@(()=>ShowModal(service.Id,true,1))> Add Employed</a>
+                        <a class="btn btn-secondary oi oi-plus" @onclick=@(()=>ShowModal(service.Id,true,2))>Add address</a>
+                        <a class="btn btn-warning oi oi-plus" @onclick=@(()=>ShowModal(service.Id,true,3))> Add Customer</a>
+                        <a class="btn btn-success oi oi-people" href="/services/showEmplooyes/@service.Id"> Employees</a>
+                        <a class="btn btn-primary" href="/services/addEmployedService/@service.Id">test Radzen</a>
+                    </div>
+                </Authorized>
+                <NotAuthorized>
+                    <p>No options</p>
+                </NotAuthorized>
+            </AuthorizeView>
+                       
         </div>
     </div>
 }
@@ -115,8 +121,13 @@ else
     public List<User>? Users { get; set; }
     public List<ServicesCustomer>? ServicesCustomer { get; set; }
     public List<ServiceUser>? ServiceUsers{ get; set; }
+
     [CascadingParameter]
     BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
+    public event EventHandler ModalClosed;
+
+    private bool isModalOpen = false;
 
     [CascadingParameter]
     IModalService Modal { get; set; } = default!;
@@ -124,6 +135,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         await LoadAsync();
+
     }
     private async Task LoadAsync()
     {
@@ -167,40 +179,44 @@ else
             await swl.FireAsync("No record", "There aren't Customer in this service\n Do u wanna register one ?", SweetAlertIcon.Question);
         }
     }
-    private async Task ShowModal(int id = 0, bool isEdit = false,int option = 0)
+    private async Task ShowModal(int id = 0, bool isEdit = false, int option = 0)
     {
         IModalReference modalReference = null!;
 
         if (isEdit && option == 1)
         {
             modalReference = Modal.Show<AddEmployed>(string.Empty, new ModalParameters().Add("Id", id));
-            return;
         }
-        if (isEdit && option == 2)
+        else if (isEdit && option == 2)
         {
             modalReference = Modal.Show<AddAddressService>(string.Empty, new ModalParameters().Add("Id", id));
-            return;
         }
-        if (isEdit && option == 3)
+        else if (isEdit && option == 3)
         {
             modalReference = Modal.Show<AddCustomerService>(string.Empty, new ModalParameters().Add("Id", id));
-            return;
         }
         else
         {
             modalReference = Modal.Show<ServiceCreate>();
         }
 
+        await CloseSubModalConfirm(modalReference);
+    }
+
+    private async Task CloseSubModalConfirm(IModalReference modalReference)
+    {
         var result = await modalReference.Result;
         if (result.Confirmed)
         {
             await LoadAsync();
         }
     }
-    private void CloseModal()
+    private async Task CloseModal()
     {
-        BlazoredModal.CloseAsync(ModalResult.Ok());
+        await BlazoredModal.CloseAsync(ModalResult.Ok());
     }
+
+
     private object FindCustomer(List<ServicesCustomer> models, int id)
     {
         for (var i = 0; i < models.Count(); i++)
@@ -237,4 +253,5 @@ else
         //return EmplooyesCount = Users == null ? 0 : Users.Count(); ;
         return EmplooyesCount;
     }
+
 }

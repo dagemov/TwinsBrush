@@ -82,9 +82,9 @@ else
                 </Body>
             </GenericList>
         </div>
-        <div class="card-footer">
+        <div class="card-footer d-flex justify-content-center">
 
-            <a class="btn btn-danger" @onclick="CloseModal"><i class="oi oi-x"></i>Close</a>
+            <button type="submit" class="btn btn-danger" @onclick="()=>CloseModal()"><i class="oi oi-x"></i>Close</button>
 
         </div>
     </div>
@@ -98,7 +98,6 @@ else
     public List<User>? Users { get; set; }
     public List<ServicesCustomer>? ServicesCustomers { get; set; }
     public List<AddCustomerDTO>? Customers = new();
-
     [Parameter]
     [SupplyParameterFromQuery]// when we change the pag , we don't gonna lose the filter or the page
     public string Page { get; set; } = string.Empty;
@@ -114,11 +113,10 @@ else
     BlazoredModalInstance BlazoredModal { get; set; } = default!;
 
 
-
     protected override async Task OnInitializedAsync()
     {
         await LoadAsync();
-        GenerateEmplooyes();
+        GenerateEmplooyes();       
     }
     private async Task LoadAsync(int page = 1)
     {
@@ -248,9 +246,9 @@ else
 
         return false;
     }
-    private void CloseModal()
+    private async Task  CloseModal()
     {
-        BlazoredModal.CloseAsync(ModalResult.Ok());
+        await BlazoredModal.CloseAsync(ModalResult.Ok());
     }
 
 }

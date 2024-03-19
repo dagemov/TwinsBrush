@@ -84,8 +84,7 @@ else
         </div>
         <div class="card-footer">
 
-            <a class="btn btn-danger" @onclick="CloseModal"><i class="oi oi-x"></i>Close</a>
-
+            <a class="btn btn-danger" @onclick="async ()=> await CloseModal()"><i class="oi oi-x"></i>Close</a>
         </div>
     </div>
 }
@@ -249,13 +248,12 @@ else
                 return true;
             }
         }
-        
-       
+
+
         return false;
     }
-    private void CloseModal()
+    private async Task CloseModal()
     {
-        BlazoredModal.CloseAsync(ModalResult.Ok());
+        await BlazoredModal.CloseAsync(ModalResult.Ok());
     }
-
 }
