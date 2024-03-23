@@ -218,7 +218,7 @@
         }
         if (!ServiceDays!.Exists(x => x.DateValue == day.DateValue))
         {
-            await ShowModal(isEdit: false, option: 0, SelectedDay: day!.DateValue!);
+            await ShowModal(isEdit: true, option: 3, SelectedDay: day!.DateValue!);
         }
 
     }
@@ -251,7 +251,8 @@
 
             modalReference = Modal.Show<RegisterDayService>(string.Empty, new ModalParameters
                 {
-                    { "DayValue", SelectedDay }
+                    { "DayValue", SelectedDay },
+                    {"id",id}
                 });
         }
         try

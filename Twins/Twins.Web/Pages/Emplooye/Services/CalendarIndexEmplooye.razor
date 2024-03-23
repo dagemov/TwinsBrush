@@ -52,17 +52,13 @@
                                     <br />
 
                                 }
-                                @if (day.ServiceCount > 0)
-                                {
-                                    <a class="btn btn-success"><i class="oi oi-list"></i></a>
-                                }
                                 @if (ServiceDays != null && ServiceDaysLoaded)
                                 {
                                     @if (ServiceDays!.Exists(x => x.DateValue == day.DateValue) || Days.Exists(x => x.DateValue == day.DateValue))
                                     {
                                         
                                         var IdService = ServiceDays.FirstOrDefault(x => x.DateValue == day.DateValue);
-                                        @if (valid(ServiceDays, IdService!.ServiceId))
+                                        @if (ValidV2(ServiceDays, IdService!.ServiceId))
                                         {
                                             <a class="btn btn-success m-3"
                                             @onclick="@(()=>ShowModal(IdService!.ServiceId,true,1,day!.DateValue!))">
@@ -238,15 +234,19 @@
     {
         IModalReference? modalReference = null;
 
+        /* if (isEdit && option == 1 && id != 0)
+             {
+             modalReference = Modal.Show<ServicesDetails>(string.Empty, new ModalParameters
+                 {
+                 {"Id",id},
+                 //{ "DayValue", SelectedDay },
+         });
+
+         }  */
         if (isEdit && option == 1 && id != 0)
         {
-            modalReference = Modal.Show<ServicesDetails>(string.Empty, new ModalParameters
-            {
-                {"Id",id},
-                //{ "DayValue", SelectedDay },
-            });
-
-        }       
+            modalReference = Modal.Show<ServiceIndex>(string.Empty);
+        }
         try
         {
             var result = await modalReference!.Result;
@@ -272,15 +272,30 @@
         {
             if (models[i].ServiceId == id && models[i].DayId == id)
             {
-                if (Emplooyes[i].ServiceId == models[i].ServiceId)
+                if (Emplooyes[i]!.ServiceId == models[i].ServiceId)
+                {
+                    return true;
+                }
+
+            }
+        }
+
+
+        return false;
+    }
+    public bool ValidV2(List<ServiceDays> models, int serviceId)
+    {
+        foreach (var model in models)
+        {
+            if (model.ServiceId == serviceId)
+            {
+                if (Emplooyes.Exists(u => u.ServiceId == serviceId) /*&& Emplooyes.Exists(u=>u.UserId == model.)*/)
                 {
                     return true;
                 }
                 
             }
         }
-
-
         return false;
     }
    

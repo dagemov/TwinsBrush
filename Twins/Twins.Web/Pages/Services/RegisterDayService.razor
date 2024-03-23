@@ -1,4 +1,4 @@
-﻿@page "/services/registerDayService/{DayValue}"
+﻿@page "/services/registerDayService/{DayValue}/{id:int}"
 @inject NavigationManager nav;
 @inject SweetAlertService swl;
 @inject IRepository repository;
@@ -56,15 +56,18 @@ else
 @code {
     [Parameter]
     public string? DayValue { get; set; }
-
+    [Parameter]
+    public int id{ get; set; }
     public List<Service>? Services { get; set; }
-
+    public List<ServiceUser>? Emplooyes{ get; set; }
+    public List<AddServiceDay>? ServicesDays{ get; set; }
     [CascadingParameter]
     BlazoredModalInstance BlazoredModal { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
         await LoadServicesAsync();
+       // await GenerateServiceUser();
     }
 
     private async Task LoadServicesAsync()
@@ -77,23 +80,62 @@ else
         }
         Services = servicesResponse.Response;
     }
+    private async Task GenerateServiceUser(int id)
+    {
+
+        var htppResponseEmployes = await repository.Get<List<ServiceUser>>($"/api/servicesUsers/ListById?id={id}");
+        if (htppResponseEmployes.Error)
+        {
+            var message = await htppResponseEmployes.GetErrorMessageAsync();
+            await swl.FireAsync("Erro", message, SweetAlertIcon.Error);
+        }
+        Emplooyes = htppResponseEmployes.Response;
+    }
+    private async Task GeneraServiceDay()
+    {
+        var httpResponseServiceDay = await repository.Get<List<ServiceDays>>($"/api/serviceDays");
+    }
     private async Task AddService(Service s)
     {
-        AddServiceDay addService = new()
+        await GenerateServiceUser(s.Id);
+        if (Emplooyes == null)
         {
-            Id = s.Id,
-            Name = s.Name,
-            Description = s.Description,
-            DayValue = DayValue,
-        };       
+            await swl.FireAsync("Error","\nYou must pull the emplooyes before \nGo to Service Detials in index",SweetAlertIcon.Error);
+            return;
+        }
+        AddServiceDay addService = new()
+            {
+                Id = s.Id,
+                Name = s.Name,
+                Description = s.Description,
+                DayValue = DayValue,
+                Users = Emplooyes
+            };
         var httpPost = await repository.Post<AddServiceDay>($"/api/services/ServiceDay", addService);
         if (httpPost.Error)
         {
             var message = await httpPost.GetErrorMessageAsync();
             await swl.FireAsync("Error",message,SweetAlertIcon.Error);
         }
-        await swl.FireAsync("Succes", "Macth register", SweetAlertIcon.Success);
-        await BlazoredModal.CloseAsync(ModalResult.Ok());
+        else
+        {
+            //var ServiceDay = httpPost.Response;
+            foreach (var employee in Emplooyes)
+            {
+                employee.ServiceDayId = addService.Id;
+                employee.UpdateDate = DateTime.Now;
+                var htppPost = await repository.Put<ServiceUser>($"/api/servicesUsers", employee);
+                if (htppPost.Error)
+                {
+                    var message = await httpPost.GetErrorMessageAsync();
+                    await swl.FireAsync($"Error",$"Error with this record : {employee.EmployedDocument}\n" + message, SweetAlertIcon.Error);
+                    return;
+                }
+            }           
+            await swl.FireAsync("Succes", "Macth register", SweetAlertIcon.Success);
+            await BlazoredModal.CloseAsync(ModalResult.Ok());
+        }
+        
 
     }
 }

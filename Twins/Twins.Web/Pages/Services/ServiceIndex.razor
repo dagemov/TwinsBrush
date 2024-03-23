@@ -4,7 +4,7 @@
 @inject SweetAlertService swl;
 @inject IRepository repository;
 
-@attribute [Authorize(Roles = "Admin,Mannager")]
+@attribute [Authorize(Roles = "Admin,Mannager,Employed")]
 
 @if(Services is null){
     <div class="spinner" />
@@ -57,9 +57,15 @@ else
                                     </td>
                                     <td>
                                         <a class="btn btn-info oi oi-list" aria-hidden="true" style="cursor:pointer"
-                                           href="/services/details/@service.Id"></a>
-                                        <a aria-hidden="true" class="btn btn-warning oi oi-pencil" @onclick=@(()=>ShowModal(service.Id,true))></a>
-                                        <button aria-hidden="true" class="btn btn-danger oi oi-trash" @onclick="(()=>ServiceDeleteAsync(service.Id))"/>
+                                            @onclick=@(()=>ShowModal(service.Id))
+                                           ></a>
+                                        <AuthorizeView Roles="Admin,Mannager">
+                                            <Authorized>
+                                                <a aria-hidden="true" class="btn btn-warning oi oi-pencil" @onclick=@(()=>ShowModal(service.Id,true))/>
+                                                <button aria-hidden="true" class="btn btn-danger oi oi-trash" @onclick="(()=>ServiceDeleteAsync                     (service.Id))" />
+                                            </Authorized>
+                                        </AuthorizeView>
+                                        
                                         <a class="btn btn-warning" href="/calendar/Index/@service.Id"><i class="oi oi-calendar"></i> Test Calendar</a>
                                     </td>
                                 </tr>
@@ -154,6 +160,8 @@ else
         if (isEdit)
         {
             modalReference = Modal.Show<ServiceEdit>(string.Empty, new ModalParameters().Add("Id", id));
+        }else if(id!=0){
+            modalReference = Modal.Show<ServicesDetails>(string.Empty, new ModalParameters().Add("Id", id));
         }
         else
         {

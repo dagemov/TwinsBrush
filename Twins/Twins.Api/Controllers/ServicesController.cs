@@ -205,35 +205,55 @@ namespace Twins.Api.Controllers
         }
 
         [HttpPost("ServiceDay")]
-        public async Task<IActionResult> AddServiceDay( [FromBody] AddServiceDay service)
+        public async Task<IActionResult> AddServiceDay( [FromBody] AddServiceDay service/*, [FromQuery] int id*/)
         {
             if (service == null || service.DayValue == null)
             {
                 return BadRequest("Invalid service or day value");
             }
+
             var day = await _context.Days.FirstOrDefaultAsync(d => d.DateValue == service.DayValue);
             if (day == null)
             {
                 return BadRequest("Day not found");
             }
 
-            ServiceDays sd = new()
+            var sd = new ServiceDays
             {
                 DayId = day.Id,
                 ServiceId = service.Id,
                 Service = await _context.Services.FirstOrDefaultAsync(s => s.Id == service.Id),
                 Day = day,
                 CreateDate = DateTime.Now,
-                DateValue = service.DayValue
+                DateValue = service.DayValue,
+                Emplooyes = new List<ServiceUser>()
             };
+
+            if (service.Users != null && service.Users.Any())
+            {
+                foreach (var user in service.Users)
+                {
+                    var employee = await _context.ServiceUsers.FindAsync(user.Id);
+                    if (employee != null)
+                    {
+                        sd.Emplooyes.Add(employee);
+                    }
+                    else
+                    {
+                        return BadRequest($"Employee with ID {user.Id} not found");
+                    }
+                }
+            }
+
             try
             {
-                
                 _context.ServiceDays.Add(sd);
                 await _context.SaveChangesAsync();
-            }catch (Exception ex)
+                return Ok(sd);
+            }
+            catch (Exception ex)
             {
-                return BadRequest($"Failed to add record Service in the day\n"+ex.Message);
+                return BadRequest($"Failed to add record Service in the day\n{ex.Message}");
             }
             return Ok(sd);
         }

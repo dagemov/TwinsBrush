@@ -13,7 +13,7 @@ namespace Twins.Shared.Entities
         public Service? Service { get; set; }
         public int DayId { get; set; }
         public Day? Day { get; set; }
-        public ICollection<User>? Emplooyes { get; set; }
+        public ICollection<ServiceUser>? Emplooyes { get; set; }
         public int EmplooyesCount => Emplooyes == null ? 0 : Emplooyes.Count();
         public  string? DateValue { get; set; }
         public DateTime CreateDate { get; set; }

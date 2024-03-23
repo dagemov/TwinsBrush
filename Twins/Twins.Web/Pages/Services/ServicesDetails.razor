@@ -101,14 +101,24 @@ else
                     </div>
                 </Authorized>
                 <NotAuthorized>
-                    <p>No options</p>
+                   <div class="row">
+                        <div class="m-3 d-flex justify-content-center">
+                            <label>@DateTime.Now</label>
+                       </div>
+                        
+                       <div class="m-3 d-flex justify-content-center">
+                           <a class="btn btn-primary">Clock Times <i class="oi oi-clock"></i></a>                       
+                       </div>
+                   </div>
                 </NotAuthorized>
             </AuthorizeView>
                        
         </div>
     </div>
 }
+
 @code {
+    //Arreglar bug contador de employes , cada vez que se llama add employe se cuenta
     [Parameter]
     public int Id{ get; set; }
 

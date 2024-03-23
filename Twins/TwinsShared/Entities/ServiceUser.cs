@@ -15,6 +15,8 @@ namespace Twins.Shared.Entities
         public User? User { get; set; }  = null!;
         public int ServiceId { get; set; }
         public Service? Service { get; set; } = null!;
+        public int ServiceDayId { get; set; }
+        public ServiceDays? ServiceDays { get; set; }
         public string? EmployedDocument { get; set; }
         public float TotalHourService { get; set; }
         public float TotalToPay {  get; set; }

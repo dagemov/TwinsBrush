@@ -67,6 +67,34 @@ namespace Twins.Api.Controllers
                     .ToListAsync()
             );*/
         }
+        [HttpGet("ListById")]
+        public async Task<IActionResult> GetListById([FromQuery] int id)
+        {
+            var EmplooyesList = await _context.ServiceUsers.Where(x => x.ServiceId == id).ToListAsync();
+            if (EmplooyesList == null)
+            {
+                return NotFound();
+            }
+            return Ok(EmplooyesList);
+        }
+        [HttpPut()]
+        public async Task<IActionResult> PutAsync(ServiceUser serviceDays)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.ServiceUsers.Update(serviceDays);
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest("Error to Update Employes List \n" + ex);
+                }
+            }
+
+            return Ok(serviceDays);
+        }
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetServiceUserAsync(int id)
         {

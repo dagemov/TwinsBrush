@@ -453,6 +453,12 @@ namespace Twins.Api.Migrations
                     b.Property<string>("EmployedDocument")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("ServiceDayId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ServiceDaysId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ServiceId")
                         .HasColumnType("int");
 
@@ -473,6 +479,8 @@ namespace Twins.Api.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ServiceDaysId");
 
                     b.HasIndex("StreetId");
 
@@ -656,9 +664,6 @@ namespace Twins.Api.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ServiceDaysId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -683,8 +688,6 @@ namespace Twins.Api.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("ServiceDaysId");
 
                     b.HasIndex("Id", "Documment")
                         .IsUnique();
@@ -855,6 +858,10 @@ namespace Twins.Api.Migrations
 
             modelBuilder.Entity("Twins.Shared.Entities.ServiceUser", b =>
                 {
+                    b.HasOne("Twins.Shared.Entities.ServiceDays", "ServiceDays")
+                        .WithMany("Emplooyes")
+                        .HasForeignKey("ServiceDaysId");
+
                     b.HasOne("Twins.Shared.Entities.Service", "Service")
                         .WithMany("Users")
                         .HasForeignKey("ServiceId")
@@ -872,6 +879,8 @@ namespace Twins.Api.Migrations
                         .IsRequired();
 
                     b.Navigation("Service");
+
+                    b.Navigation("ServiceDays");
 
                     b.Navigation("Street");
 
@@ -926,10 +935,6 @@ namespace Twins.Api.Migrations
                         .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Twins.Shared.Entities.ServiceDays", null)
-                        .WithMany("Emplooyes")
-                        .HasForeignKey("ServiceDaysId");
 
                     b.Navigation("City");
                 });
